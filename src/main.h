@@ -702,6 +702,7 @@ enum BlockStatus {
 //const int64_t nBlockSequentialAlgoRuleStart = 0; // block where sequential algo rule starts
 //const int64_t nBlockSequentialAlgoRuleStart2 = 0; // block where sequential algo rule starts
 const int nBlockSequentialAlgoMaxCount = 3; // maximum sequential blocks of same algo
+const int64_t nBlockAlgoNormalisedWorkDecayV2Start = 25300; // block where weight decay v2 starts
 
 /** The block chain is a tree shaped structure starting with the
  * genesis block at the root, with each block potentially having multiple
@@ -873,7 +874,7 @@ public:
         return Params().ProofOfWorkLimit(algo);
     }
 
-    CBigNum GetPrevWorkForAlgoWithDecay(int algo) const
+    CBigNum GetPrevWorkForAlgoWithDecayV1(int algo) const
     {
         int nDistance = 0;
         CBigNum nWork;
@@ -897,6 +898,30 @@ public:
             nDistance++;
         }
         return Params().ProofOfWorkLimit(algo);
+    }
+
+    CBigNum GetPrevWorkForAlgoWithDecayV2(int algo) const
+    {
+        int nDistance = 0;
+        CBigNum nWork;
+        CBlockIndex* pindex = this->pprev;
+        while (pindex)
+        {
+            if (nDistance > 32)
+            {
+                return CBigNum(0);
+            }
+            if (pindex->GetAlgo() == algo)
+            {
+                CBigNum nWork = pindex->GetBlockWork();
+                nWork *= (32 - nDistance);
+                nWork /= 32;
+                return nWork;
+            }
+            pindex = pindex->pprev;
+            nDistance++;
+        }
+        return CBigNum(0);
     }
 	
     CBigNum GetBlockWork() const
@@ -943,7 +968,14 @@ public:
 		{
 			if (algo != nAlgo)
 			{
-				nBlockWork += GetPrevWorkForAlgoWithDecay(algo);
+				if(nHeight>= nBlockAlgoNormalisedWorkDecayV2Start)
+				{
+					nBlockWork += GetPrevWorkForAlgoWithDecayV2(algo);
+				}
+				else
+				{
+					nBlockWork += GetPrevWorkForAlgoWithDecayV1(algo);
+				}
 			}
 		}
 		bnRes = nBlockWork / NUM_ALGOS;
