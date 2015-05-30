@@ -31,7 +31,11 @@ Este produto inclui software desenvolvido pelo Projecto OpenSSL para uso no Open
         <source>The Bitcoin Core developers</source>
         <translation>Os programadores Bitcoin Core</translation>
     </message>
-    </context>
+    <message>
+        <source>(%1-bit)</source>
+        <translation>(%1-bit)</translation>
+    </message>
+</context>
 <context>
     <name>AddressBookPage</name>
     <message>
@@ -910,6 +914,10 @@ Endereço: %4</translation>
         <translation>Iniciar minimizado</translation>
     </message>
     <message>
+        <source>Set SSL root certificates for payment request (default: -system-)</source>
+        <translation>Configurar certificados SSL root para pedido de pagamento (default: -system-)</translation>
+    </message>
+    <message>
         <source>Show splash screen on startup (default: 1)</source>
         <translation>Mostrar imagem ao iniciar (por defeito: 1)</translation>
     </message>
@@ -1039,6 +1047,15 @@ Endereço: %4</translation>
         <translation>Endereço IP do proxy (p.ex. IPv4: 127.0.0.1 / IPv6: ::1)</translation>
     </message>
     <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation>URLs de outrem (ex. um explorador de blocos) que aparece no separador de transações como itens do menu de contexto.
+%s do URL é substituído por hash de transação. Vários URLs são separados por barra vertical |.</translation>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
+        <translation>URLs de transação de outrem</translation>
+    </message>
+    <message>
         <source>Active command-line options that override above options:</source>
         <translation>Opções de linha de comandos ativas que se sobrepõem ás opções anteriores:</translation>
     </message>
@@ -1053,6 +1070,10 @@ Endereço: %4</translation>
     <message>
         <source>&amp;Network</source>
         <translation>&amp;Rede</translation>
+    </message>
+    <message>
+        <source>(0 = auto, &lt;0 = leave that many cores free)</source>
+        <translation>(0 = auto, &lt;0 = Deixar essa quantidade de núcleos livre)</translation>
     </message>
     <message>
         <source>W&amp;allet</source>
@@ -2700,6 +2721,14 @@ por exemplo: alertnotify=echo %%s | mail -s "Alerta Bitcoin" admin@foo.com</tran
         <translation>Executar comando quando uma das transações na carteira mudar (no comando, %s é substituído pelo ID da Transação)</translation>
     </message>
     <message>
+        <source>In this mode -genproclimit controls how many blocks are generated immediately.</source>
+        <translation>O modo -genproclimit controla quantos blocos são generados imediatamente.</translation>
+    </message>
+    <message>
+        <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
+        <translation>Defina o número de processos de verificação (%u até %d, 0 = automático, &lt;0 = ldisponibiliza esse número de núcleos livres, por defeito: %d)</translation>
+    </message>
+    <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
         <translation>Esta é uma versão de testes pré-lançamento - use à sua responsabilidade - não usar para minar ou aplicações comerciais</translation>
     </message>
@@ -2736,6 +2765,10 @@ por exemplo: alertnotify=echo %%s | mail -s "Alerta Bitcoin" admin@foo.com</tran
         <translation>Atenção: wallet.dat corrompido, dados recuperados! wallet.dat original salvo como wallet.{timestamp}.bak em %s; se o seu saldo ou transações estiverem incorrectos deverá recuperar uma cópia de segurança.</translation>
     </message>
     <message>
+        <source>(default: 1)</source>
+        <translation>(padrão: 1)</translation>
+    </message>
+    <message>
         <source>&lt;category&gt; can be:</source>
         <translation>&lt;categoria&gt; pode ser:</translation>
     </message>
@@ -2768,8 +2801,16 @@ por exemplo: alertnotify=echo %%s | mail -s "Alerta Bitcoin" admin@foo.com</tran
         <translation>Ligar ao JSON-RPC na porta &lt;n&gt; (por defeito: 8332 ou rede de testes: 18332)</translation>
     </message>
     <message>
+        <source>Connection options:</source>
+        <translation>Opcões de conexção:</translation>
+    </message>
+    <message>
         <source>Corrupted block database detected</source>
         <translation>Cadeia de blocos corrompida detectada</translation>
+    </message>
+    <message>
+        <source>Debugging/Testing options:</source>
+        <translation>Depuração/Opções teste:</translation>
     </message>
     <message>
         <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
@@ -2876,6 +2917,10 @@ por exemplo: alertnotify=echo %%s | mail -s "Alerta Bitcoin" admin@foo.com</tran
         <translation>Se uma &lt;categoria&gt; não é fornecida, imprimir toda a informação de depuração.</translation>
     </message>
     <message>
+        <source>Importing...</source>
+        <translation>A importar...</translation>
+    </message>
+    <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
         <translation>Bloco génese incorreto ou nenhum bloco génese encontrado. Pasta de dados errada para a rede?</translation>
     </message>
@@ -2902,6 +2947,10 @@ por exemplo: alertnotify=echo %%s | mail -s "Alerta Bitcoin" admin@foo.com</tran
     <message>
         <source>Select SOCKS version for -proxy (4 or 5, default: 5)</source>
         <translation>Selecione a versão do proxy socks a usar (4 ou 5, por defeito: 5)</translation>
+    </message>
+    <message>
+        <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
+        <translation>Definir o tamanho da cache de base de dados em megabytes (%d a %d, padrão: %d)</translation>
     </message>
     <message>
         <source>Set maximum block size in bytes (default: %d)</source>
