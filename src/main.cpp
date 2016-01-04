@@ -1509,7 +1509,7 @@ unsigned int GetNextWorkRequiredV2(const CBlockIndex* pindexLast, const CBlockHe
     /// debug print
     LogPrintf("GetNextWorkRequiredV2(Algo=%d): RETARGET\n", algo);
     LogPrintf("GetNextWorkRequiredV2(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): Before: %08x  %s\n", algo, pindexPrev->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
     LogPrintf("GetNextWorkRequiredV2(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
     
     return bnNew.GetCompact();
