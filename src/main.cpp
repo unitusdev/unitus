@@ -2709,14 +2709,14 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
 		int nAlgo = block.GetAlgo();
 		int nAlgoCount = 1;
 		CBlockIndex* piPrev = pindexPrev;
-		while (piPrev && (nAlgoCount <= nBlockSequentialAlgoMaxCount))
+		while (piPrev && (nAlgoCount <= nBlockSequentialAlgoMaxCountV2))
 		{
 			if (piPrev->GetAlgo() != nAlgo)
 				break;
 			nAlgoCount++;
 			piPrev = piPrev->pprev;
 		}
-        if(nHeight<nBlockSequentialAlgoRuleStart2)
+        if((!TestNet() && nHeight<nBlockSequentialAlgoRuleStart2) || (TestNet() && nHeight<TestNet_nBlockSequentialAlgoRuleStart2))
         {
             if (nAlgoCount > nBlockSequentialAlgoMaxCountV1)
             {

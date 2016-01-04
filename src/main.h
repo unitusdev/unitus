@@ -712,7 +712,7 @@ const int64_t nBlockAlwaysUpdateDiff = 1000000; // block where we start changing
 // test net hard forks
 const int64_t TestNet_nBlockAlgoNormalisedWorkDecayV2Start = 100; // block where weight decay v2 starts
 const int64_t TestNet_GeoAvgWork_Start = 200; // block where geometric average work calculation kicks in
-const int64_t TestNet_nBlockSequentialAlgoRuleStart2 = 250; // block where sequential algo rule V2 starts
+const int64_t TestNet_nBlockSequentialAlgoRuleStart2 = 300; // block where sequential algo rule V2 starts
 const int64_t TestNet_nBlockAlwaysUpdateDiff = 350; // block where we start changing difficulty for all algos on all blocks
 
 /** The block chain is a tree shaped structure starting with the
