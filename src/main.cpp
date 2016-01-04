@@ -1284,7 +1284,10 @@ static const int64_t nMaxAdjustUpInitial = 20; // 20% adjustment up during initi
 static const int64_t nMaxAdjustDown = 5; // 5% adjustment down
 static const int64_t nMaxAdjustUp = 5; // 5% adjustment up
 
-//static const int64_t nTargetTimespanAdjDown = nTargetTimespan * (100 + nMaxAdjustDown) / 100;
+static const int64_t nMaxAdjustDownV2 = 2; // 2% adjustment down 
+static const int64_t nMaxAdjustUpV2 = 2; // 2% adjustment up
+static const int64_t nLocalDifficultyAdjustment = 2; // 2% down, 2% up
+
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -1292,25 +1295,6 @@ static const int64_t nMaxAdjustUp = 5; // 5% adjustment up
 //
 unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime, int algo)
 {
-/*    const CBigNum &bnLimit = Params().ProofOfWorkLimit();
-    // Testnet has min-difficulty blocks
-    // after nTargetSpacing*2 time between blocks:
-    if (TestNet() && nTime > nTargetSpacing*2)
-        return bnLimit.GetCompact();
-
-    CBigNum bnResult;
-    bnResult.SetCompact(nBase);
-    while (nTime > 0 && bnResult < bnLimit)
-    {
-        // Maximum 400% adjustment...
-        bnResult *= 4;
-        // ... in best-case exactly 4-times-normal target time
-        nTime -= nTargetTimespan*4;
-    }
-    if (bnResult > bnLimit)
-        bnResult = bnLimit;
-    return bnResult.GetCompact();
-*/
 	return Params().ProofOfWorkLimit(algo).GetCompact();
 }
 
@@ -1318,8 +1302,28 @@ static const int64_t nMinActualTimespanInitial = nAveragingTargetTimespan * (100
 static const int64_t nMaxActualTimespanInitial = nAveragingTargetTimespan * (100 + nMaxAdjustDownInitial) / 100;
 static const int64_t nMinActualTimespanV1 = nAveragingTargetTimespan * (100 - nMaxAdjustUp) / 100;
 static const int64_t nMaxActualTimespanV1 = nAveragingTargetTimespan * (100 + nMaxAdjustDown) / 100;
+static const int64_t nMinActualTimespanV2 = nAveragingTargetTimespan * (100 - nMaxAdjustUpV2) / 100;
+static const int64_t nMaxActualTimespanV2 = nAveragingTargetTimespan * (100 + nMaxAdjustDownV2) / 100;
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo)
+{
+    if(TestNet())
+    {
+        if (pindexLast->nHeight < TestNet_nBlockAlwaysUpdateDiff)
+            return GetNextWorkRequiredV1(pindexLast, pblock, algo);
+        else
+            return GetNextWorkRequiredV2(pindexLast, pblock, algo);
+    }
+    else
+    {
+        if (pindexLast->nHeight < nBlockAlwaysUpdateDiff)
+            return GetNextWorkRequiredV1(pindexLast, pblock, algo);
+        else
+            return GetNextWorkRequiredV2(pindexLast, pblock, algo);
+    }
+}
+
+unsigned int GetNextWorkRequiredV1(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo)
 {
     unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit(algo).GetCompact();
 
@@ -1327,7 +1331,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
-    if (TestNet())
+/*    if (TestNet())
     {
         // Special difficulty rule for testnet:
         // If the new block's timestamp is more than 2* 10 minutes
@@ -1342,7 +1346,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
                 pindex = pindex->pprev;
             return pindex->nBits;
         }
-    }
+    }*/
 
     // find previous block with same algo
     const CBlockIndex* pindexPrev = GetLastBlockIndexForAlgo(pindexLast, algo);
@@ -1375,7 +1379,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 		// take previous block if block times are out of order
 		if (pindexFirstPrev->GetBlockTime() > pindexFirst->GetBlockTime())
 		{
-			LogPrintf("GetNextWorkRequired(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+			LogPrintf("GetNextWorkRequiredV1(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
 			pindexFirst = pindexFirstPrev;
 		}
 		else
@@ -1385,7 +1389,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Limit adjustment step
     int64_t nActualTimespan = pindexPrev->GetBlockTime() - pindexFirst->GetBlockTime();
 
-    LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, pindexPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+    LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, pindexPrev->GetBlockTime(), pindexFirst->GetBlockTime());
 
 	// initial mining phase (height<1999), allow up to nMinActualTimespanInitial and nMaxActualTimespanInitial change in difficulty.
     int64_t nMinActualTimespan;
@@ -1405,7 +1409,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         nActualTimespan = nMinActualTimespan;
     if (nActualTimespan > nMaxActualTimespan)
         nActualTimespan = nMaxActualTimespan;
-    LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
+    LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
 
     // Retarget
     CBigNum bnNew;
@@ -1417,11 +1421,97 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         bnNew = Params().ProofOfWorkLimit(algo);
 
     /// debug print
-    LogPrintf("GetNextWorkRequired(Algo=%d): RETARGET\n", algo);
-    LogPrintf("GetNextWorkRequired(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
-    LogPrintf("GetNextWorkRequired(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
-    LogPrintf("GetNextWorkRequired(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
+    LogPrintf("GetNextWorkRequiredV1(Algo=%d): RETARGET\n", algo);
+    LogPrintf("GetNextWorkRequiredV1(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
+    LogPrintf("GetNextWorkRequiredV1(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
+    LogPrintf("GetNextWorkRequiredV1(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
 
+    return bnNew.GetCompact();
+}
+
+unsigned int GetNextWorkRequiredV2(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo)
+{
+    unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit(algo).GetCompact();
+
+    // Genesis block
+    if (pindexLast == NULL)
+        return nProofOfWorkLimit;
+    
+    const CBlockIndex* pindexPrev = GetLastBlockIndexForAlgo(pindexLast, algo);
+    
+/*    if (TestNet())
+    {
+        // Special difficulty rule for testnet:
+        // If the new block's timestamp is more than 2* 10 minutes
+        // then allow mining of a min-difficulty block.
+        if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
+            return nProofOfWorkLimit;
+        else
+        {
+            // Return the last non-special-min-difficulty-rules-block
+            const CBlockIndex* pindex = pindexLast;
+            while (pindex->pprev && pindex->nHeight % nInterval != 0 && pindex->nBits == nProofOfWorkLimit)
+                pindex = pindex->pprev;
+            return pindex->nBits;
+        }
+    }*/
+
+    // find first block in averaging interval
+    // Go back by what we want to be nAveragingInterval blocks per algo
+    const CBlockIndex* pindexFirst = pindexLast;
+    for (int i = 0; pindexFirst && i < NUM_ALGOS*nAveragingInterval; i++)
+    {
+        pindexFirst = pindexFirst->pprev;
+    }
+    const CBlockIndex* pindexPrevAlgo = GetLastBlockIndexForAlgo(pindexLast, algo);
+    if (pindexPrevAlgo == NULL || pindexFirst == NULL)
+        return nProofOfWorkLimit; // not enough blocks available
+
+    // Limit adjustment step
+    // Use medians to prevent time-warp attacks
+    int64_t nActualTimespan = pindexLast->GetMedianTimePast() - pindexFirst->GetMedianTimePast();
+    nActualTimespan = nAveragingTargetTimespan + (nActualTimespan - nAveragingTargetTimespan)/6;
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d before bounds\n", algo, nActualTimespan);
+    if (nActualTimespan < nMinActualTimespanV2)
+        nActualTimespan = nMinActualTimespanV2;
+    if (nActualTimespan > nMaxActualTimespanV2)
+        nActualTimespan = nMaxActualTimespanV2;
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d after bounds\n", algo, nActualTimespan);
+    
+    // Global retarget
+    CBigNum bnNew;
+    bnNew.SetCompact(pindexPrevAlgo->nBits);
+    bnNew *= nActualTimespan;
+    bnNew /= nAveragingTargetTimespan;
+
+    // Per-algo retarget
+    int nAdjustments = pindexPrevAlgo->nHeight - pindexLast->nHeight + NUM_ALGOS - 1;
+    if (nAdjustments > 0)
+    {
+        for (int i = 0; i < nAdjustments; i++)
+        {
+            bnNew /= 100 + nLocalDifficultyAdjustment;
+            bnNew *= 100;
+        }
+    }
+    if (nAdjustments < 0)
+    {
+        for (int i = 0; i < -nAdjustments; i++)
+        {
+            bnNew *= 100 + nLocalDifficultyAdjustment;
+            bnNew /= 100;
+        }
+    }
+
+    if (bnNew > Params().ProofOfWorkLimit(algo))
+        bnNew = Params().ProofOfWorkLimit(algo);
+
+    /// debug print
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): RETARGET\n", algo);
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
+    
     return bnNew.GetCompact();
 }
 
