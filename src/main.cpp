@@ -1471,12 +1471,12 @@ unsigned int GetNextWorkRequiredV2(const CBlockIndex* pindexLast, const CBlockHe
     // Use medians to prevent time-warp attacks
     int64_t nActualTimespan = pindexLast->GetMedianTimePast() - pindexFirst->GetMedianTimePast();
     nActualTimespan = nAveragingTargetTimespan + (nActualTimespan - nAveragingTargetTimespan)/6;
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d before bounds\n", algo, nActualTimespan);
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespanV2, nMaxActualTimespanV2);
     if (nActualTimespan < nMinActualTimespanV2)
         nActualTimespan = nMinActualTimespanV2;
     if (nActualTimespan > nMaxActualTimespanV2)
         nActualTimespan = nMaxActualTimespanV2;
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d after bounds\n", algo, nActualTimespan);
+    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespanV2, nMaxActualTimespanV2);
     
     // Global retarget
     CBigNum bnNew;
