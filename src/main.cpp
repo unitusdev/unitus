@@ -2626,11 +2626,22 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
 			nAlgoCount++;
 			piPrev = piPrev->pprev;
 		}
-		if (nAlgoCount > nBlockSequentialAlgoMaxCount)
-		{
-			return state.DoS(100, error("AcceptBlock() : too many blocks from same algo"),
-							 REJECT_INVALID, "algo-toomany");
-		}
+        if(nHeight<nBlockSequentialAlgoRuleStart2)
+        {
+            if (nAlgoCount > nBlockSequentialAlgoMaxCountV1)
+            {
+                return state.DoS(100, error("AcceptBlock() : too many blocks from same algo"),
+                                 REJECT_INVALID, "algo-toomany");
+            }
+        }
+        else
+        {
+            if (nAlgoCount > nBlockSequentialAlgoMaxCountV2)
+            {
+                return state.DoS(100, error("AcceptBlock() : too many blocks from same algo"),
+                                 REJECT_INVALID, "algo-toomany");
+            }
+        }
 		
         // Check proof of work
         if (block.nBits != GetNextWorkRequired(pindexPrev, &block, block.GetAlgo()))

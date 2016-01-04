@@ -698,16 +698,18 @@ enum BlockStatus {
 };
 
 // sequential block algorithm limits
-const int nBlockSequentialAlgoMaxCount = 3; // maximum sequential blocks of same algo
+const int nBlockSequentialAlgoMaxCountV1 = 3; // maximum sequential blocks of same algo V1
+const int nBlockSequentialAlgoMaxCountV2 = 5; // maximum sequential blocks of same algo V2
 
 // main net hard forks
 const int64_t nBlockAlgoNormalisedWorkDecayV2Start = 25300; // block where weight decay v2 starts
 const int64_t GeoAvgWork_Start = 1000000; // block where geometric average work calculation kicks in - TODO CHANGE ME
+const int64_t nBlockSequentialAlgoRuleStart2 = 1000000; // block where sequential algo rule V2 starts - TODO CHANGE ME
 
 // test net hard forks
 const int64_t TestNet_nBlockAlgoNormalisedWorkDecayV2Start = 100; // block where weight decay v2 starts
 const int64_t TestNet_GeoAvgWork_Start = 200; // block where geometric average work calculation kicks in
-
+const int64_t TestNet_nBlockSequentialAlgoRuleStart2 = 250; // block where sequential algo rule V2 starts
 
 /** The block chain is a tree shaped structure starting with the
  * genesis block at the root, with each block potentially having multiple
