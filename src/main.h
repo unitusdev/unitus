@@ -697,12 +697,17 @@ enum BlockStatus {
     BLOCK_FAILED_MASK        =   96
 };
 
-//const int64_t nBlockAlgoWorkWeightStart = 0; // block where algo work weighting starts
-//const int64_t nBlockAlgoNormalisedWorkStart = 0; // block where algo combined weight starts
-//const int64_t nBlockSequentialAlgoRuleStart = 0; // block where sequential algo rule starts
-//const int64_t nBlockSequentialAlgoRuleStart2 = 0; // block where sequential algo rule starts
+// sequential block algorithm limits
 const int nBlockSequentialAlgoMaxCount = 3; // maximum sequential blocks of same algo
+
+// main net hard forks
 const int64_t nBlockAlgoNormalisedWorkDecayV2Start = 25300; // block where weight decay v2 starts
+const int64_t GeoAvgWork_Start = 1000000; // block where geometric average work calculation kicks in - TODO CHANGE ME
+
+// test net hard forks
+const int64_t TestNet_nBlockAlgoNormalisedWorkDecayV2Start = 100; // block where weight decay v2 starts
+const int64_t TestNet_GeoAvgWork_Start = 200; // block where geometric average work calculation kicks in
+
 
 /** The block chain is a tree shaped structure starting with the
  * genesis block at the root, with each block potentially having multiple
@@ -923,6 +928,30 @@ public:
         }
         return CBigNum(0);
     }
+
+    CBigNum GetPrevWorkForAlgoWithDecayV3(int algo) const
+    {
+        int nDistance = 0;
+        CBigNum nWork;
+        CBlockIndex* pindex = this->pprev;
+        while (pindex)
+        {
+            if (nDistance > 100)
+            {
+                return CBigNum(0);
+            }
+            if (pindex->GetAlgo() == algo)
+            {
+                CBigNum nWork = pindex->GetBlockWork();
+                nWork *= (100 - nDistance);
+                nWork /= 100;
+                return nWork;
+            }
+            pindex = pindex->pprev;
+            nDistance++;
+        }
+        return CBigNum(0);
+    }
 	
     CBigNum GetBlockWork() const
     {
@@ -960,25 +989,47 @@ public:
     CBigNum GetBlockWorkAdjusted() const
     {
         CBigNum bnRes;
-		// Adjusted block work is the sum of work of this block and the
-		// most recent work of one block of each algo
-		CBigNum nBlockWork = GetBlockWork();
-		int nAlgo = GetAlgo();
-		for (int algo = 0; algo < NUM_ALGOS; algo++)
+		if ((TestNet() && nHeight>TestNet_GeoAvgWork_Start) || (nHeight>GeoAvgWork_Start))
 		{
-			if (algo != nAlgo)
+            CBigNum nBlockWork = GetBlockWork();
+            int nAlgo = GetAlgo();
+            for (int algo = 0; algo < NUM_ALGOS; algo++)
+            {
+                if (algo != nAlgo)
+                {
+                    CBigNum nBlockWorkAlt = GetPrevWorkForAlgoWithDecayV3(algo);
+                    if (nBlockWorkAlt != 0)
+                        nBlockWork *= nBlockWorkAlt;
+                }
+            }
+            bnRes = nBlockWork;
+            // Compute the geometric mean
+            bnRes = bnRes.nthRoot(NUM_ALGOS);
+            // Scale to roughly match the old work calculation
+            bnRes <<= 8;			
+		}
+		else
+		{
+			// Adjusted block work is the sum of work of this block and the
+			// most recent work of one block of each algo
+			CBigNum nBlockWork = GetBlockWork();
+			int nAlgo = GetAlgo();
+			for (int algo = 0; algo < NUM_ALGOS; algo++)
 			{
-				if(nHeight>= nBlockAlgoNormalisedWorkDecayV2Start)
+				if (algo != nAlgo)
 				{
-					nBlockWork += GetPrevWorkForAlgoWithDecayV2(algo);
-				}
-				else
-				{
-					nBlockWork += GetPrevWorkForAlgoWithDecayV1(algo);
+					if(nHeight>= nBlockAlgoNormalisedWorkDecayV2Start)
+					{
+						nBlockWork += GetPrevWorkForAlgoWithDecayV2(algo);
+					}
+					else
+					{
+						nBlockWork += GetPrevWorkForAlgoWithDecayV1(algo);
+					}
 				}
 			}
+			bnRes = nBlockWork / NUM_ALGOS;
 		}
-		bnRes = nBlockWork / NUM_ALGOS;
         return bnRes;
     }
 	
