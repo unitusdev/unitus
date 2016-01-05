@@ -453,8 +453,17 @@ CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey, int algo)
 
 bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 {
+    CBlockIndex* pindexPrev = NULL;
+    int nHeight = 0;
+    if (pblock->GetHash() != Params().GenesisBlock().GetHash())
+    {
+        map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(pblock->hashPrevBlock);
+        pindexPrev = (*mi).second;
+        nHeight = pindexPrev->nHeight+1;
+    }
+	
     int algo = pblock->GetAlgo();
-    uint256 hashPoW = pblock->GetPoWHash(algo);
+    uint256 hashPoW = pblock->GetPoWHash(algo, nHeight, TestNet());
 	uint256 hash = pblock->GetHash();
 	uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
 
@@ -471,13 +480,13 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         if (!auxpow->Check(pblock->GetHash(), pblock->GetChainID()))
             return error("AUX POW is not valid");
 
-        if (auxpow->GetParentBlockHash(algo) > hashTarget)
-            return error("AUX POW parent hash %s is not under target %s", auxpow->GetParentBlockHash(algo).GetHex().c_str(), hashTarget.GetHex().c_str());
+        if (auxpow->GetParentBlockHash(algo, nHeight, TestNet()) > hashTarget)
+            return error("AUX POW parent hash %s is not under target %s", auxpow->GetParentBlockHash(algo, nHeight, TestNet()).GetHex().c_str(), hashTarget.GetHex().c_str());
         
         // print to log
         LogPrintf("UnitusMiner: AUX proof-of-work found; our hash: %s ; parent hash: %s ; target: %s\n",
                hash.GetHex().c_str(),
-               auxpow->GetParentBlockHash(algo).GetHex().c_str(),
+               auxpow->GetParentBlockHash(algo, nHeight, TestNet()).GetHex().c_str(),
                hashTarget.GetHex().c_str());
     }
     else
@@ -489,7 +498,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         LogPrintf("UnitusMiner: proof-of-work found; hashPoW: %s ; target: %s\n", hashPoW.GetHex().c_str(), hashTarget.GetHex().c_str());
     }
     	
-    pblock->print();
+    pblock->print(nHeight);
     LogPrintf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue));
 
     // Found a solution
@@ -664,6 +673,7 @@ void static GenericMiner(CWallet *pwallet, int algo)
         //
         unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
         CBlockIndex* pindexPrev = chainActive.Tip();
+		int nHeight = pindexPrev->nHeight+1;
 
         auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey, algo));
         if (!pblocktemplate.get())
@@ -672,7 +682,7 @@ void static GenericMiner(CWallet *pwallet, int algo)
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
         LogPrintf("Running %s miner with %u transactions in block (%u bytes)\n", 
-               GetAlgoName(algo).c_str(),
+               GetAlgoName(algo, nHeight, TestNet()).c_str(),
                pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
@@ -685,12 +695,12 @@ void static GenericMiner(CWallet *pwallet, int algo)
 		
         while(true)
         {
-            hash = pblock->GetPoWHash(algo);
+            hash = pblock->GetPoWHash(algo, nHeight, TestNet());
             if (hash <= hashTarget){
                 SetThreadPriority(THREAD_PRIORITY_NORMAL);
 
                 LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex().c_str(), hashTarget.GetHex().c_str());
-                pblock->print();
+                pblock->print(nHeight);
 
                 CheckWork(pblock, *pwallet, reservekey);
                 SetThreadPriority(THREAD_PRIORITY_LOWEST);

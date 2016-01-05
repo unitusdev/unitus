@@ -73,7 +73,7 @@ Value getinfo(const Array& params, bool fHelp)
     obj.push_back(Pair("connections",   (int)vNodes.size()));
     obj.push_back(Pair("proxy",         (proxy.first.IsValid() ? proxy.first.ToStringIPPort() : string())));
     obj.push_back(Pair("pow_algo_id",        miningAlgo));
-    obj.push_back(Pair("pow_algo",           GetAlgoName(miningAlgo)));
+    obj.push_back(Pair("pow_algo",           GetAlgoName(miningAlgo, chainActive.Height(), TestNet())));
     obj.push_back(Pair("difficulty",         (double)GetDifficulty(NULL, miningAlgo)));
     obj.push_back(Pair("difficulty_blake", (double)GetDifficulty(NULL, ALGO_BLAKE)));
     obj.push_back(Pair("difficulty_skein",   (double)GetDifficulty(NULL, ALGO_SKEIN)));

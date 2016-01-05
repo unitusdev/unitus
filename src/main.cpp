@@ -2461,13 +2461,14 @@ bool CBlockHeader::CheckProofOfWork(int nHeight) const
             if (!auxpow->Check(GetHash(), GetChainID()))
                 return error("CheckProofOfWork() : AUX POW is not valid");
             // Check proof of work matches claimed amount
-            if (!::CheckProofOfWork(auxpow->GetParentBlockHash(algo), nBits, algo))
+            if (!::CheckProofOfWork(auxpow->GetParentBlockHash(algo, nHeight, TestNet()), nBits, algo))
                 return error("CheckProofOfWork() : AUX proof of work failed");
         }
         else
         {
             // Check proof of work matches claimed amount
-            if (!::CheckProofOfWork(GetPoWHash(algo), nBits, algo))
+			// LogPrintf("CBlockHeader::CheckProofOfWork - Algo %d, Height %d \r\n",algo, nHeight);
+            if (!::CheckProofOfWork(GetPoWHash(algo, nHeight, TestNet()), nBits, algo))
                 return error("CheckProofOfWork() : proof of work failed");
         }
     }
@@ -2479,7 +2480,7 @@ bool CBlockHeader::CheckProofOfWork(int nHeight) const
         }
 
         // Check if proof of work marches claimed amount
-        if (!::CheckProofOfWork(GetPoWHash(algo), nBits, algo))
+        if (!::CheckProofOfWork(GetPoWHash(algo, nHeight, TestNet()), nBits, algo))
             return error("CheckProofOfWork() : proof of work failed");
     }
     return true;
@@ -2581,6 +2582,23 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, int nHeight, bool fCheckPOW)
 {
+	// test to see if we are checking via ProcessBlock(). A height of INT_MAX will break the correct algo choice in CheckProofOfWork()
+	if(nHeight==INT_MAX)
+	{
+		// find the likely height for this block
+		CBlockIndex* pindexPrev = NULL;
+		nHeight = 0;
+		map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
+		pindexPrev = (*mi).second;
+		if (mi != mapBlockIndex.end())
+		{
+			if (pindexPrev != NULL)
+			{
+				nHeight = pindexPrev->nHeight+1;
+			}
+		}
+	}
+	
     // Check proof of work matches claimed amount
     if (fCheckPOW && !block.CheckProofOfWork(nHeight))
 	//if (fCheckPOW && !CheckProofOfWork(block.GetPoWHash(block.GetAlgo()), block.nBits, block.GetAlgo()))
@@ -2591,28 +2609,6 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, int nH
     if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
         return state.Invalid(error("CheckBlockHeader() : block timestamp too far in the future"),
                              REJECT_INVALID, "time-too-new");
-
-    CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint(mapBlockIndex);
-    if (pcheckpoint && block.hashPrevBlock != (chainActive.Tip() ? chainActive.Tip()->GetBlockHash() : uint256(0)))
-    {
-        // Extra checks to prevent "fill up memory by spamming with bogus blocks"
-        int64_t deltaTime = block.GetBlockTime() - pcheckpoint->nTime;
-        if (deltaTime < 0)
-        {
-			LogPrintf("CheckBlockHeader(): Height=%d, hash=%s, BlockTime=%d, Checkpoint=%d\n", nHeight, block.GetHash().GetHex().c_str(), block.GetBlockTime(), pcheckpoint->nTime);
-            return state.DoS(100, error("CheckBlockHeader() : block with timestamp before last checkpoint"),
-                             REJECT_CHECKPOINT, "time-too-old");
-        }
-        CBigNum bnNewBlock;
-        bnNewBlock.SetCompact(block.nBits);
-        CBigNum bnRequired;
-        bnRequired.SetCompact(ComputeMinWork(pcheckpoint->nBits, deltaTime, GetAlgo(block.nVersion)));
-        if (bnNewBlock > bnRequired)
-        {
-            return state.DoS(100, error("CheckBlockHeader() : block with too little proof-of-work"),
-                             REJECT_INVALID, "bad-diffbits");
-        }
-    }
 
     return true;
 }
@@ -2868,7 +2864,7 @@ std::string CDiskBlockIndex::ToString() const
     str += strprintf("\n                hashBlock=%s, hashPrev=%s, hashParentBlock=%s)",
         GetBlockHash().ToString().c_str(),
         hashPrev.ToString().c_str(),
-        (auxpow.get() != NULL) ? auxpow->GetParentBlockHash(GetAlgo()).ToString().substr(0,20).c_str() : "-");
+        (auxpow.get() != NULL) ? auxpow->GetParentBlockHash(GetAlgo(), nHeight, TestNet()).ToString().substr(0,20).c_str() : "-");
     return str;
 }
 

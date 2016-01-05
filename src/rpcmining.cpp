@@ -261,7 +261,7 @@ Value getmininginfo(const Array& params, bool fHelp)
     obj.push_back(Pair("currentblocksize", (uint64_t)nLastBlockSize));
     obj.push_back(Pair("currentblocktx",   (uint64_t)nLastBlockTx));
     obj.push_back(Pair("pow_algo_id",        miningAlgo));
-    obj.push_back(Pair("pow_algo",           GetAlgoName(miningAlgo)));
+    obj.push_back(Pair("pow_algo",           GetAlgoName(miningAlgo, chainActive.Height(), TestNet())));
     obj.push_back(Pair("difficulty",         (double)GetDifficulty(NULL, miningAlgo)));
     obj.push_back(Pair("difficulty_blake", (double)GetDifficulty(NULL, ALGO_BLAKE)));
     obj.push_back(Pair("difficulty_skein", (double)GetDifficulty(NULL, ALGO_SKEIN)));

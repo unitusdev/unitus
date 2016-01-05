@@ -76,8 +76,8 @@ Object blockToJSON(const CBlock& block, const CBlockIndex* blockindex)
     result.push_back(Pair("version", block.nVersion));
     int algo = block.GetAlgo();
     result.push_back(Pair("pow_algo_id", algo));
-    result.push_back(Pair("pow_algo", GetAlgoName(algo)));
-    result.push_back(Pair("pow_hash", block.GetPoWHash(algo).GetHex()));
+    result.push_back(Pair("pow_algo", GetAlgoName(algo, blockindex->nHeight, TestNet())));
+    result.push_back(Pair("pow_hash", block.GetPoWHash(algo, blockindex->nHeight, TestNet()).GetHex()));
     result.push_back(Pair("merkleroot", block.hashMerkleRoot.GetHex()));
     if (block.nVersion & BLOCK_VERSION_AUXPOW) {
         // this block includes auxpow

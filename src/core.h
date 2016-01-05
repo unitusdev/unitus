@@ -14,6 +14,7 @@
 #include "hashblake.h"
 #include "hashX11.h"
 #include "yescrypt.h"
+#include "lyra2RE.h"
 
 #include <stdint.h>
 
@@ -38,6 +39,12 @@ enum
     BLOCK_VERSION_X11        = (4 << 9),
 };
 
+// main net hard forks
+const int64_t nBlockLyra2RE2Start = 100000000; // block where blake hash is replaced with Lyra2RE2
+
+// test net hard forks
+const int64_t TestNet_nBlockLyra2RE2Start = 600; // block where blake hash is replaced with Lyra2RE2
+
 inline int GetAlgo(int nVersion)
 {
     switch (nVersion & BLOCK_VERSION_ALGO)
@@ -56,12 +63,19 @@ inline int GetAlgo(int nVersion)
     return ALGO_BLAKE;
 }
 
-inline std::string GetAlgoName(int Algo)
+inline std::string GetAlgoName(int Algo, int height, bool testnet)
 {
     switch (Algo)
     {
         case ALGO_BLAKE:
-            return std::string("Blake");
+			if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+			{
+				return std::string("Lyra2RE2");
+			}
+			else
+			{
+				return std::string("Blake");
+			}
         case ALGO_SKEIN:
             return std::string("Skein");
         case ALGO_QUBIT:
@@ -491,12 +505,21 @@ public:
 	
     // Note: we use explicitly provided algo instead of the one returned by GetAlgo(), because this can be a block
     // from foreign chain (parent block in merged mining) which does not encode algo in its nVersion field.
-    uint256 GetPoWHash(int algo) const
+    uint256 GetPoWHash(int algo, int height, bool testnet) const
     {
         switch (algo)
         {
             case ALGO_BLAKE:
-                return HashBlake(BEGIN(nVersion), END(nNonce));
+				if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+				{
+					uint256 thash;
+					lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
+					return thash;
+				}
+				else
+				{
+					return HashBlake(BEGIN(nVersion), END(nNonce));
+				}
             case ALGO_SKEIN:
                 return HashSkein(BEGIN(nVersion), END(nNonce));
             case ALGO_QUBIT:
@@ -510,7 +533,16 @@ public:
             case ALGO_X11:
 				return HashX11(BEGIN(nVersion), END(nNonce));
         }
-		return HashBlake(BEGIN(nVersion), END(nNonce));
+		if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+		{
+			uint256 thash;
+			lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
+			return thash;			
+		}
+		else
+		{
+			return HashBlake(BEGIN(nVersion), END(nNonce));
+		}
     }
 
     int64_t GetBlockTime() const
@@ -578,7 +610,7 @@ public:
 
     std::vector<uint256> GetMerkleBranch(int nIndex) const;
     static uint256 CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMerkleBranch, int nIndex);
-    void print() const;
+    void print(int nHeight) const;
 };
 
 

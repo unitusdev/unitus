@@ -89,6 +89,9 @@ BITCOIN_CORE_H = \
   hashblake.h \
   yescrypt.h \
   sysendian.h \
+  lyra2.h \
+  lyra2RE.h \
+  sponge.h \
   sha256_Y.h
 
 JSON_H = \
@@ -172,6 +175,9 @@ libbitcoin_common_a_SOURCES = \
   yescryptcommon.c \
   yescrypt-best.c \
   yescrypt-platform.c \
+  lyra2.c \
+  lyra2RE.c \
+  sponge.c \
   sha256_Y.c \
   $(BITCOIN_CORE_H)
 

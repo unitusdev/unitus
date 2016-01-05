@@ -962,7 +962,7 @@ bool AppInit2(boost::thread_group& threadGroup)
                 CBlock block;
                 ReadBlockFromDisk(block, pindex);
                 block.BuildMerkleTree();
-                block.print();
+                block.print(pindex->nHeight);
                 LogPrintf("\n");
                 nFound++;
             }
