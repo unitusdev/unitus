@@ -1379,8 +1379,11 @@ unsigned int GetNextWorkRequiredV1(const CBlockIndex* pindexLast, const CBlockHe
 		// take previous block if block times are out of order
 		if (pindexFirstPrev->GetBlockTime() > pindexFirst->GetBlockTime())
 		{
-			LogPrintf("GetNextWorkRequiredV1(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
-			pindexFirst = pindexFirstPrev;
+			if (fDebug)
+			{
+				LogPrintf("GetNextWorkRequiredV1(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+				pindexFirst = pindexFirstPrev;
+			}
 		}
 		else
 			break;
@@ -1389,7 +1392,10 @@ unsigned int GetNextWorkRequiredV1(const CBlockIndex* pindexLast, const CBlockHe
     // Limit adjustment step
     int64_t nActualTimespan = pindexPrev->GetBlockTime() - pindexFirst->GetBlockTime();
 
-    LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, pindexPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+	if (fDebug)
+	{
+		LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, pindexPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+	}
 
 	// initial mining phase (height<1999), allow up to nMinActualTimespanInitial and nMaxActualTimespanInitial change in difficulty.
     int64_t nMinActualTimespan;
@@ -1409,7 +1415,10 @@ unsigned int GetNextWorkRequiredV1(const CBlockIndex* pindexLast, const CBlockHe
         nActualTimespan = nMinActualTimespan;
     if (nActualTimespan > nMaxActualTimespan)
         nActualTimespan = nMaxActualTimespan;
-    LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
+	if (fDebug)
+	{
+		LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
+	}
 
     // Retarget
     CBigNum bnNew;
@@ -1421,10 +1430,13 @@ unsigned int GetNextWorkRequiredV1(const CBlockIndex* pindexLast, const CBlockHe
         bnNew = Params().ProofOfWorkLimit(algo);
 
     /// debug print
-    LogPrintf("GetNextWorkRequiredV1(Algo=%d): RETARGET\n", algo);
-    LogPrintf("GetNextWorkRequiredV1(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
-    LogPrintf("GetNextWorkRequiredV1(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
-    LogPrintf("GetNextWorkRequiredV1(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
+	if (fDebug)
+    {
+		LogPrintf("GetNextWorkRequiredV1(Algo=%d): RETARGET\n", algo);
+		LogPrintf("GetNextWorkRequiredV1(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
+		LogPrintf("GetNextWorkRequiredV1(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
+		LogPrintf("GetNextWorkRequiredV1(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
+	}
 
     return bnNew.GetCompact();
 }
@@ -1471,12 +1483,18 @@ unsigned int GetNextWorkRequiredV2(const CBlockIndex* pindexLast, const CBlockHe
     // Use medians to prevent time-warp attacks
     int64_t nActualTimespan = pindexLast->GetMedianTimePast() - pindexFirst->GetMedianTimePast();
     nActualTimespan = nAveragingTargetTimespan + (nActualTimespan - nAveragingTargetTimespan)/6;
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespanV2, nMaxActualTimespanV2);
+	if (fDebug)
+	{
+		LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespanV2, nMaxActualTimespanV2);
+	}
     if (nActualTimespan < nMinActualTimespanV2)
         nActualTimespan = nMinActualTimespanV2;
     if (nActualTimespan > nMaxActualTimespanV2)
         nActualTimespan = nMaxActualTimespanV2;
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespanV2, nMaxActualTimespanV2);
+	if (fDebug)
+	{
+		LogPrintf("GetNextWorkRequiredV2(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespanV2, nMaxActualTimespanV2);
+	}
     
     // Global retarget
     CBigNum bnNew;
@@ -1507,10 +1525,13 @@ unsigned int GetNextWorkRequiredV2(const CBlockIndex* pindexLast, const CBlockHe
         bnNew = Params().ProofOfWorkLimit(algo);
 
     /// debug print
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): RETARGET\n", algo);
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): Before: %08x  %s\n", algo, pindexPrev->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
-    LogPrintf("GetNextWorkRequiredV2(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
+	if (fDebug)
+	{
+		LogPrintf("GetNextWorkRequiredV2(Algo=%d): RETARGET\n", algo);
+		LogPrintf("GetNextWorkRequiredV2(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
+		LogPrintf("GetNextWorkRequiredV2(Algo=%d): Before: %08x  %s\n", algo, pindexPrev->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
+		LogPrintf("GetNextWorkRequiredV2(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
+	}
     
     return bnNew.GetCompact();
 }
@@ -1520,7 +1541,6 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, int algo)
     CBigNum bnTarget;
     bnTarget.SetCompact(nBits);
 
-	// LogPrintf("CheckProofOfWork(): Algo=%d, hash=%s, target=%s\n", algo, hash.GetHex().c_str(), bnTarget.GetHex().c_str());
     // Check range
     if (bnTarget <= 0 || bnTarget > Params().ProofOfWorkLimit(algo))
         return error("CheckProofOfWork(algo=%d) : nBits below minimum work", algo);
@@ -1695,16 +1715,6 @@ void UpdateTime(CBlockHeader& block, const CBlockIndex* pindexPrev)
         block.nBits = GetNextWorkRequired(pindexPrev, &block, block.GetAlgo());
 }
 
-
-
-
-
-
-
-
-
-
-
 void UpdateCoins(const CTransaction& tx, CValidationState &state, CCoinsViewCache &inputs, CTxUndo &txundo, int nHeight, const uint256 &txhash)
 {
     bool ret;
@@ -1822,8 +1832,6 @@ bool CheckInputs(const CTransaction& tx, CValidationState &state, CCoinsViewCach
 
     return true;
 }
-
-
 
 bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, CCoinsViewCache& view, bool* pfClean)
 {
@@ -2626,16 +2634,6 @@ bool CheckBlock(const CBlock& block, CValidationState& state, int nHeight, bool 
         return state.DoS(100, error("CheckBlock() : size limits failed"),
                          REJECT_INVALID, "bad-blk-length");
 
-    // // Check proof of work matches claimed amount
-    // if (fCheckPOW && !CheckProofOfWork(block.GetPoWHash(block.GetAlgo()), block.nBits, block.GetAlgo()))
-        // return state.DoS(50, error("CheckBlock() : proof of work failed"),
-                         // REJECT_INVALID, "high-hash");
-
-    // // Check timestamp
-    // if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
-        // return state.Invalid(error("CheckBlock() : block timestamp too far in the future"),
-                             // REJECT_INVALID, "time-too-new");
-
     // First transaction must be coinbase, the rest must not be
     if (block.vtx.empty() || !block.vtx[0].IsCoinBase())
         return state.DoS(100, error("CheckBlock() : first tx is not coinbase"),
@@ -2765,33 +2763,6 @@ bool AcceptBlock(CBlock& block, CValidationState& state, CDiskBlockPos* dbp)
                                      REJECT_OBSOLETE, "bad-version");
             }
         }
-        // Reject block.nVersion=2 blocks when 95% (75% on testnet) of the network has upgraded:
-        /*if (block.nVersion < 3)
-        {
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 950, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(3, pindexPrev, 75, 100)))
-            {
-                return state.Invalid(error("AcceptBlock() : rejected nVersion=2 block"),
-                                     REJECT_OBSOLETE, "bad-version");
-            }
-        }*/
-		
-        // Enforce block.nVersion=2 rule that the coinbase starts with serialized block height
-		/*
-        if (block.nVersion >= 2)
-        {
-            // if 750 of the last 1,000 blocks are version 2 or greater (51/100 if testnet):
-            if ((!TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 750, 1000)) ||
-                (TestNet() && CBlockIndex::IsSuperMajority(2, pindexPrev, 51, 100)))
-            {
-                CScript expect = CScript() << nHeight;
-                if (block.vtx[0].vin[0].scriptSig.size() < expect.size() ||
-                    !std::equal(expect.begin(), expect.end(), block.vtx[0].vin[0].scriptSig.begin()))
-                    return state.DoS(100, error("AcceptBlock() : block height mismatch in coinbase"),
-                                     REJECT_INVALID, "bad-cb-height");
-            }
-        }
-		*/
     }
 
     // Write block to history file
@@ -3004,13 +2975,6 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
     return true;
 }
 
-
-
-
-
-
-
-
 CMerkleBlock::CMerkleBlock(const CBlock& block, CBloomFilter& filter)
 {
     header = block.GetBlockHeader();
@@ -3036,12 +3000,6 @@ CMerkleBlock::CMerkleBlock(const CBlock& block, CBloomFilter& filter)
 
     txn = CPartialMerkleTree(vHashes, vMatch);
 }
-
-
-
-
-
-
 
 
 uint256 CPartialMerkleTree::CalcHash(int height, unsigned int pos, const std::vector<uint256> &vTxid) {
@@ -3157,12 +3115,6 @@ uint256 CPartialMerkleTree::ExtractMatches(std::vector<uint256> &vMatch) {
         return 0;
     return hashMerkleRoot;
 }
-
-
-
-
-
-
 
 bool AbortNode(const std::string &strMessage) {
     strMiscWarning = strMessage;
