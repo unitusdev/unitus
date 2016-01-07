@@ -303,7 +303,7 @@ unsigned int GetLegacySigOpCount(const CTransaction& tx);
 
 /** Count ECDSA signature operations in pay-to-script-hash inputs.
 
-    @param[in] mapInputs	Map of previous transactions that have outputs we're spending
+    @param[in] mapInputs    Map of previous transactions that have outputs we're spending
     @return maximum number of sigops required to validate this transaction's inputs
     @see CTransaction::FetchInputs
  */
@@ -710,10 +710,10 @@ const int64_t nBlockSequentialAlgoRuleStart2 = 1000000; // block where sequentia
 const int64_t nBlockAlwaysUpdateDiff = 1000000; // block where we start changing difficulty for all algos on all blocks - TODO CHANGE ME
 
 // test net hard forks
-const int64_t TestNet_nBlockAlgoNormalisedWorkDecayV2Start = 100; // block where weight decay v2 starts
-const int64_t TestNet_GeoAvgWork_Start = 200; // block where geometric average work calculation kicks in
-const int64_t TestNet_nBlockSequentialAlgoRuleStart2 = 300; // block where sequential algo rule V2 starts
-const int64_t TestNet_nBlockAlwaysUpdateDiff = 350; // block where we start changing difficulty for all algos on all blocks
+const int64_t TestNet_nBlockAlgoNormalisedWorkDecayV2Start = 40; // block where weight decay v2 starts
+const int64_t TestNet_GeoAvgWork_Start = 60; // block where geometric average work calculation kicks in
+const int64_t TestNet_nBlockSequentialAlgoRuleStart2 = 70; // block where sequential algo rule V2 starts
+const int64_t TestNet_nBlockAlwaysUpdateDiff = 80; // block where we start changing difficulty for all algos on all blocks
 
 /** The block chain is a tree shaped structure starting with the
  * genesis block at the root, with each block potentially having multiple
@@ -744,8 +744,8 @@ public:
     // (memory only) Total amount of work (expected number of hashes) in the chain up to and including this block
     uint256 nChainWork;
 
-	uint256 nAlgoWork[NUM_ALGOS];
-	
+    uint256 nAlgoWork[NUM_ALGOS];
+    
     // Number of transactions in this block.
     // Note: in a potential headers-first mode, this number cannot be relied upon
     unsigned int nTx;
@@ -811,7 +811,7 @@ public:
         nBits          = block.nBits;
         nNonce         = block.nNonce;
     }
-	
+    
     IMPLEMENT_SERIALIZE
     (
         /* mutable stuff goes here, immutable stuff
@@ -829,7 +829,7 @@ public:
     )
 
     int GetAlgo() const { return ::GetAlgo(nVersion); }
-	
+    
     CDiskBlockPos GetBlockPos() const {
         CDiskBlockPos ret;
         if (nStatus & BLOCK_HAVE_DATA) {
@@ -958,7 +958,7 @@ public:
         }
         return CBigNum(0);
     }
-	
+    
     CBigNum GetBlockWork() const
     {
         CBigNum bnTarget;
@@ -995,8 +995,8 @@ public:
     CBigNum GetBlockWorkAdjusted() const
     {
         CBigNum bnRes;
-		if ((TestNet() && nHeight>TestNet_GeoAvgWork_Start) || (nHeight>GeoAvgWork_Start))
-		{
+        if ((TestNet() && nHeight>TestNet_GeoAvgWork_Start) || (nHeight>GeoAvgWork_Start))
+        {
             CBigNum nBlockWork = GetBlockWork();
             int nAlgo = GetAlgo();
             for (int algo = 0; algo < NUM_ALGOS; algo++)
@@ -1012,33 +1012,33 @@ public:
             // Compute the geometric mean
             bnRes = bnRes.nthRoot(NUM_ALGOS);
             // Scale to roughly match the old work calculation
-            bnRes <<= 8;			
-		}
-		else
-		{
-			// Adjusted block work is the sum of work of this block and the
-			// most recent work of one block of each algo
-			CBigNum nBlockWork = GetBlockWork();
-			int nAlgo = GetAlgo();
-			for (int algo = 0; algo < NUM_ALGOS; algo++)
-			{
-				if (algo != nAlgo)
-				{
-					if(nHeight>= nBlockAlgoNormalisedWorkDecayV2Start)
-					{
-						nBlockWork += GetPrevWorkForAlgoWithDecayV2(algo);
-					}
-					else
-					{
-						nBlockWork += GetPrevWorkForAlgoWithDecayV1(algo);
-					}
-				}
-			}
-			bnRes = nBlockWork / NUM_ALGOS;
-		}
+            bnRes <<= 8;            
+        }
+        else
+        {
+            // Adjusted block work is the sum of work of this block and the
+            // most recent work of one block of each algo
+            CBigNum nBlockWork = GetBlockWork();
+            int nAlgo = GetAlgo();
+            for (int algo = 0; algo < NUM_ALGOS; algo++)
+            {
+                if (algo != nAlgo)
+                {
+                    if(nHeight>= nBlockAlgoNormalisedWorkDecayV2Start)
+                    {
+                        nBlockWork += GetPrevWorkForAlgoWithDecayV2(algo);
+                    }
+                    else
+                    {
+                        nBlockWork += GetPrevWorkForAlgoWithDecayV1(algo);
+                    }
+                }
+            }
+            bnRes = nBlockWork / NUM_ALGOS;
+        }
         return bnRes;
     }
-	
+    
     bool CheckIndex() const
     {
         // int algo = GetAlgo();
@@ -1095,25 +1095,25 @@ class CDiskBlockIndex : public CBlockIndex
 {
 public:
     uint256 hashPrev;
-	
+    
     // if this is an aux work block
     boost::shared_ptr<CAuxPow> auxpow;
 
     CDiskBlockIndex() {
         hashPrev = 0;
-		auxpow.reset();
+        auxpow.reset();
     }
 
     //explicit CDiskBlockIndex(CBlockIndex* pindex) : CBlockIndex(*pindex) {
-	explicit CDiskBlockIndex(CBlockIndex* pindex, boost::shared_ptr<CAuxPow> auxpow) : CBlockIndex(*pindex) {
+    explicit CDiskBlockIndex(CBlockIndex* pindex, boost::shared_ptr<CAuxPow> auxpow) : CBlockIndex(*pindex) {
         hashPrev = (pprev ? pprev->GetBlockHash() : 0);
-		this->auxpow = auxpow;
+        this->auxpow = auxpow;
     }
 
     IMPLEMENT_SERIALIZE
     (
         /* immutable stuff goes here, mutable stuff
-         * has SERIALIZE functions in CBlockIndex */	
+         * has SERIALIZE functions in CBlockIndex */    
         if (!(nType & SER_GETHASH))
             READWRITE(VARINT(nVersion));
 
@@ -1134,7 +1134,7 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
-		ReadWriteAuxPow(s, auxpow, nType, this->nVersion, ser_action);
+        ReadWriteAuxPow(s, auxpow, nType, this->nVersion, ser_action);
     )
 
     uint256 GetBlockHash() const

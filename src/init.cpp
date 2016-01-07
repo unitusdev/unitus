@@ -520,7 +520,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     // Algo
     std::string strAlgo = GetArg("-algo", "blake");
     transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
-    if (strAlgo == "blake" || strAlgo == "blake256")
+    if (strAlgo == "blake" || strAlgo == "blake256" || strAlgo == "lyra2re2")
         miningAlgo = ALGO_BLAKE;
     else if (strAlgo == "skein" || strAlgo == "skeinsha2")
         miningAlgo = ALGO_SKEIN;

@@ -43,7 +43,7 @@ enum
 const int64_t nBlockLyra2RE2Start = 100000000; // block where blake hash is replaced with Lyra2RE2
 
 // test net hard forks
-const int64_t TestNet_nBlockLyra2RE2Start = 600; // block where blake hash is replaced with Lyra2RE2
+const int64_t TestNet_nBlockLyra2RE2Start = 100; // block where blake hash is replaced with Lyra2RE2
 
 inline int GetAlgo(int nVersion)
 {
@@ -68,14 +68,14 @@ inline std::string GetAlgoName(int Algo, int height, bool testnet)
     switch (Algo)
     {
         case ALGO_BLAKE:
-			if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
-			{
-				return std::string("Lyra2RE2");
-			}
-			else
-			{
-				return std::string("Blake");
-			}
+            if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+            {
+                return std::string("Lyra2RE2");
+            }
+            else
+            {
+                return std::string("Blake");
+            }
         case ALGO_SKEIN:
             return std::string("Skein");
         case ALGO_QUBIT:
@@ -268,7 +268,7 @@ public:
     {
         return !(a == b);
     }
-	
+    
     bool IsScriptOpReturn() const
     {
         opcodetype opCode;
@@ -457,13 +457,13 @@ public:
     unsigned int nTime;
     unsigned int nBits;
     unsigned int nNonce;
-	boost::shared_ptr<CAuxPow> auxpow;
+    boost::shared_ptr<CAuxPow> auxpow;
 
     CBlockHeader()
     {
         SetNull();
     }
-	
+    
     int GetAlgo() const { return ::GetAlgo(nVersion); }
 
     IMPLEMENT_SERIALIZE
@@ -475,11 +475,11 @@ public:
         READWRITE(nTime);
         READWRITE(nBits);
         READWRITE(nNonce);
-		
-		nSerSize += ReadWriteAuxPow(s, auxpow, nType, nVersion, ser_action);
+        
+        nSerSize += ReadWriteAuxPow(s, auxpow, nType, nVersion, ser_action);
     )
 
-	int GetChainID() const
+    int GetChainID() const
     {
         return nVersion / BLOCK_VERSION_CHAIN_START;
     }
@@ -502,7 +502,7 @@ public:
     }
 
     uint256 GetHash() const;
-	
+    
     // Note: we use explicitly provided algo instead of the one returned by GetAlgo(), because this can be a block
     // from foreign chain (parent block in merged mining) which does not encode algo in its nVersion field.
     uint256 GetPoWHash(int algo, int height, bool testnet) const
@@ -510,47 +510,47 @@ public:
         switch (algo)
         {
             case ALGO_BLAKE:
-				if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
-				{
-					uint256 thash;
-					lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
-					return thash;
-				}
-				else
-				{
-					return HashBlake(BEGIN(nVersion), END(nNonce));
-				}
+                if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+                {
+                    uint256 thash;
+                    lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
+                    return thash;
+                }
+                else
+                {
+                    return HashBlake(BEGIN(nVersion), END(nNonce));
+                }
             case ALGO_SKEIN:
                 return HashSkein(BEGIN(nVersion), END(nNonce));
             case ALGO_QUBIT:
                 return HashQubit(BEGIN(nVersion), END(nNonce));
             case ALGO_YESCRYPT:
-				{
-					uint256 thash;
-					yescrypt_hash(BEGIN(nVersion), BEGIN(thash));
-					return thash;
-				}
+                {
+                    uint256 thash;
+                    yescrypt_hash(BEGIN(nVersion), BEGIN(thash));
+                    return thash;
+                }
             case ALGO_X11:
-				return HashX11(BEGIN(nVersion), END(nNonce));
+                return HashX11(BEGIN(nVersion), END(nNonce));
         }
-		if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
-		{
-			uint256 thash;
-			lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
-			return thash;			
-		}
-		else
-		{
-			return HashBlake(BEGIN(nVersion), END(nNonce));
-		}
+        if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+        {
+            uint256 thash;
+            lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
+            return thash;            
+        }
+        else
+        {
+            return HashBlake(BEGIN(nVersion), END(nNonce));
+        }
     }
 
     int64_t GetBlockTime() const
     {
         return (int64_t)nTime;
     }
-	
-	bool CheckProofOfWork(int nHeight) const;
+    
+    bool CheckProofOfWork(int nHeight) const;
 };
 
 
@@ -596,7 +596,7 @@ public:
         block.nTime          = nTime;
         block.nBits          = nBits;
         block.nNonce         = nNonce;
-		block.auxpow         = auxpow;
+        block.auxpow         = auxpow;
         return block;
     }
 
