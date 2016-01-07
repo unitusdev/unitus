@@ -35,7 +35,7 @@ static const int INIT_PROTO_VERSION = 209;
 static const int MIN_PEER_PROTO_VERSION = 70002;
 
 // disconnect from peers older than this client sub version
-static const int MIN_PEER_CLIENT_VERSION = "0.9.5";
+static const std::string MIN_PEER_CLIENT_VERSION = "0.9.5";
 
 // nTime field added to CAddress, starting with this version;
 // if possible, avoid requesting addresses nodes older than this

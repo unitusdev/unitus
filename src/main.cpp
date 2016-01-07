@@ -1382,8 +1382,8 @@ unsigned int GetNextWorkRequiredV1(const CBlockIndex* pindexLast, const CBlockHe
             if (fDebug)
             {
                 LogPrintf("GetNextWorkRequiredV1(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
-                pindexFirst = pindexFirstPrev;
             }
+            pindexFirst = pindexFirstPrev;
         }
         else
             break;
