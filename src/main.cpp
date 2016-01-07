@@ -3800,6 +3800,19 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         if (!vRecv.empty()) {
             vRecv >> LIMITED_STRING(pfrom->strSubVer, 256);
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
+            
+            if (
+                (pfrom->cleanSubVer == "/Satoshi:0.9.3/") ||
+                (pfrom->cleanSubVer == "/Satoshi:0.9.3.1/")
+            )
+            {
+                // disconnect from peers older than this client version
+                LogPrintf("partner %s using obsolete client sub version %s; disconnecting\n", pfrom->addr.ToString(), pfrom->cleanSubVer);
+                pfrom->PushMessage("reject", strCommand, REJECT_OBSOLETE,
+                    strprintf("Version must be %d or greater", MIN_PEER_CLIENT_VERSION));
+                pfrom->fDisconnect = true;
+                return false;
+            }
         }
         if (!vRecv.empty())
             vRecv >> pfrom->nStartingHeight;
