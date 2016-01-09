@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
     BOOST_CHECK(IsFinalTx(tx2));
 
     BOOST_CHECK(pblocktemplate = CreateNewBlock(scriptPubKey, 0));
-    BOOST_CHECK_EQUAL(pblocktemplate->block.vtx.size(), 3);
+    BOOST_CHECK_EQUAL(pblocktemplate->block.vtx.size(), 1);
     delete pblocktemplate;
 
     chainActive.Tip()->nHeight--;
