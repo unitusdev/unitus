@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE(DoS_checknbits)
     typedef std::map<int64_t, unsigned int> BlockData;
     BlockData chainData =
         map_list_of(1419368971,504365055)(1420787450,453117445)
-        (1432314492,488233855);
+        (1432314492,488233855)(1452391718,470201587);
 
     // Make sure CheckNBits considers every combination of block-chain-lock-in-points
     // "sane":
