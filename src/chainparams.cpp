@@ -70,11 +70,11 @@ public:
         assert(hashGenesisBlock == uint256("0xd8a2b2439d013a59f3bfc626a33487a3d7d27e42a3c9e0b81af814cd8e592f31"));
         assert(genesis.hashMerkleRoot == uint256("0x7e86d7e6d123ba67684125d094d010a6e04ab753fd5d601c024c155c0a4eb51e"));
 
-        vSeeds.push_back(CDNSSeedData("seed1.unitus.info", "seed1.unitus.info"));
-        vSeeds.push_back(CDNSSeedData("seed2.unitus.info", "seed2.unitus.info"));
-        vSeeds.push_back(CDNSSeedData("seed3.unitus.info", "seed3.unitus.info"));
-        vSeeds.push_back(CDNSSeedData("seed4.unitus.info", "seed4.unitus.info"));
-        vSeeds.push_back(CDNSSeedData("seed5.unitus.info", "seed5.unitus.info"));
+        vSeeds.push_back(CDNSSeedData("seed1.unitus.nutty.one", "seed1.unitus.nutty.one"));
+        vSeeds.push_back(CDNSSeedData("seed2.unitus.nutty.one", "seed2.unitus.nutty.one"));
+        vSeeds.push_back(CDNSSeedData("seed3.unitus.nutty.one", "seed3.unitus.nutty.one"));
+        vSeeds.push_back(CDNSSeedData("seed4.unitus.nutty.one", "seed4.unitus.nutty.one"));
+        vSeeds.push_back(CDNSSeedData("seed5.unitus.nutty.one", "seed5.unitus.nutty.one"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(68);
         base58Prefixes[SCRIPT_ADDRESS] = list_of(10);
@@ -138,8 +138,8 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("testseed1.unitus.info", "testseed1.unitus.info"));
-        vSeeds.push_back(CDNSSeedData("testseed2.unitus.info", "testseed2.unitus.info"));
+        vSeeds.push_back(CDNSSeedData("testseed1.unitus.nutty.one", "testseed1.unitus.nutty.one"));
+        vSeeds.push_back(CDNSSeedData("testseed2.unitus.nutty.one", "testseed2.unitus.nutty.one"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(130);
         base58Prefixes[SCRIPT_ADDRESS] = list_of(192);
