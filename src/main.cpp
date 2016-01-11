@@ -2606,16 +2606,11 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, int nH
     if(nHeight==INT_MAX)
     {
         // find the likely height for this block
-        CBlockIndex* pindexPrev = NULL;
-        nHeight = 0;
-        map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
-        pindexPrev = (*mi).second;
-        if (mi != mapBlockIndex.end())
+        // assume it will be current active tip height +1. for the purposes of when this is run it should be sufficient.
+        nHeight = chainActive.Height() + 1;
+        if(fDebug)
         {
-            if (pindexPrev != NULL)
-            {
-                nHeight = pindexPrev->nHeight+1;
-            }
+            LogPrintf("CheckBlockHeader: Expected next height is %d\n", nHeight);
         }
     }
     
