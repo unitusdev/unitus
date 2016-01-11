@@ -40,7 +40,7 @@ enum
 };
 
 // main net hard forks
-const int64_t nBlockLyra2RE2Start = 100000000; // block where blake hash is replaced with Lyra2RE2
+const int64_t nBlockLyra2RE2Start = 455000; // block where blake hash is replaced with Lyra2RE2
 
 // test net hard forks
 const int64_t TestNet_nBlockLyra2RE2Start = 100; // block where blake hash is replaced with Lyra2RE2
