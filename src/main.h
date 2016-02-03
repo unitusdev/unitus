@@ -705,9 +705,9 @@ const int nBlockSequentialAlgoMaxCountV2 = 5; // maximum sequential blocks of sa
 
 // main net hard forks
 const int64_t nBlockAlgoNormalisedWorkDecayV2Start = 25300; // block where weight decay v2 starts
-const int64_t GeoAvgWork_Start = 450000; // block where geometric average work calculation kicks in - TODO CHANGE ME
-const int64_t nBlockSequentialAlgoRuleStart2 = 451000; // block where sequential algo rule V2 starts - TODO CHANGE ME
-const int64_t nBlockAlwaysUpdateDiff = 452000; // block where we start changing difficulty for all algos on all blocks - TODO CHANGE ME
+const int64_t GeoAvgWork_Start = 450000; // block where geometric average work calculation kicks in
+const int64_t nBlockSequentialAlgoRuleStart2 = 456000; // block where sequential algo rule V2 starts - Delayed
+const int64_t nBlockAlwaysUpdateDiff = 452000; // block where we start changing difficulty for all algos on all blocks - No longer happening.
 
 // test net hard forks
 const int64_t TestNet_nBlockAlgoNormalisedWorkDecayV2Start = 40; // block where weight decay v2 starts
