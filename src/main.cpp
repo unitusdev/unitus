@@ -1316,10 +1316,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     }
     else
     {
-        if (pindexLast->nHeight < nBlockAlwaysUpdateDiff)
+//        if (pindexLast->nHeight < nBlockAlwaysUpdateDiff)
             return GetNextWorkRequiredV1(pindexLast, pblock, algo);
-        else
-            return GetNextWorkRequiredV2(pindexLast, pblock, algo);
+//        else
+//            return GetNextWorkRequiredV2(pindexLast, pblock, algo);
     }
 }
 
