@@ -3797,7 +3797,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
             
             if (
-                (pfrom->cleanSubVer == "/Satoshi:0.9.3/")
+                (pfrom->cleanSubVer == "/Satoshi:0.9.3/") || 
+                (pfrom->cleanSubVer == "/Satoshi:0.9.6/")
             )
             {
                 // disconnect from peers older than this client version
