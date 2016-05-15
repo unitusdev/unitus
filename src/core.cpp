@@ -270,12 +270,12 @@ uint256 CBlock::CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMer
     return hash;
 }
 
-void CBlock::print(int nHeight) const
+void CBlock::print() const
 {
     LogPrintf("CBlock(hash=%s, ver=%d, pow_algo=%d, pow_hash=%s, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%u)\n",
         GetHash().ToString(),
         nVersion, GetAlgo(),
-        GetPoWHash(GetAlgo(), nHeight, TestNet()).ToString().c_str(),
+        GetPoWHash(GetAlgo()).ToString().c_str(),
         hashPrevBlock.ToString(),
         hashMerkleRoot.ToString(),
         nTime, nBits, nNonce,

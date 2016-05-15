@@ -40,10 +40,7 @@ enum
 };
 
 // main net hard forks
-const int64_t nBlockLyra2RE2Start = 465000; // block where blake hash is replaced with Lyra2RE2
-
-// test net hard forks
-const int64_t TestNet_nBlockLyra2RE2Start = 100; // block where blake hash is replaced with Lyra2RE2
+const int nTimeLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2
 
 inline int GetAlgo(int nVersion)
 {
@@ -63,12 +60,12 @@ inline int GetAlgo(int nVersion)
     return ALGO_BLAKE;
 }
 
-inline std::string GetAlgoName(int Algo, int height, bool testnet)
+inline std::string GetAlgoName(int Algo, int time)
 {
     switch (Algo)
     {
         case ALGO_BLAKE:
-            if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+            if(time>=nTimeLyra2RE2Start)
             {
                 return std::string("Lyra2RE2");
             }
@@ -505,12 +502,12 @@ public:
     
     // Note: we use explicitly provided algo instead of the one returned by GetAlgo(), because this can be a block
     // from foreign chain (parent block in merged mining) which does not encode algo in its nVersion field.
-    uint256 GetPoWHash(int algo, int height, bool testnet) const
+    uint256 GetPoWHash(int algo) const
     {
         switch (algo)
         {
             case ALGO_BLAKE:
-                if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+                if(nTime >= nTimeLyra2RE2Start)
                 {
                     uint256 thash;
                     lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
@@ -533,7 +530,7 @@ public:
             case ALGO_X11:
                 return HashX11(BEGIN(nVersion), END(nNonce));
         }
-        if((testnet && height>=TestNet_nBlockLyra2RE2Start) || height>=nBlockLyra2RE2Start)
+        if(nTime >= nTimeLyra2RE2Start)
         {
             uint256 thash;
             lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
@@ -610,7 +607,7 @@ public:
 
     std::vector<uint256> GetMerkleBranch(int nIndex) const;
     static uint256 CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMerkleBranch, int nIndex);
-    void print(int nHeight) const;
+    void print() const;
 };
 
 

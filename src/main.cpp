@@ -2481,14 +2481,14 @@ bool CBlockHeader::CheckProofOfWork(int nHeight) const
             if (!auxpow->Check(GetHash(), GetChainID()))
                 return error("CheckProofOfWork() : AUX POW is not valid");
             // Check proof of work matches claimed amount
-            if (!::CheckProofOfWork(auxpow->GetParentBlockHash(algo, nHeight, TestNet()), nBits, algo))
+            if (!::CheckProofOfWork(auxpow->GetParentBlockHash(algo), nBits, algo))
                 return error("CheckProofOfWork() : AUX proof of work failed");
         }
         else
         {
             // Check proof of work matches claimed amount
             // LogPrintf("CBlockHeader::CheckProofOfWork - Algo %d, Height %d \r\n",algo, nHeight);
-            if (!::CheckProofOfWork(GetPoWHash(algo, nHeight, TestNet()), nBits, algo))
+            if (!::CheckProofOfWork(GetPoWHash(algo), nBits, algo))
                 return error("CheckProofOfWork() : proof of work failed");
         }
     }
@@ -2500,7 +2500,7 @@ bool CBlockHeader::CheckProofOfWork(int nHeight) const
         }
 
         // Check if proof of work marches claimed amount
-        if (!::CheckProofOfWork(GetPoWHash(algo, nHeight, TestNet()), nBits, algo))
+        if (!::CheckProofOfWork(GetPoWHash(algo), nBits, algo))
             return error("CheckProofOfWork() : proof of work failed");
     }
     return true;
@@ -2602,18 +2602,6 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, int nHeight, bool fCheckPOW)
 {
-    // test to see if we are checking via ProcessBlock(). A height of INT_MAX will break the correct algo choice in CheckProofOfWork()
-    if(nHeight==INT_MAX)
-    {
-        // find the likely height for this block
-        // assume it will be current active tip height +1. for the purposes of when this is run it should be sufficient.
-        nHeight = chainActive.Height() + 1;
-        if(fDebug)
-        {
-            LogPrintf("CheckBlockHeader: Expected next height is %d\n", nHeight);
-        }
-    }
-    
     // Check proof of work matches claimed amount
     if (fCheckPOW && !block.CheckProofOfWork(nHeight))
     //if (fCheckPOW && !CheckProofOfWork(block.GetPoWHash(block.GetAlgo()), block.nBits, block.GetAlgo()))
@@ -2842,7 +2830,7 @@ std::string CDiskBlockIndex::ToString() const
     str += strprintf("\n                hashBlock=%s, hashPrev=%s, hashParentBlock=%s)",
         GetBlockHash().ToString().c_str(),
         hashPrev.ToString().c_str(),
-        (auxpow.get() != NULL) ? auxpow->GetParentBlockHash(GetAlgo(), nHeight, TestNet()).ToString().substr(0,20).c_str() : "-");
+        (auxpow.get() != NULL) ? auxpow->GetParentBlockHash(GetAlgo()).ToString().substr(0,20).c_str() : "-");
     return str;
 }
 
