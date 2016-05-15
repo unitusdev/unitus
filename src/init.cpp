@@ -520,18 +520,18 @@ bool AppInit2(boost::thread_group& threadGroup)
     // Algo
     std::string strAlgo = GetArg("-algo", "blake");
     transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
-    if (strAlgo == "blake" || strAlgo == "blake256" || strAlgo == "lyra2re2")
-        miningAlgo = ALGO_BLAKE;
+    if (strAlgo == "blake" || strAlgo == "blake256" || strAlgo == "lyra2re2" || strAlgo == "lyra2re" || strAlgo == "lyra2" || strAlgo == "lyra")
+        miningAlgo = ALGO_SLOT1;
     else if (strAlgo == "skein" || strAlgo == "skeinsha2")
-        miningAlgo = ALGO_SKEIN;
+        miningAlgo = ALGO_SLOT2;
     else if (strAlgo == "q2c" || strAlgo == "qubit")
-        miningAlgo = ALGO_QUBIT;
+        miningAlgo = ALGO_SLOT3;
     else if (strAlgo == "yescrypt")
-        miningAlgo = ALGO_YESCRYPT;
+        miningAlgo = ALGO_SLOT4;
     else if (strAlgo == "x11")
-        miningAlgo = ALGO_X11;
+        miningAlgo = ALGO_SLOT5;
     else
-        miningAlgo = ALGO_BLAKE;
+        miningAlgo = ALGO_SLOT1;
         
 
     // Make sure enough file descriptors are available

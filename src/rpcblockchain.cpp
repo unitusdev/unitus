@@ -31,7 +31,7 @@ double GetDifficulty(const CBlockIndex* blockindex, int algo)
     {
         CBlockIndex* tip = chainActive.Tip();
         if (tip == NULL)
-            nBits = Params().ProofOfWorkLimit(ALGO_BLAKE).GetCompact();
+            nBits = Params().ProofOfWorkLimit(ALGO_SLOT1).GetCompact();
         else
         {
             blockindex = GetLastBlockIndexForAlgo(tip, algo);

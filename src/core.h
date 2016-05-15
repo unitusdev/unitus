@@ -19,12 +19,13 @@
 #include <stdint.h>
 
 enum {
-    ALGO_BLAKE = 0,
-    ALGO_SKEIN = 1,
-    ALGO_QUBIT = 2,
-    ALGO_YESCRYPT = 3,
-    ALGO_X11 = 4,
-    NUM_ALGOS };
+    ALGO_SLOT1 = 0,  // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
+    ALGO_SLOT2 = 1,  // currently Skein
+    ALGO_SLOT3 = 2,  // currently Qubit
+    ALGO_SLOT4 = 3,  // currently Yescrypt
+    ALGO_SLOT5 = 4,  // currently X11
+    NUM_ALGOS
+};
 
 enum
 {
@@ -32,11 +33,11 @@ enum
     BLOCK_VERSION_DEFAULT        = 2,
 
     // algo
-    BLOCK_VERSION_ALGO       = (7 << 9),
-    BLOCK_VERSION_SKEIN      = (1 << 9),
-    BLOCK_VERSION_QUBIT      = (2 << 9),
-    BLOCK_VERSION_YESCRYPT   = (3 << 9),
-    BLOCK_VERSION_X11        = (4 << 9),
+    BLOCK_VERSION_ALGO      = (7 << 9), // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
+    BLOCK_VERSION_SLOT2     = (1 << 9), // currently Skein
+    BLOCK_VERSION_SLOT3     = (2 << 9), // currently Qubit
+    BLOCK_VERSION_SLOT4     = (3 << 9), // currently Yescrypt
+    BLOCK_VERSION_SLOT5     = (4 << 9), // currently X11
 };
 
 // main net hard forks
@@ -47,24 +48,24 @@ inline int GetAlgo(int nVersion)
     switch (nVersion & BLOCK_VERSION_ALGO)
     {
         case 0:
-            return ALGO_BLAKE;
-        case BLOCK_VERSION_SKEIN:
-            return ALGO_SKEIN;
-        case BLOCK_VERSION_QUBIT:
-            return ALGO_QUBIT;
-        case BLOCK_VERSION_YESCRYPT:
-            return ALGO_YESCRYPT;
-        case BLOCK_VERSION_X11:
-            return ALGO_X11;
+            return ALGO_SLOT1;
+        case BLOCK_VERSION_SLOT2:
+            return ALGO_SLOT2;
+        case BLOCK_VERSION_SLOT3:
+            return ALGO_SLOT3;
+        case BLOCK_VERSION_SLOT4:
+            return ALGO_SLOT4;
+        case BLOCK_VERSION_SLOT5:
+            return ALGO_SLOT5;
     }
-    return ALGO_BLAKE;
+    return ALGO_SLOT1;
 }
 
 inline std::string GetAlgoName(int Algo, int time)
 {
     switch (Algo)
     {
-        case ALGO_BLAKE:
+        case ALGO_SLOT1:
             if(time>=nTimeLyra2RE2Start)
             {
                 return std::string("Lyra2RE2");
@@ -73,13 +74,13 @@ inline std::string GetAlgoName(int Algo, int time)
             {
                 return std::string("Blake");
             }
-        case ALGO_SKEIN:
+        case ALGO_SLOT2:
             return std::string("Skein");
-        case ALGO_QUBIT:
+        case ALGO_SLOT3:
             return std::string("Qubit");
-        case ALGO_YESCRYPT:
+        case ALGO_SLOT4:
             return std::string("Yescrypt");
-        case ALGO_X11:
+        case ALGO_SLOT5:
             return std::string("X11");
     }
     return std::string("Unknown");
@@ -502,11 +503,15 @@ public:
     
     // Note: we use explicitly provided algo instead of the one returned by GetAlgo(), because this can be a block
     // from foreign chain (parent block in merged mining) which does not encode algo in its nVersion field.
+    
+    // As we are now making a decision of algo based on nTime, this will work even for merge mining as the parent block
+    // will have an nTime value close to currently clock time. Hence the above requirement for explicitly requiring algo
+    // as nVersion may not encode the algorithm does not apply to nTime.
     uint256 GetPoWHash(int algo) const
     {
         switch (algo)
         {
-            case ALGO_BLAKE:
+            case ALGO_SLOT1:
                 if(nTime >= nTimeLyra2RE2Start)
                 {
                     uint256 thash;
@@ -517,19 +522,20 @@ public:
                 {
                     return HashBlake(BEGIN(nVersion), END(nNonce));
                 }
-            case ALGO_SKEIN:
+            case ALGO_SLOT2:
                 return HashSkein(BEGIN(nVersion), END(nNonce));
-            case ALGO_QUBIT:
+            case ALGO_SLOT3:
                 return HashQubit(BEGIN(nVersion), END(nNonce));
-            case ALGO_YESCRYPT:
+            case ALGO_SLOT4:
                 {
                     uint256 thash;
                     yescrypt_hash(BEGIN(nVersion), BEGIN(thash));
                     return thash;
                 }
-            case ALGO_X11:
+            case ALGO_SLOT5:
                 return HashX11(BEGIN(nVersion), END(nNonce));
         }
+        // catch-all if above doesn't match anything to algo
         if(nTime >= nTimeLyra2RE2Start)
         {
             uint256 thash;

@@ -77,7 +77,7 @@ CScript COINBASE_FLAGS;
 const string strMessageMagic = "Unitus Signed Message:\n";
 
 // Settings
-int miningAlgo = ALGO_BLAKE;
+int miningAlgo = ALGO_SLOT1;
 
 // Internal stuff
 namespace {

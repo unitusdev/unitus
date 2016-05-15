@@ -35,11 +35,11 @@ public:
         vAlertPubKey = ParseHex("040CAAF716F6AFBF6821C73B9F0BB32D991AABC1838B12C2683F24C1B0D53B269C280F08C4742F1B6735BA57DC5411B29EACB07262E37847EDF1D84529229B967D");
         nDefaultPort = 50603;
         nRPCPort = 50604;
-        bnProofOfWorkLimit[ALGO_BLAKE] = CBigNum(~uint256(0) >> 20);
-        bnProofOfWorkLimit[ALGO_SKEIN] = CBigNum(~uint256(0) >> 20);
-        bnProofOfWorkLimit[ALGO_QUBIT]  = CBigNum(~uint256(0) >> 20);
-        bnProofOfWorkLimit[ALGO_YESCRYPT] = CBigNum(~uint256(0) >> 16);
-        bnProofOfWorkLimit[ALGO_X11] = CBigNum(~uint256(0) >> 20);
+        bnProofOfWorkLimit[ALGO_SLOT1] = CBigNum(~uint256(0) >> 20);
+        bnProofOfWorkLimit[ALGO_SLOT2] = CBigNum(~uint256(0) >> 20);
+        bnProofOfWorkLimit[ALGO_SLOT3]  = CBigNum(~uint256(0) >> 20);
+        bnProofOfWorkLimit[ALGO_SLOT4] = CBigNum(~uint256(0) >> 16);
+        bnProofOfWorkLimit[ALGO_SLOT5] = CBigNum(~uint256(0) >> 20);
         //nSubsidyHalvingInterval = 210000;
 
         // Build the genesis block. Note that the output of the genesis coinbase cannot
@@ -163,11 +163,11 @@ public:
         pchMessageStart[2] = 0xc8;
         pchMessageStart[3] = 0x9d;
 //        nSubsidyHalvingInterval = 150;
-        bnProofOfWorkLimit[ALGO_BLAKE] = CBigNum(~uint256(0) >> 1);
-        bnProofOfWorkLimit[ALGO_SKEIN] = CBigNum(~uint256(0) >> 1);
-        bnProofOfWorkLimit[ALGO_QUBIT]  = CBigNum(~uint256(0) >> 1);
-        bnProofOfWorkLimit[ALGO_YESCRYPT] = CBigNum(~uint256(0) >> 1);
-        bnProofOfWorkLimit[ALGO_X11] = CBigNum(~uint256(0) >> 1);
+        bnProofOfWorkLimit[ALGO_SLOT1] = CBigNum(~uint256(0) >> 1);
+        bnProofOfWorkLimit[ALGO_SLOT2] = CBigNum(~uint256(0) >> 1);
+        bnProofOfWorkLimit[ALGO_SLOT3]  = CBigNum(~uint256(0) >> 1);
+        bnProofOfWorkLimit[ALGO_SLOT4] = CBigNum(~uint256(0) >> 1);
+        bnProofOfWorkLimit[ALGO_SLOT5] = CBigNum(~uint256(0) >> 1);
         genesis.nTime = 1419370259;
         genesis.nBits = 0x207fffff;
         genesis.nNonce = 2;

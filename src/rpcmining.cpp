@@ -263,12 +263,11 @@ Value getmininginfo(const Array& params, bool fHelp)
     obj.push_back(Pair("pow_algo_id",        miningAlgo));
     obj.push_back(Pair("pow_algo",           GetAlgoName(miningAlgo, GetTime())));
     obj.push_back(Pair("difficulty",         (double)GetDifficulty(NULL, miningAlgo)));
-    obj.push_back(Pair("difficulty_blake", (double)GetDifficulty(NULL, ALGO_BLAKE)));
-    obj.push_back(Pair("difficulty_lyra2re2", (double)GetDifficulty(NULL, ALGO_BLAKE)));
-    obj.push_back(Pair("difficulty_skein", (double)GetDifficulty(NULL, ALGO_SKEIN)));
-    obj.push_back(Pair("difficulty_qubit",   (double)GetDifficulty(NULL, ALGO_QUBIT)));
-    obj.push_back(Pair("difficulty_yescrypt",  (double)GetDifficulty(NULL, ALGO_YESCRYPT)));
-    obj.push_back(Pair("difficulty_X11",   (double)GetDifficulty(NULL, ALGO_X11)));
+    obj.push_back(Pair("difficulty_lyra2re2", (double)GetDifficulty(NULL, ALGO_SLOT1)));
+    obj.push_back(Pair("difficulty_skein", (double)GetDifficulty(NULL, ALGO_SLOT2)));
+    obj.push_back(Pair("difficulty_qubit",   (double)GetDifficulty(NULL, ALGO_SLOT3)));
+    obj.push_back(Pair("difficulty_yescrypt",  (double)GetDifficulty(NULL, ALGO_SLOT4)));
+    obj.push_back(Pair("difficulty_X11",   (double)GetDifficulty(NULL, ALGO_SLOT5)));
     obj.push_back(Pair("errors",           GetWarnings("statusbar")));
     obj.push_back(Pair("genproclimit",     (int)GetArg("-genproclimit", -1)));
 //    obj.push_back(Pair("networkhashps",    getnetworkhashps(params, false)));

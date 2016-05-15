@@ -117,19 +117,19 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, int algo)
     //pblock->nVersion = BLOCK_VERSION_DEFAULT;
     switch (algo)
     {
-        case ALGO_BLAKE:
+        case ALGO_SLOT1:
             break;
-        case ALGO_SKEIN:
-            pblock->nVersion |= BLOCK_VERSION_SKEIN;
+        case ALGO_SLOT2:
+            pblock->nVersion |= BLOCK_VERSION_SLOT2;
             break;
-        case ALGO_QUBIT:
-            pblock->nVersion |= BLOCK_VERSION_QUBIT;
+        case ALGO_SLOT3:
+            pblock->nVersion |= BLOCK_VERSION_SLOT3;
             break;
-        case ALGO_YESCRYPT:
-            pblock->nVersion |= BLOCK_VERSION_YESCRYPT;
+        case ALGO_SLOT4:
+            pblock->nVersion |= BLOCK_VERSION_SLOT4;
             break;
-        case ALGO_X11:
-            pblock->nVersion |= BLOCK_VERSION_X11;
+        case ALGO_SLOT5:
+            pblock->nVersion |= BLOCK_VERSION_SLOT5;
             break;
         default:
             error("CreateNewBlock: bad algo");
@@ -546,7 +546,7 @@ void static YeScryptMiner(CWallet *pwallet)
         unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
         CBlockIndex* pindexPrev = chainActive.Tip();
 
-        auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey, ALGO_YESCRYPT));
+        auto_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey, ALGO_SLOT4));
         if (!pblocktemplate.get())
             return;
         CBlock *pblock = &pblocktemplate->block;
@@ -765,20 +765,20 @@ void static ThreadBitcoinMiner(CWallet *pwallet)
     {
         switch (miningAlgo)
         {
-            case ALGO_BLAKE:
-                GenericMiner(pwallet, ALGO_BLAKE);
+            case ALGO_SLOT1:
+                GenericMiner(pwallet, ALGO_SLOT1);
                 break;
-            case ALGO_SKEIN:
-                GenericMiner(pwallet, ALGO_SKEIN);
+            case ALGO_SLOT2:
+                GenericMiner(pwallet, ALGO_SLOT2);
                 break;
-            case ALGO_QUBIT:
-                GenericMiner(pwallet, ALGO_QUBIT);
+            case ALGO_SLOT3:
+                GenericMiner(pwallet, ALGO_SLOT3);
                 break;
-            case ALGO_YESCRYPT:
+            case ALGO_SLOT4:
 				YeScryptMiner(pwallet);
                 break;
-            case ALGO_X11:
-                GenericMiner(pwallet, ALGO_X11);
+            case ALGO_SLOT5:
+                GenericMiner(pwallet, ALGO_SLOT5);
                 break;
         }
     }
