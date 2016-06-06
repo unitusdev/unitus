@@ -179,8 +179,6 @@ bool GetTransaction(const uint256 &hash, CTransaction &tx, uint256 &hashBlock, b
 bool ActivateBestChain(CValidationState &state);
 int64_t GetBlockValue(int nHeight, int64_t nFees);
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo);
-unsigned int GetNextWorkRequiredV1(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo);
-unsigned int GetNextWorkRequiredV2(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo);
 
 void UpdateTime(CBlockHeader& block, const CBlockIndex* pindexPrev);
 
@@ -707,13 +705,11 @@ const int nBlockSequentialAlgoMaxCountV2 = 5; // maximum sequential blocks of sa
 const int64_t nBlockAlgoNormalisedWorkDecayV2Start = 25300; // block where weight decay v2 starts
 const int64_t GeoAvgWork_Start = 450000; // block where geometric average work calculation kicks in
 const int64_t nBlockSequentialAlgoRuleStart2 = 456000; // block where sequential algo rule V2 starts - Delayed
-const int64_t nBlockAlwaysUpdateDiff = 452000; // block where we start changing difficulty for all algos on all blocks - No longer happening.
 
 // test net hard forks
 const int64_t TestNet_nBlockAlgoNormalisedWorkDecayV2Start = 40; // block where weight decay v2 starts
 const int64_t TestNet_GeoAvgWork_Start = 60; // block where geometric average work calculation kicks in
 const int64_t TestNet_nBlockSequentialAlgoRuleStart2 = 70; // block where sequential algo rule V2 starts
-const int64_t TestNet_nBlockAlwaysUpdateDiff = 80; // block where we start changing difficulty for all algos on all blocks
 
 /** The block chain is a tree shaped structure starting with the
  * genesis block at the root, with each block potentially having multiple
