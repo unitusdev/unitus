@@ -92,7 +92,16 @@ BITCOIN_CORE_H = \
   lyra2.h \
   lyra2RE.h \
   sponge.h \
-  sha256_Y.h
+  sha256_Y.h \
+  crypto/hashargon2.h \
+  crypto/argon2/argon2.h \
+  crypto/argon2/blake2.h \
+  crypto/argon2/blake2-impl.h \
+  crypto/argon2/blamka-round-opt.h \
+  crypto/argon2/core.h \
+  crypto/argon2/encoding.h \
+  crypto/argon2/opt.h \
+  crypto/argon2/thread.h 
 
 JSON_H = \
   json/json_spirit.h \
@@ -179,6 +188,12 @@ libbitcoin_common_a_SOURCES = \
   lyra2RE.c \
   sponge.c \
   sha256_Y.c \
+  crypto/argon2/argon2.c \
+  crypto/argon2/blake2b.c \
+  crypto/argon2/core.c \
+  crypto/argon2/encoding.c \
+  crypto/argon2/opt.c \
+  crypto/argon2/thread.c \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT

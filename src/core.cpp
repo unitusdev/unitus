@@ -217,7 +217,6 @@ uint64_t CTxOutCompressor::DecompressAmount(uint64_t x)
 uint256 CBlockHeader::GetHash() const
 {
     return Hash(BEGIN(nVersion), END(nNonce));
-	//return HashBlake(BEGIN(nVersion), END(nNonce));
 }
 
 uint256 CBlock::BuildMerkleTree() const
@@ -289,4 +288,80 @@ void CBlock::print() const
     for (unsigned int i = 0; i < vMerkleTree.size(); i++)
         LogPrintf("%s ", vMerkleTree[i].ToString());
     LogPrintf("\n");
+}
+
+extern bool TestNet();
+
+std::string GetAlgoName(int Algo, int time)
+{
+    switch (Algo)
+    {
+        case ALGO_SLOT1:
+            if((TestNet() && time >= nTimeTestLyra2RE2Start) || (!TestNet() && time >= nTimeLyra2RE2Start))
+                return std::string("Lyra2RE2");
+            else
+                return std::string("Blake");
+            
+        case ALGO_SLOT2:
+            return std::string("Skein");
+            
+        case ALGO_SLOT3:
+            if((TestNet() && time >= nTimeTestArgon2dStart) || (!TestNet() && time >= nTimeArgon2dStart))
+                return std::string("Argon2d");
+            else
+                return std::string("Qubit");
+            
+        case ALGO_SLOT4:
+            return std::string("Yescrypt");
+            
+        case ALGO_SLOT5:
+            return std::string("X11");
+            
+    }
+    return std::string("Unknown");
+}
+
+uint256 CBlockHeader::GetPoWHash(int algo) const
+{
+    switch (algo)
+    {
+        case ALGO_SLOT1:
+            if((!TestNet() && nTime >= nTimeLyra2RE2Start) || (TestNet() && nTime >= nTimeTestLyra2RE2Start))
+            {
+                uint256 thash;
+                lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
+                return thash;
+            }
+            else
+                return HashBlake(BEGIN(nVersion), END(nNonce));
+            
+        case ALGO_SLOT2:
+            return HashSkein(BEGIN(nVersion), END(nNonce));
+            
+        case ALGO_SLOT3:
+            if((!TestNet() && nTime >= nTimeArgon2dStart) || (TestNet() && nTime >= nTimeTestArgon2dStart))
+                return HashArgon2d(BEGIN(nVersion), END(nNonce));
+            else
+                return HashQubit(BEGIN(nVersion), END(nNonce));
+            
+        case ALGO_SLOT4:
+            {
+                uint256 thash;
+                yescrypt_hash(BEGIN(nVersion), BEGIN(thash));
+                return thash;
+            }
+            
+        case ALGO_SLOT5:
+            return HashX11(BEGIN(nVersion), END(nNonce));
+            
+    }
+    // catch-all if above doesn't match anything to algo
+    if((!TestNet() && nTime >= nTimeLyra2RE2Start) || (TestNet() && nTime >= nTimeLyra2RE2Start))
+    {
+        uint256 thash;
+        lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
+        return thash;            
+    }
+    else
+        return HashBlake(BEGIN(nVersion), END(nNonce));
 }

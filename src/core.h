@@ -15,13 +15,13 @@
 #include "hashX11.h"
 #include "yescrypt.h"
 #include "lyra2RE.h"
-
+#include "crypto/hashargon2d.h"
 #include <stdint.h>
 
 enum {
     ALGO_SLOT1 = 0,  // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
     ALGO_SLOT2 = 1,  // currently Skein
-    ALGO_SLOT3 = 2,  // currently Qubit
+    ALGO_SLOT3 = 2,  // currently currently Argon2d, was Qubit until nTimeArgon2dStart
     ALGO_SLOT4 = 3,  // currently Yescrypt
     ALGO_SLOT5 = 4,  // currently X11
     NUM_ALGOS
@@ -35,13 +35,20 @@ enum
     // algo
     BLOCK_VERSION_ALGO      = (7 << 9), // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
     BLOCK_VERSION_SLOT2     = (1 << 9), // currently Skein
-    BLOCK_VERSION_SLOT3     = (2 << 9), // currently Qubit
+    BLOCK_VERSION_SLOT3     = (2 << 9), // currently Argon2d, was Qubit until nTimeArgon2dStart
     BLOCK_VERSION_SLOT4     = (3 << 9), // currently Yescrypt
     BLOCK_VERSION_SLOT5     = (4 << 9), // currently X11
 };
 
+
 // main net hard forks
-const int nTimeLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2
+const int nTimeLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
+const int nTimeArgon2dStart = 1495670400; //1491004800; // block time where Qubit hash is replaced with Argon2d (Thursday, 25-May-17 00:00:00 UTC)
+
+// test net hard forks
+const int nTimeTestLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
+const int nTimeTestArgon2dStart = 1491705000; //1491004800; // block time where Qubit hash is replaced with Argon2d (Thursday, 25-May-17 00:00:00 UTC)
+
 
 inline int GetAlgo(int nVersion)
 {
@@ -61,30 +68,7 @@ inline int GetAlgo(int nVersion)
     return ALGO_SLOT1;
 }
 
-inline std::string GetAlgoName(int Algo, int time)
-{
-    switch (Algo)
-    {
-        case ALGO_SLOT1:
-            if(time>=nTimeLyra2RE2Start)
-            {
-                return std::string("Lyra2RE2");
-            }
-            else
-            {
-                return std::string("Blake");
-            }
-        case ALGO_SLOT2:
-            return std::string("Skein");
-        case ALGO_SLOT3:
-            return std::string("Qubit");
-        case ALGO_SLOT4:
-            return std::string("Yescrypt");
-        case ALGO_SLOT5:
-            return std::string("X11");
-    }
-    return std::string("Unknown");
-}
+std::string GetAlgoName(int Algo, int time);
 
 class CTransaction;
 class CAuxPow;
@@ -507,46 +491,7 @@ public:
     // As we are now making a decision of algo based on nTime, this will work even for merge mining as the parent block
     // will have an nTime value close to currently clock time. Hence the above requirement for explicitly requiring algo
     // as nVersion may not encode the algorithm does not apply to nTime.
-    uint256 GetPoWHash(int algo) const
-    {
-        switch (algo)
-        {
-            case ALGO_SLOT1:
-                if(nTime >= nTimeLyra2RE2Start)
-                {
-                    uint256 thash;
-                    lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
-                    return thash;
-                }
-                else
-                {
-                    return HashBlake(BEGIN(nVersion), END(nNonce));
-                }
-            case ALGO_SLOT2:
-                return HashSkein(BEGIN(nVersion), END(nNonce));
-            case ALGO_SLOT3:
-                return HashQubit(BEGIN(nVersion), END(nNonce));
-            case ALGO_SLOT4:
-                {
-                    uint256 thash;
-                    yescrypt_hash(BEGIN(nVersion), BEGIN(thash));
-                    return thash;
-                }
-            case ALGO_SLOT5:
-                return HashX11(BEGIN(nVersion), END(nNonce));
-        }
-        // catch-all if above doesn't match anything to algo
-        if(nTime >= nTimeLyra2RE2Start)
-        {
-            uint256 thash;
-            lyra2re2_hash(BEGIN(nVersion), BEGIN(thash));
-            return thash;            
-        }
-        else
-        {
-            return HashBlake(BEGIN(nVersion), END(nNonce));
-        }
-    }
+    uint256 GetPoWHash(int algo) const;
 
     int64_t GetBlockTime() const
     {

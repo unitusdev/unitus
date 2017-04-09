@@ -458,12 +458,12 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 	uint256 hash = pblock->GetHash();
 	uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
 
-	// LogPrintf("DEBUG| UnitusMiner:\n");
-	// LogPrintf("DEBUG| proof-of-work submitted  \n  algo: %s\nblock-PoWhash: %s\nblock-hash: %s\n  ntarget: %s\n", 
-		// algo,
-		// hashPoW.GetHex(),
-        // hash.GetHex(), 
-        // hashTarget.GetHex());
+	LogPrintf("DEBUG| UnitusMiner:\n");
+	LogPrintf("DEBUG| proof-of-work submitted  \n  algo: %s\nblock-PoWhash: %s\nblock-hash: %s\n  ntarget: %s\n", 
+		algo,
+		hashPoW.GetHex(),
+        hash.GetHex(), 
+        hashTarget.GetHex());
 		
 	CAuxPow *auxpow = pblock->auxpow.get();
 	

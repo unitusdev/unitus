@@ -1363,7 +1363,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         {
             if (fDebug)
             {
-                LogPrintf("GetNextWorkRequiredV1(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+                LogPrintf("GetNextWorkRequired(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
             }
             pindexFirst = pindexFirstPrev;
         }
@@ -1371,12 +1371,46 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
             break;
     }
 
+    // change of algo from Qubit to Argon2d
+    // because the difficulty of Qubit will be much higher than Argon2d on change, we will return the proof-of-work limit
+    // once the changeover occurs, then start adjusting once nAveragingInterval blocks have occured. Will result in a short
+    // insta-mine, but difficulty changes will quickly take care of this.
+
+    if(TestNet())
+    {
+        if(pindexLast->GetBlockTime() >= nTimeTestArgon2dStart && algo == ALGO_SLOT3)
+        {
+            if(pindexFirst->GetBlockTime() < nTimeTestArgon2dStart)
+            {
+                if(fDebug)
+                {
+                    LogPrintf("GetNextWorkRequired(Algo=%d): nTimeTestArgon2dStart has been passed, but insufficient blocks to calculate new target. Returning nProofOfWorkLimit\n", algo);
+                }
+                return nProofOfWorkLimit;
+            }
+        }
+    }
+    else
+    {
+        if(pindexLast->GetBlockTime() >= nTimeArgon2dStart && algo == ALGO_SLOT3)
+        {
+            if(pindexFirst->GetBlockTime() < nTimeArgon2dStart)
+            {
+                if(fDebug)
+                {
+                    LogPrintf("GetNextWorkRequired(Algo=%d): nTimeArgon2dStart has been passed, but insufficient blocks to calculate new target. Returning nProofOfWorkLimit\n", algo);
+                }
+                return nProofOfWorkLimit;
+            }
+        }
+    }
+    
     // Limit adjustment step
     int64_t nActualTimespan = pindexPrev->GetBlockTime() - pindexFirst->GetBlockTime();
 
     if (fDebug)
     {
-        LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, pindexPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+        LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d before bounds (%d - %d)\n", algo, nActualTimespan, pindexPrev->GetBlockTime(), pindexFirst->GetBlockTime());
     }
 
     // initial mining phase (height<1999), allow up to nMinActualTimespanInitial and nMaxActualTimespanInitial change in difficulty.
@@ -1399,7 +1433,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         nActualTimespan = nMaxActualTimespan;
     if (fDebug)
     {
-        LogPrintf("GetNextWorkRequiredV1(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
+        LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d after bounds (%d - %d)\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
     }
 
     // Retarget
@@ -1414,10 +1448,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     /// debug print
     if (fDebug)
     {
-        LogPrintf("GetNextWorkRequiredV1(Algo=%d): RETARGET\n", algo);
-        LogPrintf("GetNextWorkRequiredV1(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
-        LogPrintf("GetNextWorkRequiredV1(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
-        LogPrintf("GetNextWorkRequiredV1(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
+        LogPrintf("GetNextWorkRequired(Algo=%d): RETARGET\n", algo);
+        LogPrintf("GetNextWorkRequired(Algo=%d): nTargetTimespan = %d, nActualTimespan = %d\n", algo, nAveragingTargetTimespan, nActualTimespan);
+        LogPrintf("GetNextWorkRequired(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, CBigNum().SetCompact(pindexPrev->nBits).getuint256().ToString());
+        LogPrintf("GetNextWorkRequired(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.getuint256().ToString());
     }
 
     return bnNew.GetCompact();
