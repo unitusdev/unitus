@@ -9,12 +9,12 @@
 #include "script.h"
 #include "serialize.h"
 #include "uint256.h"
-#include "hashskein.h"
-#include "hashqubit.h"
-#include "hashblake.h"
-#include "hashX11.h"
-#include "yescrypt.h"
-#include "lyra2RE.h"
+#include "crypto/hashskein.h"
+#include "crypto/hashqubit.h"
+#include "crypto/hashblake.h"
+#include "crypto/hashX11.h"
+#include "crypto/yescrypt/yescrypt.h"
+#include "crypto/lyra2/lyra2RE.h"
 #include "crypto/hashargon2d.h"
 #include <stdint.h>
 

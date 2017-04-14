@@ -70,29 +70,29 @@ BITCOIN_CORE_H = \
   version.h \
   walletdb.h \
   wallet.h \
-  sph_blake.h \
-  sph_blakefast.h \
-  sph_groestl.h \
-  sph_keccak.h \
-  sph_bmw.h \
-  sph_jh.h \
-  sph_skein.h \
-  sph_types.h \
-  sph_echo.h \
-  sph_luffa.h \
-  sph_simd.h \
-  sph_cubehash.h \
-  sph_shavite.h \
-  hashskein.h \
-  hashqubit.h \
-  hashX11.h \
-  hashblake.h \
-  yescrypt.h \
-  sysendian.h \
-  lyra2.h \
-  lyra2RE.h \
-  sponge.h \
-  sha256_Y.h \
+  crypto/sha3/sph_blake.h \
+  crypto/sha3/sph_blakefast.h \
+  crypto/sha3/sph_groestl.h \
+  crypto/sha3/sph_keccak.h \
+  crypto/sha3/sph_bmw.h \
+  crypto/sha3/sph_jh.h \
+  crypto/sha3/sph_skein.h \
+  crypto/sha3/sph_types.h \
+  crypto/sha3/sph_echo.h \
+  crypto/sha3/sph_luffa.h \
+  crypto/sha3/sph_simd.h \
+  crypto/sha3/sph_cubehash.h \
+  crypto/sha3/sph_shavite.h \
+  crypto/hashskein.h \
+  crypto/hashqubit.h \
+  crypto/hashX11.h \
+  crypto/hashblake.h \
+  crypto/yescrypt/yescrypt.h \
+  crypto/yescrypt/sysendian.h \
+  crypto/yescrypt/sha256_Y.h \
+  crypto/lyra2/lyra2.h \
+  crypto/lyra2/lyra2RE.h \
+  crypto/lyra2/sponge.h \
   crypto/hashargon2.h \
   crypto/argon2/argon2.h \
   crypto/argon2/blake2.h \
@@ -168,26 +168,26 @@ libbitcoin_common_a_SOURCES = \
   sync.cpp \
   util.cpp \
   version.cpp \
-  blake.c \
-  blakefast.c \
-  bmw.c \
-  groestl.c \
-  jh.c \
-  keccak.c \
-  skein.c \
-  aes_helper.c \
-  echo.c \
-  luffa.c \
-  simd.c \
-  cubehash.c \
-  shavite.c \
-  yescryptcommon.c \
-  yescrypt-best.c \
-  yescrypt-platform.c \
-  lyra2.c \
-  lyra2RE.c \
-  sponge.c \
-  sha256_Y.c \
+  crypto/sha3/blake.c \
+  crypto/sha3/blakefast.c \
+  crypto/sha3/bmw.c \
+  crypto/sha3/groestl.c \
+  crypto/sha3/jh.c \
+  crypto/sha3/keccak.c \
+  crypto/sha3/skein.c \
+  crypto/sha3/aes_helper.c \
+  crypto/sha3/echo.c \
+  crypto/sha3/luffa.c \
+  crypto/sha3/simd.c \
+  crypto/sha3/cubehash.c \
+  crypto/sha3/shavite.c \
+  crypto/yescrypt/yescryptcommon.c \
+  crypto/yescrypt/yescrypt-best.c \
+  crypto/yescrypt/yescrypt-platform.c \
+  crypto/yescrypt/sha256_Y.c \
+  crypto/lyra2/lyra2.c \
+  crypto/lyra2/lyra2RE.c \
+  crypto/lyra2/sponge.c \
   crypto/argon2/argon2.c \
   crypto/argon2/blake2b.c \
   crypto/argon2/core.c \
