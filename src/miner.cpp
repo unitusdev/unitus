@@ -11,6 +11,7 @@
 #include "auxpow.h"
 #ifdef ENABLE_WALLET
 #include "wallet.h"
+#include "crypto/yescrypt/yescrypt.h"
 #endif
 //////////////////////////////////////////////////////////////////////////////
 //
