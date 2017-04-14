@@ -307,7 +307,7 @@ std::string HelpMessage(HelpMessageMode hmm)
     strUsage += "  -blockminsize=<n>      " + _("Set minimum block size in bytes (default: 0)") + "\n";
     strUsage += "  -blockmaxsize=<n>      " + strprintf(_("Set maximum block size in bytes (default: %d)"), DEFAULT_BLOCK_MAX_SIZE) + "\n";
     strUsage += "  -blockprioritysize=<n> " + strprintf(_("Set maximum size of high-priority/low-fee transactions in bytes (default: %d)"), DEFAULT_BLOCK_PRIORITY_SIZE) + "\n";
-    strUsage += "  -algo=<algo>           " + _("Mining algorithm: blake, lyra2re2, skein, qubit, yescrypt, X11") + "\n";
+    strUsage += "  -algo=<algo>           " + _("Mining algorithm: argon2d, blake, lyra2re2, skein, qubit, yescrypt, X11") + "\n";
 
     strUsage += "\n" + _("RPC server options:") + "\n";
     strUsage += "  -server                " + _("Accept command line and JSON-RPC commands") + "\n";
@@ -524,7 +524,7 @@ bool AppInit2(boost::thread_group& threadGroup)
         miningAlgo = ALGO_SLOT1;
     else if (strAlgo == "skein" || strAlgo == "skeinsha2")
         miningAlgo = ALGO_SLOT2;
-    else if (strAlgo == "q2c" || strAlgo == "qubit")
+    else if (strAlgo == "q2c" || strAlgo == "qubit" || strAlgo == "argon2d" || strAlgo == "argon2" || strAlgo == "argon")
         miningAlgo = ALGO_SLOT3;
     else if (strAlgo == "yescrypt")
         miningAlgo = ALGO_SLOT4;
