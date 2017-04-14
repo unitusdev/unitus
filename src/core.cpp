@@ -7,6 +7,14 @@
 #include "auxpow.h"
 #include "main.h"
 
+#include "crypto/hashskein.h"
+#include "crypto/hashqubit.h"
+#include "crypto/hashblake.h"
+#include "crypto/hashX11.h"
+#include "crypto/yescrypt/yescrypt.h"
+#include "crypto/lyra2/lyra2RE.h"
+#include "crypto/hashargon2d.h"
+
 #include "util.h"
 
 std::string COutPoint::ToString() const
