@@ -21,7 +21,7 @@
 enum {
     ALGO_SLOT1 = 0,  // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
     ALGO_SLOT2 = 1,  // currently Skein
-    ALGO_SLOT3 = 2,  // currently currently Argon2d, was Qubit until nTimeArgon2dStart
+    ALGO_SLOT3 = 2,  // currently Argon2d, was Qubit until nTimeArgon2dStart
     ALGO_SLOT4 = 3,  // currently Yescrypt
     ALGO_SLOT5 = 4,  // currently X11
     NUM_ALGOS
@@ -43,11 +43,11 @@ enum
 
 // main net hard forks
 const int nTimeLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
-const int nTimeArgon2dStart = 1495670400; //1491004800; // block time where Qubit hash is replaced with Argon2d (Thursday, 25-May-17 00:00:00 UTC)
+const int nTimeArgon2dStart =  1495238400; // block time where Qubit hash is replaced with Argon2d (Sat, 20 May 2017 00:00:00 GMT)
 
 // test net hard forks
 const int nTimeTestLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
-const int nTimeTestArgon2dStart = 1491705000; //1491004800; // block time where Qubit hash is replaced with Argon2d (Thursday, 25-May-17 00:00:00 UTC)
+const int nTimeTestArgon2dStart  = 1491705000; // block time where Qubit hash is replaced with Argon2d (Sun, 09 Apr 2017 02:30:00 GMT)
 
 
 inline int GetAlgo(int nVersion)
