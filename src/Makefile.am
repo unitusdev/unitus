@@ -97,10 +97,10 @@ BITCOIN_CORE_H = \
   crypto/argon2/argon2.h \
   crypto/argon2/blake2.h \
   crypto/argon2/blake2-impl.h \
-  crypto/argon2/blamka-round-opt.h \
+  crypto/argon2/blamka-round-ref.h \
   crypto/argon2/core.h \
   crypto/argon2/encoding.h \
-  crypto/argon2/opt.h \
+  crypto/argon2/ref.h \
   crypto/argon2/thread.h 
 
 JSON_H = \
@@ -182,7 +182,7 @@ libbitcoin_common_a_SOURCES = \
   crypto/sha3/cubehash.c \
   crypto/sha3/shavite.c \
   crypto/yescrypt/yescryptcommon.c \
-  crypto/yescrypt/yescrypt-best.c \
+  crypto/yescrypt/yescrypt-opt.c \
   crypto/yescrypt/yescrypt-platform.c \
   crypto/yescrypt/sha256_Y.c \
   crypto/lyra2/lyra2.c \
@@ -192,7 +192,7 @@ libbitcoin_common_a_SOURCES = \
   crypto/argon2/blake2b.c \
   crypto/argon2/core.c \
   crypto/argon2/encoding.c \
-  crypto/argon2/opt.c \
+  crypto/argon2/ref.c \
   crypto/argon2/thread.c \
   $(BITCOIN_CORE_H)
 
