@@ -92,6 +92,9 @@
 /* Define to 1 if you have the `miniupnpc' library (-lminiupnpc). */
 #undef HAVE_LIBMINIUPNPC
 
+/* Define to 1 if you have the `mman' library (-lmman). */
+#undef HAVE_LIBMMAN
+
 /* Define to 1 if you have the `mswsock' library (-lmswsock). */
 #undef HAVE_LIBMSWSOCK
 
