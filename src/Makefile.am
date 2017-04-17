@@ -66,11 +66,11 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += bitcoind
+  bin_PROGRAMS += unitusd
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += bitcoin-cli bitcoin-tx
+  bin_PROGRAMS += unitus-cli unitus-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -78,6 +78,7 @@ endif
 BITCOIN_CORE_H = \
   addrdb.h \
   addrman.h \
+  auxpow.h \
   base58.h \
   bloom.h \
   blockencodings.h \
@@ -171,7 +172,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between bitcoind and bitcoin-qt
+# server: shared between unitusd and unitus-qt
 libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libbitcoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_server_a_SOURCES = \
@@ -222,7 +223,7 @@ libbitcoin_zmq_a_SOURCES = \
 endif
 
 
-# wallet: shared between bitcoind and bitcoin-qt, but only linked
+# wallet: shared between unitusd and unitus-qt, but only linked
 # when wallet enabled
 libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -254,8 +255,63 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sha256.cpp \
   crypto/sha256.h \
   crypto/sha512.cpp \
-  crypto/sha512.h
-
+  crypto/sha512.h \
+  crypto/hashargon2d.h \
+  crypto/hashblake.h \
+  crypto/hashqubit.h \
+  crypto/hashskein.h \
+  crypto/hashX11.h \
+  crypto/argon2/argon2.c \
+  crypto/argon2/argon2.h \
+  crypto/argon2/best.c \
+  crypto/argon2/blake2.h \
+  crypto/argon2/blake2b.c \
+  crypto/argon2/blake2-impl.h \
+  crypto/argon2/core.c \
+  crypto/argon2/core.h \
+  crypto/argon2/encoding.c \
+  crypto/argon2/encoding.h \
+  crypto/argon2/thread.c \
+  crypto/argon2/thread.h \
+  crypto/lyra2/lyra2.c \
+  crypto/lyra2/lyra2.h \
+  crypto/lyra2/lyra2RE.c \
+  crypto/lyra2/lyra2RE.h \
+  crypto/lyra2/sponge.c \
+  crypto/lyra2/sponge.h \
+  crypto/yescrypt/sha256_Y.c \
+  crypto/yescrypt/sha256_Y.h \
+  crypto/yescrypt/sysendian.h \
+  crypto/yescrypt/yescrypt.h \
+  crypto/yescrypt/yescrypt-best.c \
+  crypto/yescrypt/yescryptcommon.c \
+  crypto/sha3/sph_blake.h \
+  crypto/sha3/sph_blakefast.h \
+  crypto/sha3/sph_groestl.h \
+  crypto/sha3/sph_keccak.h \
+  crypto/sha3/sph_bmw.h \
+  crypto/sha3/sph_jh.h \
+  crypto/sha3/sph_skein.h \
+  crypto/sha3/sph_types.h \
+  crypto/sha3/sph_echo.h \
+  crypto/sha3/sph_luffa.h \
+  crypto/sha3/sph_simd.h \
+  crypto/sha3/sph_cubehash.h \
+  crypto/sha3/sph_shavite.h \
+  crypto/sha3/blake.c \
+  crypto/sha3/blakefast.c \
+  crypto/sha3/bmw.c \
+  crypto/sha3/groestl.c \
+  crypto/sha3/jh.c \
+  crypto/sha3/keccak.c \
+  crypto/sha3/skein.c \
+  crypto/sha3/aes_helper.c \
+  crypto/sha3/echo.c \
+  crypto/sha3/luffa.c \
+  crypto/sha3/simd.c \
+  crypto/sha3/cubehash.c \
+  crypto/sha3/shavite.c
+  
 # consensus: shared between all executables that validate any consensus rules.
 libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -291,7 +347,7 @@ libbitcoin_consensus_a_SOURCES = \
   utilstrencodings.h \
   version.h
 
-# common: shared between bitcoind, and bitcoin-qt and non-server tools
+# common: shared between unitusd, and unitus-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
@@ -340,7 +396,7 @@ if GLIBC_BACK_COMPAT
 libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
-# cli: shared between bitcoin-cli and bitcoin-qt
+# cli: shared between unitus-cli and unitus-qt
 libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
@@ -351,16 +407,16 @@ nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-bitcoind_SOURCES = bitcoind.cpp
-bitcoind_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-bitcoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+unitusd_SOURCES = bitcoind.cpp
+unitusd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+unitusd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+unitusd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-bitcoind_SOURCES += bitcoind-res.rc
+unitusd_SOURCES += bitcoind-res.rc
 endif
 
-bitcoind_LDADD = \
+unitusd_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBUNIVALUE) \
@@ -373,38 +429,38 @@ bitcoind_LDADD = \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-bitcoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
+unitusd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
 # bitcoin-cli binary #
-bitcoin_cli_SOURCES = bitcoin-cli.cpp
-bitcoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-bitcoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+unitus_cli_SOURCES = bitcoin-cli.cpp
+unitus_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+unitus_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+unitus_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-bitcoin_cli_SOURCES += bitcoin-cli-res.rc
+unitus_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-bitcoin_cli_LDADD = \
+unitus_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO)
 
-bitcoin_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
+unitus_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
 # bitcoin-tx binary #
-bitcoin_tx_SOURCES = bitcoin-tx.cpp
-bitcoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-bitcoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+unitus_tx_SOURCES = bitcoin-tx.cpp
+unitus_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+unitus_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+unitus_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-bitcoin_tx_SOURCES += bitcoin-tx-res.rc
+unitus_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-bitcoin_tx_LDADD = \
+unitus_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -412,7 +468,7 @@ bitcoin_tx_LDADD = \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-bitcoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+unitus_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # bitcoinconsensus library #

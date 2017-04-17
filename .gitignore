@@ -1,13 +1,13 @@
 *.tar.gz
 
 *.exe
-src/bitcoin
-src/bitcoind
-src/bitcoin-cli
-src/bitcoin-tx
-src/test/test_bitcoin
-src/test/test_bitcoin_fuzzy
-src/qt/test/test_bitcoin-qt
+src/unitus
+src/unitusd
+src/unitus-cli
+src/unitus-tx
+src/test/test_unitus
+src/test/test_unitus_fuzzy
+src/qt/test/test_unitus-qt
 
 # autoreconf
 Makefile.in
