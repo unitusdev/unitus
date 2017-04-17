@@ -1,9 +1,9 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2011-2016 The Bitcoin Core developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef RECENTREQUESTSTABLEMODEL_H
-#define RECENTREQUESTSTABLEMODEL_H
+#ifndef BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H
+#define BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H
 
 #include "walletmodel.h"
 
@@ -24,21 +24,20 @@ public:
     QDateTime date;
     SendCoinsRecipient recipient;
 
-    IMPLEMENT_SERIALIZE
-    (
-        RecentRequestEntry* pthis = const_cast<RecentRequestEntry*>(this);
+    ADD_SERIALIZE_METHODS;
 
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action) {
         unsigned int nDate = date.toTime_t();
 
-        READWRITE(pthis->nVersion);
-        nVersion = pthis->nVersion;
+        READWRITE(this->nVersion);
         READWRITE(id);
         READWRITE(nDate);
         READWRITE(recipient);
 
-        if (fRead)
-            pthis->date = QDateTime::fromTime_t(nDate);
-    )
+        if (ser_action.ForRead())
+            date = QDateTime::fromTime_t(nDate);
+    }
 };
 
 class RecentRequestEntryLessThan
@@ -89,14 +88,20 @@ public:
     void addNewRequest(const std::string &recipient);
     void addNewRequest(RecentRequestEntry &recipient);
 
-public slots:
+public Q_SLOTS:
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+    void updateDisplayUnit();
 
 private:
     WalletModel *walletModel;
     QStringList columns;
     QList<RecentRequestEntry> list;
     int64_t nReceiveRequestsMaxId;
+
+    /** Updates the column title to "Amount (DisplayUnit)" and emits headerDataChanged() signal for table headers to react. */
+    void updateAmountColumnTitle();
+    /** Gets title for amount column including current display unit if optionsModel reference available. */
+    QString getAmountTitle();
 };
 
-#endif
+#endif // BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H

@@ -1,5 +1,5 @@
-// Copyright (c) 2011-2013 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2011-2016 The Bitcoin Core developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "transactionfilterproxy.h"
@@ -22,6 +22,7 @@ TransactionFilterProxy::TransactionFilterProxy(QObject *parent) :
     dateTo(MAX_DATE),
     addrPrefix(),
     typeFilter(ALL_TYPES),
+    watchOnlyFilter(WatchOnlyFilter_All),
     minAmount(0),
     limitRows(-1),
     showInactive(true)
@@ -34,6 +35,7 @@ bool TransactionFilterProxy::filterAcceptsRow(int sourceRow, const QModelIndex &
 
     int type = index.data(TransactionTableModel::TypeRole).toInt();
     QDateTime datetime = index.data(TransactionTableModel::DateRole).toDateTime();
+    bool involvesWatchAddress = index.data(TransactionTableModel::WatchonlyRole).toBool();
     QString address = index.data(TransactionTableModel::AddressRole).toString();
     QString label = index.data(TransactionTableModel::LabelRole).toString();
     qint64 amount = llabs(index.data(TransactionTableModel::AmountRole).toLongLong());
@@ -42,6 +44,10 @@ bool TransactionFilterProxy::filterAcceptsRow(int sourceRow, const QModelIndex &
     if(!showInactive && status == TransactionStatus::Conflicted)
         return false;
     if(!(TYPE(type) & typeFilter))
+        return false;
+    if (involvesWatchAddress && watchOnlyFilter == WatchOnlyFilter_No)
+        return false;
+    if (!involvesWatchAddress && watchOnlyFilter == WatchOnlyFilter_Yes)
         return false;
     if(datetime < dateFrom || datetime > dateTo)
         return false;
@@ -60,9 +66,9 @@ void TransactionFilterProxy::setDateRange(const QDateTime &from, const QDateTime
     invalidateFilter();
 }
 
-void TransactionFilterProxy::setAddressPrefix(const QString &addrPrefix)
+void TransactionFilterProxy::setAddressPrefix(const QString &_addrPrefix)
 {
-    this->addrPrefix = addrPrefix;
+    this->addrPrefix = _addrPrefix;
     invalidateFilter();
 }
 
@@ -72,9 +78,15 @@ void TransactionFilterProxy::setTypeFilter(quint32 modes)
     invalidateFilter();
 }
 
-void TransactionFilterProxy::setMinAmount(qint64 minimum)
+void TransactionFilterProxy::setMinAmount(const CAmount& minimum)
 {
     this->minAmount = minimum;
+    invalidateFilter();
+}
+
+void TransactionFilterProxy::setWatchOnlyFilter(WatchOnlyFilter filter)
+{
+    this->watchOnlyFilter = filter;
     invalidateFilter();
 }
 
@@ -83,9 +95,9 @@ void TransactionFilterProxy::setLimit(int limit)
     this->limitRows = limit;
 }
 
-void TransactionFilterProxy::setShowInactive(bool showInactive)
+void TransactionFilterProxy::setShowInactive(bool _showInactive)
 {
-    this->showInactive = showInactive;
+    this->showInactive = _showInactive;
     invalidateFilter();
 }
 

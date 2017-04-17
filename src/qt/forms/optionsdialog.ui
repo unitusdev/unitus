@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>560</width>
-    <height>400</height>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,10 +30,10 @@
        <item>
         <widget class="QCheckBox" name="bitcoinAtStartup">
          <property name="toolTip">
-          <string>Automatically start Unitus after logging in to the system.</string>
+          <string>Automatically start %1 after logging in to the system.</string>
          </property>
          <property name="text">
-          <string>&amp;Start Unitus on system login</string>
+          <string>&amp;Start %1 on system login</string>
          </property>
         </widget>
        </item>
@@ -138,65 +138,6 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_Wallet">
        <item>
-        <widget class="QLabel" name="transactionFeeInfoLabel">
-         <property name="text">
-          <string>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_1_Wallet">
-         <item>
-          <widget class="QLabel" name="transactionFeeLabel">
-           <property name="text">
-            <string>Pay transaction &amp;fee</string>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::PlainText</enum>
-           </property>
-           <property name="buddy">
-            <cstring>transactionFee</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="BitcoinAmountField" name="transactionFee"/>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_1_Wallet">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_Wallet">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
           <string>Expert</string>
@@ -225,6 +166,19 @@
          </layout>
         </widget>
        </item>
+       <item>
+        <spacer name="verticalSpacer_Wallet">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tabNetwork">
@@ -235,7 +189,7 @@
        <item>
         <widget class="QCheckBox" name="mapPortUpnp">
          <property name="toolTip">
-          <string>Automatically open the Unitus client port on the router. This only works when your router supports UPnP and it is enabled.</string>
+          <string>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</string>
          </property>
          <property name="text">
           <string>Map port using &amp;UPnP</string>
@@ -243,12 +197,22 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="connectSocks">
+        <widget class="QCheckBox" name="allowIncoming">
          <property name="toolTip">
-          <string>Connect to the Unitus network through a SOCKS proxy.</string>
+          <string>Accept connections from outside</string>
          </property>
          <property name="text">
-          <string>&amp;Connect through SOCKS proxy (default proxy):</string>
+          <string>Allow incoming connections</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="connectSocks">
+         <property name="toolTip">
+          <string>Connect to the Bitcoin network through a SOCKS5 proxy.</string>
+         </property>
+         <property name="text">
+          <string>&amp;Connect through SOCKS5 proxy (default proxy):</string>
          </property>
         </widget>
        </item>
@@ -319,27 +283,194 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="socksVersionLabel">
+          <spacer name="horizontalSpacer_1_Network">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2_Network">
+         <item>
+          <widget class="QLabel" name="proxyActiveNets">
            <property name="text">
-            <string>SOCKS &amp;Version:</string>
+            <string>Used for reaching peers via:</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="proxyReachIPv4">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="proxyReachIPv4Label">
+           <property name="text">
+            <string>IPv4</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="proxyReachIPv6">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="proxyReachIPv6Label">
+           <property name="text">
+            <string>IPv6</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="proxyReachTor">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Shows, if the supplied default SOCKS5 proxy is used to reach peers via this network type.</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="proxyReachTorLabel">
+           <property name="text">
+            <string>Tor</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2_Network">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="connectSocksTor">
+         <property name="toolTip">
+          <string>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor hidden services.</string>
+         </property>
+         <property name="text">
+          <string>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3_Network">
+         <item>
+          <widget class="QLabel" name="proxyIpTorLabel">
+           <property name="text">
+            <string>Proxy &amp;IP:</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
            </property>
            <property name="buddy">
-            <cstring>socksVersion</cstring>
+            <cstring>proxyIpTor</cstring>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QValueComboBox" name="socksVersion">
+          <widget class="QValidatedLineEdit" name="proxyIpTor">
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>140</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="toolTip">
-            <string>SOCKS version of the proxy (e.g. 5)</string>
+            <string>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_1_Network">
+          <widget class="QLabel" name="proxyPortTorLabel">
+           <property name="text">
+            <string>&amp;Port:</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::PlainText</enum>
+           </property>
+           <property name="buddy">
+            <cstring>proxyPortTor</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="proxyPortTor">
+           <property name="minimumSize">
+            <size>
+             <width>55</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>55</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Port of the proxy (e.g. 9050)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4_Network">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -374,6 +505,16 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_Window">
        <item>
+        <widget class="QCheckBox" name="hideTrayIcon">
+         <property name="toolTip">
+          <string>&amp;Hide the icon from the system tray.</string>
+         </property>
+         <property name="text">
+          <string>Hide tray icon</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="minimizeToTray">
          <property name="toolTip">
           <string>Show only a tray icon after minimizing the window.</string>
@@ -386,7 +527,7 @@
        <item>
         <widget class="QCheckBox" name="minimizeOnClose">
          <property name="toolTip">
-          <string>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</string>
+          <string>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Exit in the menu.</string>
          </property>
          <property name="text">
           <string>M&amp;inimize on close</string>
@@ -431,7 +572,7 @@
          <item>
           <widget class="QValueComboBox" name="lang">
            <property name="toolTip">
-            <string>The user interface language can be set here. This setting will take effect after restarting Unitus.</string>
+            <string>The user interface language can be set here. This setting will take effect after restarting %1.</string>
            </property>
           </widget>
          </item>
@@ -460,16 +601,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="displayAddresses">
-         <property name="toolTip">
-          <string>Whether to show Unitus addresses in the transaction list or not.</string>
-         </property>
-         <property name="text">
-          <string>&amp;Display addresses in transaction list</string>
-         </property>
-        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3_Display">
@@ -629,6 +760,12 @@
        <property name="text">
         <string>&amp;OK</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -646,12 +783,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>BitcoinAmountField</class>
-   <extends>QLineEdit</extends>
-   <header>bitcoinamountfield.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>QValidatedLineEdit</class>
    <extends>QLineEdit</extends>

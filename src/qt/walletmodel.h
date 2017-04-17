@@ -1,14 +1,14 @@
-// Copyright (c) 2011-2014 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2011-2016 The Bitcoin Core developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef WALLETMODEL_H
-#define WALLETMODEL_H
+#ifndef BITCOIN_QT_WALLETMODEL_H
+#define BITCOIN_QT_WALLETMODEL_H
 
 #include "paymentrequestplus.h"
 #include "walletmodeltransaction.h"
 
-#include "allocators.h" /* for SecureString */
+#include "support/allocators/secure.h"
 
 #include <map>
 #include <vector>
@@ -17,6 +17,7 @@
 
 class AddressTableModel;
 class OptionsModel;
+class PlatformStyle;
 class RecentRequestsTableModel;
 class TransactionTableModel;
 class WalletModelTransaction;
@@ -36,18 +37,18 @@ QT_END_NAMESPACE
 class SendCoinsRecipient
 {
 public:
-    explicit SendCoinsRecipient() : amount(0), nVersion(SendCoinsRecipient::CURRENT_VERSION) { }
-    explicit SendCoinsRecipient(const QString &addr, const QString &label, quint64 amount, const QString &message):
-        address(addr), label(label), amount(amount), message(message), nVersion(SendCoinsRecipient::CURRENT_VERSION) {}
+    explicit SendCoinsRecipient() : amount(0), fSubtractFeeFromAmount(false), nVersion(SendCoinsRecipient::CURRENT_VERSION) { }
+    explicit SendCoinsRecipient(const QString &addr, const QString &_label, const CAmount& _amount, const QString &_message):
+        address(addr), label(_label), amount(_amount), message(_message), fSubtractFeeFromAmount(false), nVersion(SendCoinsRecipient::CURRENT_VERSION) {}
 
-    // If from an insecure payment request, this is used for storing
+    // If from an unauthenticated payment request, this is used for storing
     // the addresses, e.g. address-A<br />address-B<br />address-C.
     // Info: As we don't need to process addresses in here when using
     // payment requests, we can abuse it for displaying an address list.
     // Todo: This is a hack, should be replaced with a cleaner solution!
     QString address;
     QString label;
-    qint64 amount;
+    CAmount amount;
     // If from a payment request, this is used for storing the memo
     QString message;
 
@@ -56,23 +57,24 @@ public:
     // Empty if no authentication or invalid signature/cert/etc.
     QString authenticatedMerchant;
 
+    bool fSubtractFeeFromAmount; // memory only
+
     static const int CURRENT_VERSION = 1;
     int nVersion;
 
-    IMPLEMENT_SERIALIZE
-    (
-        SendCoinsRecipient* pthis = const_cast<SendCoinsRecipient*>(this);
+    ADD_SERIALIZE_METHODS;
 
-        std::string sAddress = pthis->address.toStdString();
-        std::string sLabel = pthis->label.toStdString();
-        std::string sMessage = pthis->message.toStdString();
+    template <typename Stream, typename Operation>
+    inline void SerializationOp(Stream& s, Operation ser_action) {
+        std::string sAddress = address.toStdString();
+        std::string sLabel = label.toStdString();
+        std::string sMessage = message.toStdString();
         std::string sPaymentRequest;
-        if (!fRead && pthis->paymentRequest.IsInitialized())
-            pthis->paymentRequest.SerializeToString(&sPaymentRequest);
-        std::string sAuthenticatedMerchant = pthis->authenticatedMerchant.toStdString();
+        if (!ser_action.ForRead() && paymentRequest.IsInitialized())
+            paymentRequest.SerializeToString(&sPaymentRequest);
+        std::string sAuthenticatedMerchant = authenticatedMerchant.toStdString();
 
-        READWRITE(pthis->nVersion);
-        nVersion = pthis->nVersion;
+        READWRITE(this->nVersion);
         READWRITE(sAddress);
         READWRITE(sLabel);
         READWRITE(amount);
@@ -80,16 +82,16 @@ public:
         READWRITE(sPaymentRequest);
         READWRITE(sAuthenticatedMerchant);
 
-        if (fRead)
+        if (ser_action.ForRead())
         {
-            pthis->address = QString::fromStdString(sAddress);
-            pthis->label = QString::fromStdString(sLabel);
-            pthis->message = QString::fromStdString(sMessage);
+            address = QString::fromStdString(sAddress);
+            label = QString::fromStdString(sLabel);
+            message = QString::fromStdString(sMessage);
             if (!sPaymentRequest.empty())
-                pthis->paymentRequest.parse(QByteArray::fromRawData(sPaymentRequest.data(), sPaymentRequest.size()));
-            pthis->authenticatedMerchant = QString::fromStdString(sAuthenticatedMerchant);
+                paymentRequest.parse(QByteArray::fromRawData(sPaymentRequest.data(), sPaymentRequest.size()));
+            authenticatedMerchant = QString::fromStdString(sAuthenticatedMerchant);
         }
-    )
+    }
 };
 
 /** Interface to Bitcoin wallet from Qt view code. */
@@ -98,7 +100,7 @@ class WalletModel : public QObject
     Q_OBJECT
 
 public:
-    explicit WalletModel(CWallet *wallet, OptionsModel *optionsModel, QObject *parent = 0);
+    explicit WalletModel(const PlatformStyle *platformStyle, CWallet *wallet, OptionsModel *optionsModel, QObject *parent = 0);
     ~WalletModel();
 
     enum StatusCode // Returned by sendCoins
@@ -110,7 +112,9 @@ public:
         AmountWithFeeExceedsBalance,
         DuplicateAddress,
         TransactionCreationFailed, // Error returned when wallet is still locked
-        TransactionCommitFailed
+        TransactionCommitFailed,
+        AbsurdFee,
+        PaymentRequestExpired
     };
 
     enum EncryptionStatus
@@ -125,10 +129,13 @@ public:
     TransactionTableModel *getTransactionTableModel();
     RecentRequestsTableModel *getRecentRequestsTableModel();
 
-    qint64 getBalance(const CCoinControl *coinControl = NULL) const;
-    qint64 getUnconfirmedBalance() const;
-    qint64 getImmatureBalance() const;
-    int getNumTransactions() const;
+    CAmount getBalance(const CCoinControl *coinControl = NULL) const;
+    CAmount getUnconfirmedBalance() const;
+    CAmount getImmatureBalance() const;
+    bool haveWatchOnly() const;
+    CAmount getWatchBalance() const;
+    CAmount getWatchUnconfirmedBalance() const;
+    CAmount getWatchImmatureBalance() const;
     EncryptionStatus getEncryptionStatus() const;
 
     // Check address for validity
@@ -137,9 +144,13 @@ public:
     // Return status record for SendCoins, contains error id + information
     struct SendCoinsReturn
     {
-        SendCoinsReturn(StatusCode status = OK):
-            status(status) {}
+        SendCoinsReturn(StatusCode _status = OK, QString _reasonCommitFailed = "")
+            : status(_status),
+              reasonCommitFailed(_reasonCommitFailed)
+        {
+        }
         StatusCode status;
+        QString reasonCommitFailed;
     };
 
     // prepare transaction for getting txfee before sending coins
@@ -179,6 +190,8 @@ public:
     UnlockContext requestUnlock();
 
     bool getPubKey(const CKeyID &address, CPubKey& vchPubKeyOut) const;
+    bool havePrivKey(const CKeyID &address) const;
+    bool getPrivKey(const CKeyID &address, CKey& vchPrivKeyOut) const;
     void getOutputs(const std::vector<COutPoint>& vOutpoints, std::vector<COutput>& vOutputs);
     bool isSpent(const COutPoint& outpoint) const;
     void listCoins(std::map<QString, std::vector<COutput> >& mapCoins) const;
@@ -191,8 +204,19 @@ public:
     void loadReceiveRequests(std::vector<std::string>& vReceiveRequests);
     bool saveReceiveRequest(const std::string &sAddress, const int64_t nId, const std::string &sRequest);
 
+    bool transactionCanBeAbandoned(uint256 hash) const;
+    bool abandonTransaction(uint256 hash) const;
+
+    static bool isWalletEnabled();
+
+    bool hdEnabled() const;
+
+    int getDefaultConfirmTarget() const;
+
 private:
     CWallet *wallet;
+    bool fHaveWatchOnly;
+    bool fForceCheckBalanceChanged;
 
     // Wallet has an options model for wallet-specific options
     // (transaction fee, for example)
@@ -203,10 +227,12 @@ private:
     RecentRequestsTableModel *recentRequestsTableModel;
 
     // Cache some values to be able to detect changes
-    qint64 cachedBalance;
-    qint64 cachedUnconfirmedBalance;
-    qint64 cachedImmatureBalance;
-    qint64 cachedNumTransactions;
+    CAmount cachedBalance;
+    CAmount cachedUnconfirmedBalance;
+    CAmount cachedImmatureBalance;
+    CAmount cachedWatchOnlyBalance;
+    CAmount cachedWatchUnconfBalance;
+    CAmount cachedWatchImmatureBalance;
     EncryptionStatus cachedEncryptionStatus;
     int cachedNumBlocks;
 
@@ -216,12 +242,10 @@ private:
     void unsubscribeFromCoreSignals();
     void checkBalanceChanged();
 
-signals:
+Q_SIGNALS:
     // Signal that balance in wallet changed
-    void balanceChanged(qint64 balance, qint64 unconfirmedBalance, qint64 immatureBalance);
-
-    // Number of transactions in wallet changed
-    void numTransactionsChanged(int count);
+    void balanceChanged(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
+                        const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
 
     // Encryption status of wallet changed
     void encryptionStatusChanged(int status);
@@ -240,15 +264,20 @@ signals:
     // Show progress dialog e.g. for rescan
     void showProgress(const QString &title, int nProgress);
 
-public slots:
+    // Watch-only address added
+    void notifyWatchonlyChanged(bool fHaveWatchonly);
+
+public Q_SLOTS:
     /* Wallet status might have changed */
     void updateStatus();
     /* New transaction, or transaction changed status */
-    void updateTransaction(const QString &hash, int status);
+    void updateTransaction();
     /* New, updated or removed address book entry */
     void updateAddressBook(const QString &address, const QString &label, bool isMine, const QString &purpose, int status);
+    /* Watch-only added */
+    void updateWatchOnlyFlag(bool fHaveWatchonly);
     /* Current, immature or unconfirmed balance might have changed - emit 'balanceChanged' if so */
     void pollBalanceChanged();
 };
 
-#endif // WALLETMODEL_H
+#endif // BITCOIN_QT_WALLETMODEL_H
