@@ -280,6 +280,12 @@ public:
         return *phashBlock;
     }
 
+    uint256 GetBlockPoWHash() const
+    {
+        CBlockHeader block = GetBlockHeader();
+        return block.GetPoWHash();
+    }
+    
     int64_t GetBlockTime() const
     {
         return (int64_t)nTime;
