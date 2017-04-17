@@ -3,8 +3,6 @@
 // found in the LICENSE file. See the AUTHORS file for names of contributors.
 #if !defined(LEVELDB_PLATFORM_WINDOWS)
 
-#include <deque>
-#include <set>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -18,9 +16,8 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
-#if defined(LEVELDB_PLATFORM_ANDROID)
-#include <sys/stat.h>
-#endif
+#include <deque>
+#include <set>
 #include "leveldb/env.h"
 #include "leveldb/slice.h"
 #include "port/port.h"
@@ -296,7 +293,8 @@ class PosixEnv : public Env {
  public:
   PosixEnv();
   virtual ~PosixEnv() {
-    fprintf(stderr, "Destroying Env::Default()\n");
+    char msg[] = "Destroying Env::Default()\n";
+    fwrite(msg, 1, sizeof(msg), stderr);
     abort();
   }
 
@@ -344,6 +342,19 @@ class PosixEnv : public Env {
                                  WritableFile** result) {
     Status s;
     FILE* f = fopen(fname.c_str(), "w");
+    if (f == NULL) {
+      *result = NULL;
+      s = IOError(fname, errno);
+    } else {
+      *result = new PosixWritableFile(fname, f);
+    }
+    return s;
+  }
+
+  virtual Status NewAppendableFile(const std::string& fname,
+                                   WritableFile** result) {
+    Status s;
+    FILE* f = fopen(fname.c_str(), "a");
     if (f == NULL) {
       *result = NULL;
       s = IOError(fname, errno);
