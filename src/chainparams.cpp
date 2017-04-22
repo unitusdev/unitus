@@ -82,7 +82,11 @@ public:
         // consensus.powLimit[ALGO_SLOT4] = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         // consensus.powLimit[ALGO_SLOT5] = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        consensus.nPowTargetSpacing = 10 * 60;
+        // consensus.nPowTargetSpacing = 10 * 60;
+        
+        consensus.nPowTargetSpacing = 60; // 60 second block time
+        consensus.nPoWAveragingInterval = 10; // 10 block averaging interval
+        
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
@@ -200,7 +204,11 @@ public:
         // consensus.powLimit[ALGO_SLOT4] = uint256S("0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         // consensus.powLimit[ALGO_SLOT5] = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        consensus.nPowTargetSpacing = 10 * 60;
+        // consensus.nPowTargetSpacing = 10 * 60;
+        
+        consensus.nPowTargetSpacing = 60; // 60 second block time
+        consensus.nPoWAveragingInterval = 10; // 10 block averaging interval
+        
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
@@ -298,7 +306,13 @@ public:
         // consensus.powLimit[ALGO_SLOT4] = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         // consensus.powLimit[ALGO_SLOT5] = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-        consensus.nPowTargetSpacing = 10 * 60;
+        // consensus.nPowTargetSpacing = 10 * 60;
+        
+        consensus.nPowTargetSpacing = 60; // 60 second block time
+        consensus.nPoWAveragingInterval = 10; // 10 block averaging interval
+        consensus.nMaxAdjustDown = 4; // 4% adjustment downwards
+        consensus.nMaxAdjustUp = 4; // %4 adjustment upwards
+        
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
