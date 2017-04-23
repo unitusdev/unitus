@@ -85,8 +85,24 @@ static const int MAX_BLOCKS_IN_TRANSIT_PER_PEER = 16;
 /** Timeout in seconds during which a peer must stall block download progress before being disconnected. */
 static const unsigned int BLOCK_STALLING_TIMEOUT = 2;
 /** Number of headers sent in one getheaders result. We rely on the assumption that if a peer sends
- *  less than this number, we reached its tip. Changing this value is a protocol upgrade. */
+ *  less than this number, we reached its tip. Changing this value is a protocol upgrade.
+ *
+ *  With a protocol upgrade, we now enforce an additional restriction on the
+ *  total size of a "headers" message (see below).  The absolute limit
+ *  on the number of headers still applies as well, so that we do not get
+ *  overloaded both with small and large headers.
+ */
 static const unsigned int MAX_HEADERS_RESULTS = 2000;
+/** Maximum size of a "headers" message.  This is enforced starting with
+ *  SIZE_HEADERS_LIMIT_VERSION peers and prevents overloading if we have
+ *  very large headers (due to auxpow).
+ */
+static const unsigned int MAX_HEADERS_SIZE = (6 << 20); // 6 MiB
+/** Size of a headers message that is the threshold for assuming that the
+ *  peer has more headers (even if we have less than MAX_HEADERS_RESULTS).
+ *  This is used starting with SIZE_HEADERS_LIMIT_VERSION peers.
+ */
+static const unsigned int THRESHOLD_HEADERS_SIZE = (4 << 20); // 4 MiB
 /** Maximum depth of blocks we're willing to serve as compact blocks to peers
  *  when requested. For older blocks, a regular BLOCK response will be sent. */
 static const int MAX_CMPCTBLOCK_DEPTH = 5;
@@ -472,6 +488,7 @@ public:
 bool WriteBlockToDisk(const CBlock& block, CDiskBlockPos& pos, const CMessageHeader::MessageStartChars& messageStart);
 bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus::Params& consensusParams);
 bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams);
+bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, const Consensus::Params& consensusParams);
 
 /** Functions for validating blocks and updating the block tree */
 
@@ -511,6 +528,14 @@ void UpdateUncommittedBlockStructures(CBlock& block, const CBlockIndex* pindexPr
 
 /** Produce the necessary coinbase commitment for a block (modifies the hash, don't call for mined blocks). */
 std::vector<unsigned char> GenerateCoinbaseCommitment(CBlock& block, const CBlockIndex* pindexPrev, const Consensus::Params& consensusParams);
+
+/**
+ * Check proof-of-work of a block header, taking auxpow into account.
+ * @param block The block header.
+ * @param params Consensus parameters.
+ * @return True if the PoW is correct.
+ */
+bool CheckProofOfWork(const CBlockHeader& block, const Consensus::Params& params);
 
 /** RAII wrapper for VerifyDB: Verify consistency of the block and coin databases */
 class CVerifyDB {

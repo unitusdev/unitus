@@ -7,6 +7,7 @@
 #define BITCOIN_CHAIN_H
 
 #include "arith_uint256.h"
+#include "consensus/params.h"
 #include "primitives/block.h"
 #include "pow.h"
 #include "tinyformat.h"
@@ -262,27 +263,16 @@ public:
         return ret;
     }
 
-    CBlockHeader GetBlockHeader() const
-    {
-        CBlockHeader block;
-        block.nVersion       = nVersion;
-        if (pprev)
-            block.hashPrevBlock = pprev->GetBlockHash();
-        block.hashMerkleRoot = hashMerkleRoot;
-        block.nTime          = nTime;
-        block.nBits          = nBits;
-        block.nNonce         = nNonce;
-        return block;
-    }
+    CBlockHeader GetBlockHeader(const Consensus::Params& consensusParams) const;
 
     uint256 GetBlockHash() const
     {
         return *phashBlock;
     }
 
-    uint256 GetBlockPoWHash() const
+    uint256 GetBlockPoWHash(const Consensus::Params& consensusParams) const
     {
-        CBlockHeader block = GetBlockHeader();
+        CBlockHeader block = GetBlockHeader(consensusParams);
         return block.GetPoWHash();
     }
     
@@ -349,6 +339,13 @@ public:
     //! Efficiently find an ancestor of this block.
     CBlockIndex* GetAncestor(int height);
     const CBlockIndex* GetAncestor(int height) const;
+
+    /* Analyse the block version.  */
+    inline int GetBaseVersion() const
+    {
+        return CPureBlockHeader::GetBaseVersion(nVersion);
+    }
+
 };
 
 arith_uint256 GetBlockProof(const CBlockIndex& block);

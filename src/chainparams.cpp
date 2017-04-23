@@ -90,6 +90,7 @@ public:
         consensus.nStartAuxPow = 0;
         consensus.nAuxpowChainId = 0x55;
         consensus.fStrictChainId = false;
+        consensus.nLegacyBlocksBefore = -1;
         
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;

@@ -54,8 +54,14 @@ static const int FEELER_INTERVAL = 120;
 static const unsigned int MAX_INV_SZ = 50000;
 /** The maximum number of new addresses to accumulate before announcing. */
 static const unsigned int MAX_ADDR_TO_SEND = 1000;
-/** Maximum length of incoming protocol messages (no message over 4 MB is currently acceptable). */
-static const unsigned int MAX_PROTOCOL_MESSAGE_LENGTH = 4 * 1000 * 1000;
+/**
+ * Maximum length of incoming protocol messages (no message over 32 MiB is
+ * currently acceptable).  Bitcoin has 4 MiB here, but we need more space
+ * to allow for 2,000 block headers with auxpow.
+ */
+/* FIXME: Once the headers size limit is deployed sufficiently in the network,
+   we may want to lower this again if it seems useful.  */
+static const unsigned int MAX_PROTOCOL_MESSAGE_LENGTH = 32 * 1024 * 1024;
 /** Maximum length of strSubVer in `version` message */
 static const unsigned int MAX_SUBVERSION_LENGTH = 256;
 /** Maximum number of automatic outgoing nodes */
@@ -92,7 +98,7 @@ static const ServiceFlags REQUIRED_SERVICES = NODE_NETWORK;
 // NOTE: When adjusting this, update rpcnet:setban's help ("24h")
 static const unsigned int DEFAULT_MISBEHAVING_BANTIME = 60 * 60 * 24;  // Default 24-hour ban
 
-typedef int NodeId;
+typedef int64_t NodeId;
 
 struct AddedNodeInfo
 {
