@@ -506,8 +506,8 @@ std::string HelpMessage(HelpMessageMode mode)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/bitcoin/bitcoin>";
-    const std::string URL_WEBSITE = "<https://bitcoincore.org>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/unitusdev/unitus>";
+    const std::string URL_WEBSITE = "<https://unitus.online>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i"), 2009, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
@@ -788,7 +788,7 @@ void InitLogging()
     fLogIPs = GetBoolArg("-logips", DEFAULT_LOGIPS);
 
     LogPrintf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    LogPrintf("Bitcoin version %s\n", FormatFullVersion());
+    LogPrintf("Unitus version %s\n", FormatFullVersion());
 }
 
 namespace { // Variables internal to initialization process only

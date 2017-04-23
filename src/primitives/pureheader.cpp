@@ -7,6 +7,7 @@
 
 #include "hash.h"
 #include "crypto/hashskein.h"
+#include "crypto/hashblake.h"
 #include "utilstrencodings.h"
 
 uint256 CPureBlockHeader::GetHash() const
@@ -16,7 +17,8 @@ uint256 CPureBlockHeader::GetHash() const
 
 uint256 CPureBlockHeader::GetPoWHash() const
 {
-    return HashSkein(BEGIN(nVersion), END(nNonce));
+    //return HashSkein(BEGIN(nVersion), END(nNonce));
+    return HashBlake(BEGIN(nVersion), END(nNonce));
 }
 
 void CPureBlockHeader::SetBaseVersion(int32_t nBaseVersion, int32_t nChainId)
