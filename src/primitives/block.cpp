@@ -9,16 +9,18 @@
 #include "tinyformat.h"
 #include "utilstrencodings.h"
 #include "crypto/common.h"
-#include "crypto/hashskein.h"
 
-uint256 CBlockHeader::GetHash() const
+void CBlockHeader::SetAuxpow (CAuxPow* apow)
 {
-    return SerializeHash(*this);
-}
-
-uint256 CBlockHeader::GetPoWHash() const
-{
-    return HashSkein(BEGIN(nVersion), END(nNonce));
+    if (apow)
+    {
+        auxpow.reset(apow);
+        SetAuxpowVersion(true);
+    } else
+    {
+        auxpow.reset();
+        SetAuxpowVersion(false);
+    }
 }
 
 std::string CBlock::ToString() const

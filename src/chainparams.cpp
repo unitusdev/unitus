@@ -87,6 +87,10 @@ public:
         consensus.nPowTargetSpacing = 60; // 60 second block time
         consensus.nPoWAveragingInterval = 10; // 10 block averaging interval
         
+        consensus.nStartAuxPow = 0;
+        consensus.nAuxpowChainId = 0x55;
+        consensus.fStrictChainId = false;
+        
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
