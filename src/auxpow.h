@@ -178,6 +178,14 @@ public:
   {
     return parentBlock.GetHash ();
   }
+  
+  /** returns the true parent Proof-Of-Work hash, not just the SHA256d hash as getParentBlockHash does */
+  inline uint256
+  getParentBlockPoWHash (int algo, const Consensus::Params& consensusParams) const
+  {
+    return parentBlock.GetPoWHash (algo, consensusParams);
+  }
+  
 
   /**
    * Return parent block.  This is only used for the temporary parentblock

@@ -273,7 +273,13 @@ public:
     uint256 GetBlockPoWHash(const Consensus::Params& consensusParams) const
     {
         CBlockHeader block = GetBlockHeader(consensusParams);
-        return block.GetPoWHash();
+        int algo = block.GetAlgo();
+        return block.GetPoWHash(algo, consensusParams);
+    }
+    
+    int GetAlgo() const
+    {
+        return ::GetAlgo(nVersion);
     }
     
     int64_t GetBlockTime() const

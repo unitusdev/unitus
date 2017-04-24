@@ -8,6 +8,38 @@
 
 #include "serialize.h"
 #include "uint256.h"
+#include "consensus/params.h"
+
+/** Multi-Algo definitions used to encode algorithm in nVersion */
+
+enum {
+    ALGO_SLOT1 = 0,  // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
+    ALGO_SLOT2 = 1,  // currently Skein
+    ALGO_SLOT3 = 2,  // currently Argon2d, was Qubit until nTimeArgon2dStart
+    ALGO_SLOT4 = 3,  // currently Yescrypt
+    ALGO_SLOT5 = 4,  // currently X11
+    NUM_ALGOS
+};
+
+enum
+{
+    // primary version
+    BLOCK_VERSION_DEFAULT        = 2,
+
+    // algo
+    BLOCK_VERSION_ALGO      = (7 << 9), // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
+    BLOCK_VERSION_SLOT2     = (1 << 9), // currently Skein
+    BLOCK_VERSION_SLOT3     = (2 << 9), // currently Argon2d, was Qubit until nTimeArgon2dStart
+    BLOCK_VERSION_SLOT4     = (3 << 9), // currently Yescrypt
+    BLOCK_VERSION_SLOT5     = (4 << 9), // currently X11
+};
+
+/** extract algo from nVersion */
+int GetAlgo(int nVersion);
+
+/** return current algorithm name from nVersion and timestamp */
+
+std::string GetAlgoName(int Algo, int time, const Consensus::Params& consensusParams);
 
 /**
  * A block header without auxpow information.  This "intermediate step"
@@ -69,7 +101,7 @@ public:
 
     uint256 GetHash() const;
 
-    uint256 GetPoWHash() const;
+    uint256 GetPoWHash(int algo, const Consensus::Params& consensusParams) const;
     
     int64_t GetBlockTime() const
     {
@@ -151,6 +183,36 @@ public:
     inline bool IsLegacy() const
     {
         return nVersion == 1;
+    }
+    
+    /** Extract algo from blockheader */
+    inline int GetAlgo() const
+    {
+        return ::GetAlgo(nVersion);
+    }
+    
+    /** Encode the algorithm into nVersion */
+    inline void SetAlgo(int algo)
+    {
+        switch(algo)
+        {
+            case ALGO_SLOT1:
+                break;
+            case ALGO_SLOT2:
+                nVersion |= BLOCK_VERSION_SLOT2;
+                break;
+            case ALGO_SLOT3:
+                nVersion |= BLOCK_VERSION_SLOT3;
+                break;
+            case ALGO_SLOT4:
+                nVersion |= BLOCK_VERSION_SLOT4;
+                break;
+            case ALGO_SLOT5:
+                nVersion |= BLOCK_VERSION_SLOT5;
+                break;
+            default:
+                break;
+        }
     }
 };
 

@@ -112,7 +112,7 @@ public:
         return block;
     }
 
-    std::string ToString() const;
+    std::string ToString(const Consensus::Params& consensusParams) const;
 };
 
 /** Describes a place in the block chain to another node such that if the

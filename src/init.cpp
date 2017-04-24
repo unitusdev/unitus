@@ -25,6 +25,7 @@
 #include "net.h"
 #include "net_processing.h"
 #include "policy/policy.h"
+#include "primitives/pureheader.h"
 #include "rpc/server.h"
 #include "rpc/register.h"
 #include "script/standard.h"
@@ -1105,6 +1106,23 @@ bool AppInitParameterInteraction()
             }
         }
     }
+    
+    // determine algorithm to be used for any mining for this instance
+    std::string strAlgo = GetArg("-algo", "lyra2re2");
+    transform(strAlgo.begin(),strAlgo.end(),strAlgo.begin(),::tolower);
+    if (strAlgo == "blake" || strAlgo == "blake256" || strAlgo == "lyra2re2" || strAlgo == "lyra2re" || strAlgo == "lyra2" || strAlgo == "lyra")
+        miningAlgo = ALGO_SLOT1;
+    else if (strAlgo == "skein" || strAlgo == "skeinsha2")
+        miningAlgo = ALGO_SLOT2;
+    else if (strAlgo == "q2c" || strAlgo == "qubit" || strAlgo == "argon2d" || strAlgo == "argon2" || strAlgo == "argon")
+        miningAlgo = ALGO_SLOT3;
+    else if (strAlgo == "yescrypt")
+        miningAlgo = ALGO_SLOT4;
+    else if (strAlgo == "x11")
+        miningAlgo = ALGO_SLOT5;
+    else
+        miningAlgo = ALGO_SLOT1;
+    
     return true;
 }
 

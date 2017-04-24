@@ -1128,9 +1128,15 @@ bool CheckProofOfWork(const CBlockHeader& block, const Consensus::Params& params
         if (block.IsAuxpow())
             return error("%s : no auxpow on block with auxpow version",
                          __func__);
-
-        if (!CheckProofOfWork(block.GetPoWHash(), block.nBits, params))
-            return error("%s : non-AUX proof of work failed", __func__);
+        int algo = block.GetAlgo();
+        if (!CheckProofOfWork(block.GetPoWHash(algo, params), algo, block.nBits, params))
+            return error("%s : non-AUX proof of work failed, hash=%s, algo=%d, nVersion=%d, PoWHash=%s",
+            __func__,
+            block.GetHash().ToString(),
+            algo,
+            block.nVersion,
+            block.GetPoWHash(algo, params).ToString()
+            );
 
         return true;
     }
@@ -1148,7 +1154,8 @@ bool CheckProofOfWork(const CBlockHeader& block, const Consensus::Params& params
 
     if (!block.auxpow->check(block.GetHash(), block.GetChainId(), params))
         return error("%s : AUX POW is not valid", __func__);
-    if (!CheckProofOfWork(block.auxpow->getParentBlockHash(), block.nBits, params))
+    int algo = block.GetAlgo();
+    if (!CheckProofOfWork(block.auxpow->getParentBlockPoWHash(algo, params), algo, block.nBits, params))
         return error("%s : AUX proof of work failed", __func__);
 
     return true;
@@ -3047,7 +3054,8 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
                          REJECT_INVALID, "late-legacy-block");
 
     // Check proof of work
-    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
+    int algo = block.GetAlgo();
+    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, algo, consensusParams))
         return state.DoS(100, false, REJECT_INVALID, "bad-diffbits", false, "incorrect proof of work");
 
     // Check timestamp against prev
