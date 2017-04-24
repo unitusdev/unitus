@@ -50,6 +50,18 @@
     return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 } */
 
+const CBlockIndex* GetLastBlockIndexForAlgo(const CBlockIndex* pindex, int algo)
+{
+    for (;;)
+    {
+        if (!pindex)
+            return NULL;
+        if (pindex->GetAlgo() == algo)
+            return pindex;
+        pindex = pindex->pprev;
+    }
+}
+
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo, const Consensus::Params& params)
 {
     const arith_uint256 nProofOfWorkLimit = UintToArith256(params.powLimit[algo]);
@@ -58,32 +70,86 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (pindexLast == NULL)
         return nProofOfWorkLimit.GetCompact();
 
-    const CBlockIndex* pindexFirst = pindexLast;
+    // find previous block with same algo
+    const CBlockIndex* pindexPrev = GetLastBlockIndexForAlgo(pindexLast, algo);
+    if (pindexPrev == NULL)
+        return nProofOfWorkLimit.GetCompact();
     
-    int64_t nMinActualTimespan = params.nPoWAveragingTargetTimespan() * (100 - params.nMaxAdjustUp) / 100;
-    int64_t nMaxActualTimespan = params.nPoWAveragingTargetTimespan() * (100 - params.nMaxAdjustDown) / 100;
-    
+    const CBlockIndex* pindexFirst = pindexPrev;
+   
     // Go back by what we want to be nAveragingInterval blocks
     for (int i = 0; pindexFirst && i < params.nPoWAveragingInterval - 1; i++)
     {
         pindexFirst = pindexFirst->pprev;
+        pindexFirst = GetLastBlockIndexForAlgo(pindexFirst, algo);
         if (pindexFirst == NULL)
             return nProofOfWorkLimit.GetCompact();
     }
+
+    const CBlockIndex* pindexFirstPrev;
+    for ( ;; )
+    {
+        // check blocks before first block for time warp
+        pindexFirstPrev = pindexFirst->pprev;
+        if (pindexFirstPrev == NULL)
+            return nProofOfWorkLimit.GetCompact();
+        pindexFirstPrev = GetLastBlockIndexForAlgo(pindexFirstPrev, algo);
+        if (pindexFirstPrev == NULL)
+            return nProofOfWorkLimit.GetCompact();
+        // take previous block if block times are out of order
+        if (pindexFirstPrev->GetBlockTime() > pindexFirst->GetBlockTime())
+        {
+            if (fDebug)
+            {
+                LogPrintf("GetNextWorkRequired(Algo=%d): First blocks out of order times, swapping:   %d   %d\n", algo, pindexFirstPrev->GetBlockTime(), pindexFirst->GetBlockTime());
+            }
+            pindexFirst = pindexFirstPrev;
+        }
+        else
+            break;
+    }
     
-    int64_t nActualTimespan = pindexLast->GetMedianTimePast() - pindexFirst->GetMedianTimePast();
+    // change of algo from Qubit to Argon2d
+    // because the difficulty of Qubit will be much higher than Argon2d on change, we will return the proof-of-work limit
+    // once the changeover occurs, then start adjusting once nAveragingInterval blocks have occured. Will result in a short
+    // insta-mine, but difficulty changes will quickly take care of this.
     
-    LogPrintf("  nActualTimespan = %d before bounds   %d   %d\n", nActualTimespan, pindexLast->GetBlockTime(), pindexFirst->GetBlockTime());
+    if(pindexLast->GetBlockTime() >= params.nTimeArgon2dStart && pindexFirst->GetBlockTime() < params.nTimeArgon2dStart && algo == ALGO_SLOT3)
+    {
+        LogPrintf("GetNextWorkRequired(Algo=%d): nTimeArgon2dStart has been passed, but insufficient blocks to calculate new target. Returning nProofOfWorkLimit\n", algo);
+        return nProofOfWorkLimit.GetCompact();
+    }
+    
+    int64_t nMinActualTimespan;
+    int64_t nMaxActualTimespan;
+    
+    if(pindexLast->nHeight < 1999)
+    {
+        // Unitus intial mining phase, allow up to 20% difficulty change per block
+        nMinActualTimespan = params.nPoWAveragingTargetTimespan() * (100 - 20) / 100;
+        nMaxActualTimespan = params.nPoWAveragingTargetTimespan() * (100 + 20) / 100;
+    }
+    else
+    {
+        nMinActualTimespan = params.nPoWAveragingTargetTimespan() * (100 - params.nMaxAdjustUp) / 100;
+        nMaxActualTimespan = params.nPoWAveragingTargetTimespan() * (100 + params.nMaxAdjustDown) / 100;
+    }
+    
+    // Limit adjustment step
+    int64_t nActualTimespan = pindexPrev->GetBlockTime() - pindexFirst->GetBlockTime();
+    
+    LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d before bounds   %d   %d\n", algo, nActualTimespan, pindexLast->GetBlockTime(), pindexFirst->GetBlockTime());
     
     if (nActualTimespan < nMinActualTimespan)
         nActualTimespan = nMinActualTimespan;
     if (nActualTimespan > nMaxActualTimespan)
         nActualTimespan = nMaxActualTimespan;
     
-    LogPrintf("  nActualTimespan = %d after bounds   %d   %d\n", nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
+    LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d after bounds   %d   %d\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
     
+    // Retarget
     arith_uint256 bnNew;
-    bnNew.SetCompact(pindexLast->nBits);
+    bnNew.SetCompact(pindexPrev->nBits);
     arith_uint256 bnOld;
     bnOld = bnNew;
     
@@ -92,10 +158,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if(bnNew > nProofOfWorkLimit)
         bnNew = nProofOfWorkLimit;
     
-    LogPrintf("GetNextWorkRequired RETARGET\n");
-    LogPrintf("nTargetTimespan = %d    nActualTimespan = %d\n", params.nPoWAveragingTargetTimespan(), nActualTimespan);
-    LogPrintf("Before: %08x  %s\n", pindexLast->nBits, bnOld.ToString());
-    LogPrintf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
+    LogPrintf("GetNextWorkRequired(Algo=%d) RETARGET\n", algo);
+    LogPrintf("GetNextWorkRequired(Algo=%d): nTargetTimespan = %d    nActualTimespan = %d\n", algo, params.nPoWAveragingTargetTimespan(), nActualTimespan);
+    LogPrintf("GetNextWorkRequired(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, bnOld.ToString());
+    LogPrintf("GetNextWorkRequired(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.ToString());
     
     return bnNew.GetCompact();
 }

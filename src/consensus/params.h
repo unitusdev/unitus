@@ -10,6 +10,8 @@
 #include <map>
 #include <string>
 
+const int algoCount = 5;
+
 namespace Consensus {
 
 enum DeploymentPos
@@ -55,14 +57,15 @@ struct Params {
     uint32_t nMinerConfirmationWindow;
     BIP9Deployment vDeployments[MAX_VERSION_BITS_DEPLOYMENTS];
     /** Proof of work parameters */
-    uint256 powLimit[5];
+    uint256 powLimit[algoCount];
     bool fPowAllowMinDifficultyBlocks;
     bool fPowNoRetargeting;
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
     int64_t nPoWAveragingInterval;
-    int64_t nPoWAveragingTargetTimespan() const { return nPoWAveragingInterval * nPowTargetSpacing; }
+    int64_t nPoWAveragingTargetTimespan() const { return nPoWAveragingInterval * nPowTargetSpacing * algoCount; }
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
+    
     int64_t nMaxAdjustDown;
     int64_t nMaxAdjustUp;
     
