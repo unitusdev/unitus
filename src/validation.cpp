@@ -1238,14 +1238,19 @@ bool ReadBlockHeaderFromDisk(CBlockHeader& block, const CBlockIndex* pindex, con
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
-    // Force block reward to zero when right shift is undefined.
-    if (halvings >= 64)
-        return 0;
+    // initial mining phase, first 1999 blocks, reward grows from 1 to 64 COIN.
+    // after that, reward decays by 1% (compound) every 10080 blocks (7 days) over next 3.9 million blocks 
+    // after that point reward is 2 COIN forever after.
 
-    CAmount nSubsidy = 50 * COIN;
-    // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
-    nSubsidy >>= halvings;
+    int64_t nSubsidy = 0;
+
+    if(nHeight<1999)
+        nSubsidy = (1 * COIN) << (nHeight + 1)/300;
+    else if(nHeight<3933199)
+        nSubsidy = 100 * pow(double(0.99), (nHeight-1999)/10080) * COIN;
+    else
+        nSubsidy = 2 * COIN;
+
     return nSubsidy;
 }
 
