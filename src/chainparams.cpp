@@ -83,16 +83,20 @@ public:
         consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
         // consensus.nPowTargetSpacing = 10 * 60;
         
-        consensus.nPowTargetSpacing = 60; // 60 second block time
-        consensus.nPoWAveragingInterval = 10; // 10 block averaging interval
-        
+        consensus.nPowTargetSpacing = 60;                 // 60 second block time
+        consensus.nPoWAveragingInterval = 10;             // 10 block averaging interval
+        consensus.nBlockSequentialAlgoMaxCountV1 = 3;     // maximum sequential blocks of same algo V1
+        consensus.nBlockSequentialAlgoMaxCountV2 = 5;     // maximum sequential blocks of same algo V2
         consensus.nStartAuxPow = 0;
         consensus.nAuxpowChainId = 0x55;
         consensus.fStrictChainId = false;
         consensus.nLegacyBlocksBefore = -1;
         
-        consensus.nTimeLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
-        consensus.nTimeArgon2dStart = 1495238400; // block time where Qubit hash is replaced with Argon2d (Sat, 20 May 2017 00:00:00 GMT)
+        consensus.nTimeLyra2RE2Start = 1456099764;                  // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
+        consensus.nTimeArgon2dStart = 1495238400;                   // block time where Qubit hash is replaced with Argon2d (Sat, 20 May 2017 00:00:00 GMT)
+        consensus.nBlockAlgoNormalisedWorkDecayV2Start = 25300;     // block where weight decay v2 starts
+        consensus.nGeometricAverageWork_Start = 450000;           // block where geometric average work calculation kicks in
+        consensus.nBlockSequentialAlgoRule2Start = 456000;           // block where sequential algo rule V2 starts
         
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
@@ -222,6 +226,9 @@ public:
         
         consensus.nTimeLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
         consensus.nTimeArgon2dStart = 1491705000; // block time where Qubit hash is replaced with Argon2d (Sun, 09 Apr 2017 02:30:00 GMT)
+        consensus.nBlockAlgoNormalisedWorkDecayV2Start = 40;     // block where weight decay v2 starts
+        consensus.nGeometricAverageWork_Start = 60;           // block where geometric average work calculation kicks in
+        consensus.nBlockSequentialAlgoRule2Start = 70;           // block where sequential algo rule V2 starts
         
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;

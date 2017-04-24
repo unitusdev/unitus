@@ -4,8 +4,9 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "chain.h"
-
+#include "chainparams.h"
 #include "validation.h"
+#include "bignum.h"
 
 /* Moved here from the header, because we need auxpow and the logic
    becomes more involved.  */
@@ -145,7 +146,7 @@ void CBlockIndex::BuildSkip()
         pskip = pprev->GetAncestor(GetSkipHeight(nHeight));
 }
 
-arith_uint256 GetBlockProof(const CBlockIndex& block)
+arith_uint256 GetBlockProofBase(const CBlockIndex& block)
 {
     arith_uint256 bnTarget;
     bool fNegative;
@@ -158,6 +159,156 @@ arith_uint256 GetBlockProof(const CBlockIndex& block)
     // as bnTarget+1, it is equal to ((2**256 - bnTarget - 1) / (bnTarget+1)) + 1,
     // or ~bnTarget / (nTarget+1) + 1.
     return (~bnTarget / (bnTarget + 1)) + 1;
+}
+
+arith_uint256 GetPrevWorkForAlgo(const CBlockIndex& block, int algo)
+{
+    const CBlockIndex* pindex = &block;
+    while (pindex != NULL)
+    {
+        if (pindex->GetAlgo() == algo)
+        {
+            return GetBlockProofBase(*pindex);
+        }
+        pindex = pindex->pprev;
+    }
+    return UintToArith256(Params().GetConsensus().powLimit[algo]);
+}
+
+arith_uint256 GetPrevWorkForAlgoWithDecayV1(const CBlockIndex& block, int algo)
+{
+    int nDistance = 0;
+    arith_uint256 nWork;
+    const CBlockIndex* pindex = &block;
+    while (pindex != NULL)
+    {
+        if (nDistance > 32)
+        {
+            return UintToArith256(Params().GetConsensus().powLimit[algo]);
+        }
+        if (pindex->GetAlgo() == algo)
+        {
+            arith_uint256 nWork = GetBlockProofBase(*pindex);
+            nWork *= (32 - nDistance);
+            nWork /= 32;
+            if (nWork < UintToArith256(Params().GetConsensus().powLimit[algo]))
+                nWork = UintToArith256(Params().GetConsensus().powLimit[algo]);
+            return nWork;
+        }
+        pindex = pindex->pprev;
+        nDistance++;
+    }
+    return UintToArith256(Params().GetConsensus().powLimit[algo]);
+}
+
+arith_uint256 GetPrevWorkForAlgoWithDecayV2(const CBlockIndex& block, int algo)
+{
+    int nDistance = 0;
+    arith_uint256 nWork;
+    const CBlockIndex* pindex = &block;
+    while (pindex != NULL)
+    {
+        if (nDistance > 32)
+        {
+            return arith_uint256(0);
+        }
+        if (pindex->GetAlgo() == algo)
+        {
+            arith_uint256 nWork = GetBlockProofBase(*pindex);
+            nWork *= (32 - nDistance);
+            nWork /= 32;
+            return nWork;
+        }
+        pindex = pindex->pprev;
+        nDistance++;
+    }
+    return arith_uint256(0);
+}
+
+arith_uint256 GetPrevWorkForAlgoWithDecayV3(const CBlockIndex& block, int algo)
+{
+    int nDistance = 0;
+    arith_uint256 nWork;
+    const CBlockIndex* pindex = &block;
+    while (pindex != NULL)
+    {
+        if (nDistance > 100)
+        {
+            return arith_uint256(0);
+        }
+        if (pindex->GetAlgo() == algo)
+        {
+            arith_uint256 nWork = GetBlockProofBase(*pindex);
+            nWork *= (100 - nDistance);
+            nWork /= 100;
+            return nWork;
+        }
+        pindex = pindex->pprev;
+        nDistance++;
+    }
+    return arith_uint256(0);
+}
+
+arith_uint256 GetGeometricMeanPrevWork(const CBlockIndex& block)
+{
+    //arith_uint256 bnRes;
+    arith_uint256 nBlockWork = GetBlockProofBase(block);
+    CBigNum bnBlockWork = CBigNum(ArithToUint256(nBlockWork));
+    int nAlgo = block.GetAlgo();
+    
+    for (int algo = 0; algo < NUM_ALGOS; algo++)
+    {
+        if (algo != nAlgo)
+        {
+            arith_uint256 nBlockWorkAlt = GetPrevWorkForAlgoWithDecayV3(block, algo);
+            CBigNum bnBlockWorkAlt = CBigNum(ArithToUint256(nBlockWorkAlt));
+            if (bnBlockWorkAlt != 0)
+                bnBlockWork *= bnBlockWorkAlt;
+        }
+    }
+    // Compute the geometric mean
+    CBigNum bnRes = bnBlockWork.nthRoot(NUM_ALGOS);
+    
+    // Scale to roughly match the old work calculation
+    bnRes <<= 8;
+    
+    //return bnRes;
+    return UintToArith256(bnRes.getuint256());
+}
+
+arith_uint256 GetBlockProof(const CBlockIndex& block)
+{
+    Consensus::Params params = Params().GetConsensus();
+
+    arith_uint256 bnTarget;
+    int nHeight = block.nHeight;
+    int nAlgo = block.GetAlgo();
+
+    if (nHeight >= params.nGeometricAverageWork_Start)
+    {
+        bnTarget = GetGeometricMeanPrevWork(block);
+    }
+    else
+    {
+        arith_uint256 nBlockWork = GetBlockProofBase(block);
+        for (int algo = 0; algo < NUM_ALGOS; algo++)
+        {
+            if (algo != nAlgo)
+            {
+                if(nHeight >= params.nBlockAlgoNormalisedWorkDecayV2Start)
+                {
+                    nBlockWork += GetPrevWorkForAlgoWithDecayV2(block, algo);
+                }
+                else
+                {
+                    nBlockWork += GetPrevWorkForAlgoWithDecayV1(block, algo);
+                }
+            }
+        }
+        bnTarget = nBlockWork / NUM_ALGOS;
+    }
+    
+    return bnTarget;
 }
 
 int64_t GetBlockProofEquivalentTime(const CBlockIndex& to, const CBlockIndex& from, const CBlockIndex& tip, const Consensus::Params& params)

@@ -80,6 +80,12 @@ struct Params {
 
     uint32_t nTimeLyra2RE2Start;
     uint32_t nTimeArgon2dStart;
+    int nBlockAlgoNormalisedWorkDecayV2Start;   // block where weight decay v2 starts
+    int nGeometricAverageWork_Start;            // block where geometric average work calculation kicks in
+    int nBlockSequentialAlgoRule2Start;         // block where sequential algo rule V2 starts
+    
+    int nBlockSequentialAlgoMaxCountV1;         // maximum sequential blocks of same algo V1
+    int nBlockSequentialAlgoMaxCountV2;         // maximum sequential blocks of same algo V2
     
     /**
      * Check whether or not to allow legacy blocks at the given height.
