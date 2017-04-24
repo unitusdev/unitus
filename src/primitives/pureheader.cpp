@@ -89,32 +89,3 @@ int GetAlgo(int nVersion)
     }
     return ALGO_SLOT1;
 }
-
-std::string GetAlgoName(int Algo, uint32_t time, const Consensus::Params& consensusParams)
-{
-    switch (Algo)
-    {
-        case ALGO_SLOT1:
-            if(time >= consensusParams.nTimeLyra2RE2Start)
-                return std::string("Lyra2RE2");
-            else
-                return std::string("Blake");
-            
-        case ALGO_SLOT2:
-            return std::string("Skein");
-            
-        case ALGO_SLOT3:
-            if(time >= consensusParams.nTimeArgon2dStart)
-                return std::string("Argon2d");
-            else
-                return std::string("Qubit");
-            
-        case ALGO_SLOT4:
-            return std::string("Yescrypt");
-            
-        case ALGO_SLOT5:
-            return std::string("X11");
-            
-    }
-    return std::string("Unknown");    
-}

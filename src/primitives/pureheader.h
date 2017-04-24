@@ -37,10 +37,6 @@ enum
 /** extract algo from nVersion */
 int GetAlgo(int nVersion);
 
-/** return current algorithm name from nVersion and timestamp */
-
-std::string GetAlgoName(int Algo, int time, const Consensus::Params& consensusParams);
-
 /**
  * A block header without auxpow information.  This "intermediate step"
  * in constructing the full header is useful, because it breaks the cyclic

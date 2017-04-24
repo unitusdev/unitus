@@ -50,18 +50,6 @@
     return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 } */
 
-const CBlockIndex* GetLastBlockIndexForAlgo(const CBlockIndex* pindex, int algo)
-{
-    for (;;)
-    {
-        if (!pindex)
-            return NULL;
-        if (pindex->GetAlgo() == algo)
-            return pindex;
-        pindex = pindex->pprev;
-    }
-}
-
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, int algo, const Consensus::Params& params)
 {
     const arith_uint256 nProofOfWorkLimit = UintToArith256(params.powLimit[algo]);
