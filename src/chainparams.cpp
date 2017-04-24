@@ -218,7 +218,8 @@ public:
         
         consensus.nPowTargetSpacing = 60; // 60 second block time
         consensus.nPoWAveragingInterval = 10; // 10 block averaging interval
-        
+        consensus.nBlockSequentialAlgoMaxCountV1 = 3;     // maximum sequential blocks of same algo V1
+        consensus.nBlockSequentialAlgoMaxCountV2 = 5;     // maximum sequential blocks of same algo V2
         consensus.nStartAuxPow = 0;
         consensus.nAuxpowChainId = 0x55;
         consensus.fStrictChainId = false;

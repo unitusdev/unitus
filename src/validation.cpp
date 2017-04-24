@@ -2235,8 +2235,8 @@ void static UpdateTip(CBlockIndex *pindexNew, const CChainParams& chainParams) {
             }
         }
     }
-    LogPrintf("%s: new best=%s height=%d version=0x%08x log2_work=%.8g tx=%lu date='%s' progress=%f cache=%.1fMiB(%utx)", __func__,
-      chainActive.Tip()->GetBlockHash().ToString(), chainActive.Height(), chainActive.Tip()->nVersion,
+    LogPrintf("%s: new best=%s height=%d algo=%d version=0x%08x log2_work=%.8g tx=%lu date='%s' progress=%f cache=%.1fMiB(%utx)", __func__,
+      chainActive.Tip()->GetBlockHash().ToString(), chainActive.Height(), chainActive.Tip()->GetAlgo(), chainActive.Tip()->nVersion,
       log(chainActive.Tip()->nChainWork.getdouble())/log(2.0), (unsigned long)chainActive.Tip()->nChainTx,
       DateTimeStrFormat("%Y-%m-%d %H:%M:%S", chainActive.Tip()->GetBlockTime()),
       GuessVerificationProgress(chainParams.TxData(), chainActive.Tip()), pcoinsTip->DynamicMemoryUsage() * (1.0 / (1<<20)), pcoinsTip->GetCacheSize());
@@ -3193,6 +3193,32 @@ static bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state
         pindexPrev = (*mi).second;
         if (pindexPrev->nStatus & BLOCK_FAILED_MASK)
             return state.DoS(100, error("%s: prev block invalid", __func__), REJECT_INVALID, "bad-prevblk");
+
+        int nAlgo = block.GetAlgo();
+        int nAlgoCount = 1;
+        CBlockIndex* piPrev = pindexPrev;
+        // Maximum sequence count allowed
+        int nMaxSeqCount;
+        int nHeight = pindexPrev->nHeight + 1;
+        if (nHeight > chainparams.GetConsensus().nBlockSequentialAlgoRule2Start)
+        {
+            nMaxSeqCount = chainparams.GetConsensus().nBlockSequentialAlgoMaxCountV2;
+        }
+        else
+        {
+            nMaxSeqCount = chainparams.GetConsensus().nBlockSequentialAlgoMaxCountV1;
+        }
+
+        while (piPrev!=NULL && (nAlgoCount <= nMaxSeqCount))
+        {
+            if (piPrev->GetAlgo() != nAlgo)
+                break;
+            nAlgoCount++;
+            piPrev = piPrev->pprev;
+        }
+
+        if (nAlgoCount > nMaxSeqCount)
+            return error("%s: too many blocks from same algorithm (limit=%d)", __func__, nMaxSeqCount);
 
         assert(pindexPrev);
         if (fCheckpointsEnabled && !CheckIndexAgainstCheckpoint(pindexPrev, state, chainparams, hash))
