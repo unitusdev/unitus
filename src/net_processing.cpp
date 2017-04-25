@@ -1271,6 +1271,22 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
         if (!vRecv.empty()) {
             vRecv >> LIMITED_STRING(strSubVer, MAX_SUBVERSION_LENGTH);
             cleanSubVer = SanitizeString(strSubVer);
+            
+            if (
+                (cleanSubVer == "/Satoshi:0.9.3/") || 
+                (cleanSubVer == "/Satoshi:0.9.3.1/") || 
+                (cleanSubVer == "/Satoshi:0.9.5/") ||
+                (cleanSubVer == "/Satoshi:0.9.6/") ||
+                (cleanSubVer == "/Satoshi:0.9.6.1/")
+            )
+            {
+                // disconnect from peers older than this client version
+                LogPrintf("peer %s using obsolete sub version %s; disconnecting\n", pfrom->addr.ToString(), cleanSubVer);
+                connman.PushMessage(pfrom, CNetMsgMaker(INIT_PROTO_VERSION).Make(NetMsgType::REJECT, strCommand, REJECT_OBSOLETE,
+                                   strprintf("Version must be 0.9.6.2 or greater")));
+                pfrom->fDisconnect = true;
+                return false;
+            }
         }
         if (!vRecv.empty()) {
             vRecv >> nStartingHeight;
