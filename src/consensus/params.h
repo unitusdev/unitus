@@ -41,6 +41,10 @@ struct BIP9Deployment {
 struct Params {
     uint256 hashGenesisBlock;
     int nSubsidyHalvingInterval;
+    /** Used to check majorities for block version upgrade */
+    int nMajorityEnforceBlockUpgrade;
+    int nMajorityRejectBlockOutdated;
+    int nMajorityWindow;
     /** Block height and hash at which BIP34 becomes active */
     int BIP34Height;
     uint256 BIP34Hash;
@@ -65,10 +69,10 @@ struct Params {
     int64_t nPoWAveragingInterval;
     int64_t nPoWAveragingTargetTimespan() const { return nPoWAveragingInterval * nPowTargetSpacing * algoCount; }
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
-    
+
     int64_t nMaxAdjustDown;
     int64_t nMaxAdjustUp;
-    
+
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
 
@@ -83,10 +87,10 @@ struct Params {
     int nBlockAlgoNormalisedWorkDecayV2Start;   // block where weight decay v2 starts
     int nGeometricAverageWork_Start;            // block where geometric average work calculation kicks in
     int nBlockSequentialAlgoRule2Start;         // block where sequential algo rule V2 starts
-    
+
     int nBlockSequentialAlgoMaxCountV1;         // maximum sequential blocks of same algo V1
     int nBlockSequentialAlgoMaxCountV2;         // maximum sequential blocks of same algo V2
-    
+
     /**
      * Check whether or not to allow legacy blocks at the given height.
      * @param nHeight Height of the block to check.
@@ -97,7 +101,7 @@ struct Params {
         if (nLegacyBlocksBefore < 0)
             return true;
         return static_cast<int> (nHeight) < nLegacyBlocksBefore;
-    }    
+    }
 };
 } // namespace Consensus
 

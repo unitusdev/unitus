@@ -120,7 +120,8 @@ public:
     }
     static inline int32_t GetBaseVersion(int32_t ver)
     {
-        return ver % VERSION_AUXPOW;
+        //return ver % VERSION_AUXPOW;
+        return (ver & 0x000000ff);
     }
 
     /**
