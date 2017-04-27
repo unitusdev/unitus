@@ -88,6 +88,9 @@ public:
         
         consensus.nPowTargetSpacing = 60;                 // 60 second block time
         consensus.nPoWAveragingInterval = 10;             // 10 block averaging interval
+        consensus.nMaxAdjustUp = 5;                       // 5% adjustment up
+        consensus.nMaxAdjustDown = 5;                     // 5% adjustment down
+
         consensus.nBlockSequentialAlgoMaxCountV1 = 3;     // maximum sequential blocks of same algo V1
         consensus.nBlockSequentialAlgoMaxCountV2 = 5;     // maximum sequential blocks of same algo V2
         consensus.nStartAuxPow = 0;
@@ -224,6 +227,9 @@ public:
         
         consensus.nPowTargetSpacing = 60; // 60 second block time
         consensus.nPoWAveragingInterval = 10; // 10 block averaging interval
+        consensus.nMaxAdjustUp = 5;                       // 5% adjustment up
+        consensus.nMaxAdjustDown = 5;                     // 5% adjustment down
+
         consensus.nBlockSequentialAlgoMaxCountV1 = 3;     // maximum sequential blocks of same algo V1
         consensus.nBlockSequentialAlgoMaxCountV2 = 5;     // maximum sequential blocks of same algo V2
         consensus.nStartAuxPow = 0;
