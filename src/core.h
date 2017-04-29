@@ -36,7 +36,7 @@ enum
 
 // main net hard forks
 const int nTimeLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
-const int nTimeArgon2dStart =  1495238400; // block time where Qubit hash is replaced with Argon2d (Sat, 20 May 2017 00:00:00 GMT)
+const int nTimeArgon2dStart =  1496448000; // block time where Qubit hash is replaced with Argon2d (Sat, 03 Jun 2017 00:00:00 GMT)
 
 // test net hard forks
 const int nTimeTestLyra2RE2Start = 1456099764; // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
