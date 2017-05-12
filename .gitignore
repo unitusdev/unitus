@@ -15,6 +15,7 @@ config.status
 configure
 src/bitcoin-config.h
 src/bitcoin-config.h.in
+src/bitcoin-config.h.in~
 src/build-aux/
 src/stamp-h1
 share/setup.nsi
