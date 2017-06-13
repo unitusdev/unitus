@@ -77,7 +77,7 @@ Value getinfo(const Array& params, bool fHelp)
     obj.push_back(Pair("difficulty",         (double)GetDifficulty(NULL, miningAlgo)));
     obj.push_back(Pair("difficulty_lyra2re2", (double)GetDifficulty(NULL, ALGO_SLOT1)));
     obj.push_back(Pair("difficulty_skein",   (double)GetDifficulty(NULL, ALGO_SLOT2)));
-    obj.push_back(Pair("difficulty_qubit",   (double)GetDifficulty(NULL, ALGO_SLOT3)));
+    obj.push_back(Pair("difficulty_argon2d",   (double)GetDifficulty(NULL, ALGO_SLOT3)));
     obj.push_back(Pair("difficulty_yescrypt",  (double)GetDifficulty(NULL, ALGO_SLOT4)));
     obj.push_back(Pair("difficulty_X11", (double)GetDifficulty(NULL, ALGO_SLOT5)));
     obj.push_back(Pair("testnet",            TestNet()));
