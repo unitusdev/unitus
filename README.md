@@ -1,3 +1,9 @@
+# PLEASE NOTE - THIS IS A DEVELOPMENT TREE, NOT THE LATEST STABLE RELEASE
+
+## You probably don't want to be using this code here - it is likely broken and will eat your coins. Please instead use the latest release from the releases section
+
+--- 
+
 *Unitus = United*
 
 1. Joined into a single entity.
