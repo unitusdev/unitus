@@ -99,7 +99,7 @@ public:
         consensus.nLegacyBlocksBefore = -1;
         
         consensus.nTimeLyra2RE2Start = 1456099764;                  // block time where blake hash is replaced with Lyra2RE2 (Mon, 22 Feb 2016 00:09:24 GMT)
-        consensus.nTimeArgon2dStart = 1495238400;                   // block time where Qubit hash is replaced with Argon2d (Sat, 20 May 2017 00:00:00 GMT)
+        consensus.nTimeArgon2dStart = 1496448000;                   // block time where Qubit hash is replaced with Argon2d (Sat, 03 Jun 2017 00:00:00 GMT)
         consensus.nBlockAlgoNormalisedWorkDecayV2Start = 25300;     // block where weight decay v2 starts
         consensus.nGeometricAverageWork_Start = 450000;           // block where geometric average work calculation kicks in
         consensus.nBlockSequentialAlgoRule2Start = 456000;           // block where sequential algo rule V2 starts
