@@ -104,7 +104,8 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     
     if(pindexLast->GetBlockTime() >= params.nTimeArgon2dStart && pindexFirst->GetBlockTime() < params.nTimeArgon2dStart && algo == ALGO_SLOT3)
     {
-        LogPrintf("GetNextWorkRequired(Algo=%d): nTimeArgon2dStart has been passed, but insufficient blocks to calculate new target. Returning nProofOfWorkLimit\n", algo);
+        if (fDebug)
+            LogPrintf("GetNextWorkRequired(Algo=%d): nTimeArgon2dStart has been passed, but insufficient blocks to calculate new target. Returning nProofOfWorkLimit\n", algo);
         return nProofOfWorkLimit.GetCompact();
     }
     
@@ -126,14 +127,16 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Limit adjustment step
     int64_t nActualTimespan = pindexPrev->GetBlockTime() - pindexFirst->GetBlockTime();
     
-    LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d before bounds   %d   %d\n", algo, nActualTimespan, pindexLast->GetBlockTime(), pindexFirst->GetBlockTime());
+    if (fDebug)
+        LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d before bounds   %d   %d\n", algo, nActualTimespan, pindexLast->GetBlockTime(), pindexFirst->GetBlockTime());
     
     if (nActualTimespan < nMinActualTimespan)
         nActualTimespan = nMinActualTimespan;
     if (nActualTimespan > nMaxActualTimespan)
         nActualTimespan = nMaxActualTimespan;
     
-    LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d after bounds   %d   %d\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
+    if (fDebug)
+        LogPrintf("GetNextWorkRequired(Algo=%d): nActualTimespan = %d after bounds   %d   %d\n", algo, nActualTimespan, nMinActualTimespan, nMaxActualTimespan);
     
     // Retarget
     arith_uint256 bnNew;
@@ -146,10 +149,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if(bnNew > nProofOfWorkLimit)
         bnNew = nProofOfWorkLimit;
     
-    LogPrintf("GetNextWorkRequired(Algo=%d) RETARGET\n", algo);
-    LogPrintf("GetNextWorkRequired(Algo=%d): nTargetTimespan = %d    nActualTimespan = %d\n", algo, params.nPoWAveragingTargetTimespan(), nActualTimespan);
-    LogPrintf("GetNextWorkRequired(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, bnOld.ToString());
-    LogPrintf("GetNextWorkRequired(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.ToString());
+    if (fDebug)
+    {
+        LogPrintf("GetNextWorkRequired(Algo=%d) RETARGET\n", algo);
+        LogPrintf("GetNextWorkRequired(Algo=%d): nTargetTimespan = %d    nActualTimespan = %d\n", algo, params.nPoWAveragingTargetTimespan(), nActualTimespan);
+        LogPrintf("GetNextWorkRequired(Algo=%d): Before: %08x  %s\n", algo, pindexLast->nBits, bnOld.ToString());
+        LogPrintf("GetNextWorkRequired(Algo=%d): After:  %08x  %s\n", algo, bnNew.GetCompact(), bnNew.ToString());
+    }
     
     return bnNew.GetCompact();
 }
