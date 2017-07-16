@@ -1277,13 +1277,15 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                 (cleanSubVer == "/Satoshi:0.9.3.1/") || 
                 (cleanSubVer == "/Satoshi:0.9.5/") ||
                 (cleanSubVer == "/Satoshi:0.9.6/") ||
-                (cleanSubVer == "/Satoshi:0.9.6.1/")
+                (cleanSubVer == "/Satoshi:0.9.6.1/") ||
+                (cleanSubVer == "/Satoshi:0.9.6.2/") ||
+                (cleanSubVer == "/Satoshi:0.9.6.4/")
             )
             {
                 // disconnect from peers older than this client version
                 LogPrintf("peer %s using obsolete sub version %s; disconnecting\n", pfrom->addr.ToString(), cleanSubVer);
                 connman.PushMessage(pfrom, CNetMsgMaker(INIT_PROTO_VERSION).Make(NetMsgType::REJECT, strCommand, REJECT_OBSOLETE,
-                                   strprintf("Version must be 0.9.6.2 or greater")));
+                                   strprintf("Version must be 0.9.7 or greater")));
                 pfrom->fDisconnect = true;
                 return false;
             }
