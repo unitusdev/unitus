@@ -24,7 +24,7 @@ enum {
 enum
 {
     // primary version
-    BLOCK_VERSION_DEFAULT        = 2,
+    BLOCK_VERSION_DEFAULT        = 4,
 
     // algo
     BLOCK_VERSION_ALGO      = (7 << 9), // currently Lyra2RE2, was Blake256 until nTimeLyra2RE2Start
