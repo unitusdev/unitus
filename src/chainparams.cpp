@@ -234,7 +234,7 @@ public:
         consensus.nBlockSequentialAlgoMaxCountV1 = 3;     // maximum sequential blocks of same algo V1
         consensus.nBlockSequentialAlgoMaxCountV2 = 5;     // maximum sequential blocks of same algo V2
         consensus.nStartAuxPow = 0;
-        consensus.nAuxpowChainId = 0x9B;                  // unitus chain id 155
+        consensus.nAuxpowChainId = 0x9C;                  // unitus testnet chain id 156
         consensus.fStrictChainId = false;
         consensus.nLegacyBlocksBefore = -1;
         
