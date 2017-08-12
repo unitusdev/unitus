@@ -887,7 +887,7 @@
     </message>
     <message>
         <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation>Les transactions récentes ne sont peut-être pas encore visibles, et par conséquent, le solde de votre porte-monnaie est peut-être erroné. Cette information sera juste une fois que votre porte-monnaie aura fini de se synchroniser avec le réseau Bitcoin, tel que décrit ci-dessous. </translation>
+        <translation>Les transactions récentes ne sont peut-être pas encore visibles, et par conséquent, le solde de votre porte-monnaie est peut-être erroné. Cette information sera juste une fois que votre porte-monnaie aura fini de se synchroniser avec le réseau Bitcoin, comme décrit ci-dessous. </translation>
     </message>
     <message>
         <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
@@ -903,7 +903,7 @@
     </message>
     <message>
         <source>Last block time</source>
-        <translation>Horodatage du dernier bloc</translation>
+        <translation>Estampille temporelle du dernier bloc</translation>
     </message>
     <message>
         <source>Progress</source>
@@ -1366,7 +1366,7 @@
     </message>
     <message>
         <source>NodeId</source>
-        <translation>NodeId</translation>
+        <translation>ID de nœud</translation>
     </message>
     <message>
         <source>Ping</source>
@@ -1646,7 +1646,7 @@
     </message>
     <message>
         <source>Last block time</source>
-        <translation>Horodatage du dernier bloc</translation>
+        <translation>Estampille temporelle du dernier bloc</translation>
     </message>
     <message>
         <source>&amp;Open</source>
@@ -2178,7 +2178,7 @@
     </message>
     <message>
         <source>The transaction was rejected with the following reason: %1</source>
-        <translation>La transaction a été rejetée pour la raison suivante: %1</translation>
+        <translation>La transaction a été rejetée pour la raison suivante : %1</translation>
     </message>
     <message>
         <source>A fee higher than %1 is considered an absurdly high fee.</source>
@@ -3795,7 +3795,7 @@
     </message>
     <message>
         <source>Prepend debug output with timestamp (default: %u)</source>
-        <translation>Ajouter l'horodatage au début de la sortie de débogage (par défaut : %u)</translation>
+        <translation>Ajouter l'estampille temporelle au début de la sortie de débogage (par défaut : %u)</translation>
     </message>
     <message>
         <source>Relay and mine data carrier transactions (default: %u)</source>
