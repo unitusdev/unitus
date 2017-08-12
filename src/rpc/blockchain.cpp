@@ -190,7 +190,14 @@ UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool tx
     result.push_back(Pair("nonce", (uint64_t)block.nNonce));
     result.push_back(Pair("bits", strprintf("%08x", block.nBits)));
     int algo = GetAlgo(block.nVersion);
-    result.push_back(Pair("pow_hash", block.GetPoWHash(block.GetAlgo(),Params().GetConsensus()).GetHex()));
+    if (block.auxpow)
+    {
+        result.push_back(Pair("pow_hash", block.auxpow->getParentBlockPoWHash(algo, Params().GetConsensus()).GetHex()));
+    }
+    else
+    {
+        result.push_back(Pair("pow_hash", block.GetPoWHash(algo,Params().GetConsensus()).GetHex()));
+    }
     result.push_back(Pair("pow_algo_id", algo));
     result.push_back(Pair("pow_algo", GetAlgoName(algo, blockindex->nTime, Params().GetConsensus())));
     result.push_back(Pair("difficulty", GetDifficulty(blockindex, algo)));
