@@ -232,14 +232,14 @@ UniValue getmininginfo(const JSONRPCRequest& request)
             "  \"pow_algo_id\": n           (numeric) The active mining algorithm id\n"
             "  \"pow_algo\": \"name\"       (string) The active mining algorithm name\n"
             "  \"difficulty\": xxx.xxxxx    (numeric) The current difficulty\n"
-            "  \"difficulty_lyra2re2\": xxxxxx,     (numeric) the current lyra2re2 difficulty\n"
+            "  \"difficulty_lyra2re2\": xxxxxx,  (numeric) the current lyra2re2 difficulty\n"
             "  \"difficulty_skein\": xxxxxx,     (numeric) the current skein difficulty\n"
-            "  \"difficulty_qubit\": xxxxxx,     (numeric) the current qubit difficulty\n"
-            "  \"difficulty_yescrypt\": xxxxxx,     (numeric) the current yescrypt difficulty\n"
-            "  \"difficulty_x11\": xxxxxx,     (numeric) the current x11 difficulty\n"
+            "  \"difficulty_argon2d\": xxxxxx,   (numeric) the current argon2d difficulty\n"
+            "  \"difficulty_yescrypt\": xxxxxx,  (numeric) the current yescrypt difficulty\n"
+            "  \"difficulty_x11\": xxxxxx,       (numeric) the current x11 difficulty\n"
             "  \"errors\": \"...\"            (string) Current errors\n"
-            "  \"networkhashps\": nnn,      (numeric) The network hashes per second\n"
-            "  \"pooledtx\": n              (numeric) The size of the mempool\n"
+            "  \"networkhashps\": nnn,        (numeric) The network hashes per second\n"
+            "  \"pooledtx\": n                (numeric) The size of the mempool\n"
             "  \"chain\": \"xxxx\",           (string) current network name as defined in BIP70 (main, test, regtest)\n"
             "}\n"
             "\nExamples:\n"
@@ -260,7 +260,7 @@ UniValue getmininginfo(const JSONRPCRequest& request)
     obj.push_back(Pair("difficulty",       (double)GetDifficulty(NULL, miningAlgo)));
     obj.push_back(Pair("difficulty_lyra2re2",   (double)GetDifficulty(NULL, ALGO_SLOT1)));
     obj.push_back(Pair("difficulty_skein",      (double)GetDifficulty(NULL, ALGO_SLOT2)));
-    obj.push_back(Pair("difficulty_qubit",      (double)GetDifficulty(NULL, ALGO_SLOT3)));
+    obj.push_back(Pair("difficulty_argon2d",    (double)GetDifficulty(NULL, ALGO_SLOT3)));
     obj.push_back(Pair("difficulty_yescrypt",   (double)GetDifficulty(NULL, ALGO_SLOT4)));
     obj.push_back(Pair("difficulty_x11",        (double)GetDifficulty(NULL, ALGO_SLOT5)));
     obj.push_back(Pair("errors",           GetWarnings("statusbar")));

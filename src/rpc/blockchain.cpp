@@ -1167,10 +1167,10 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
             "  \"bestblockhash\": \"...\", (string) the hash of the currently best block\n"
             "  \"difficulty\": xxxxxx,     (numeric) the current difficulty\n"
             "  \"difficulty_lyra2re2\": xxxxxx,     (numeric) the current lyra2re2 difficulty\n"
-            "  \"difficulty_skein\": xxxxxx,     (numeric) the current skein difficulty\n"
-            "  \"difficulty_qubit\": xxxxxx,     (numeric) the current qubit difficulty\n"
+            "  \"difficulty_skein\": xxxxxx,        (numeric) the current skein difficulty\n"
+            "  \"difficulty_argon2d\": xxxxxx,      (numeric) the current argon2d difficulty\n"
             "  \"difficulty_yescrypt\": xxxxxx,     (numeric) the current yescrypt difficulty\n"
-            "  \"difficulty_x11\": xxxxxx,     (numeric) the current x11 difficulty\n"
+            "  \"difficulty_x11\": xxxxxx,          (numeric) the current x11 difficulty\n"
             "  \"mediantime\": xxxxxx,     (numeric) median time for the current best block\n"
             "  \"verificationprogress\": xxxx, (numeric) estimate of verification progress [0..1]\n"
             "  \"chainwork\": \"xxxx\"     (string) total amount of work in active chain, in hexadecimal\n"
@@ -1210,7 +1210,7 @@ UniValue getblockchaininfo(const JSONRPCRequest& request)
     obj.push_back(Pair("difficulty",            (double)GetDifficulty(NULL, miningAlgo)));
     obj.push_back(Pair("difficulty_lyra2re2",   (double)GetDifficulty(NULL, ALGO_SLOT1)));
     obj.push_back(Pair("difficulty_skein",      (double)GetDifficulty(NULL, ALGO_SLOT2)));
-    obj.push_back(Pair("difficulty_qubit",      (double)GetDifficulty(NULL, ALGO_SLOT3)));
+    obj.push_back(Pair("difficulty_argon2d",    (double)GetDifficulty(NULL, ALGO_SLOT3)));
     obj.push_back(Pair("difficulty_yescrypt",   (double)GetDifficulty(NULL, ALGO_SLOT4)));
     obj.push_back(Pair("difficulty_x11",        (double)GetDifficulty(NULL, ALGO_SLOT5)));
     obj.push_back(Pair("mediantime",            (int64_t)chainActive.Tip()->GetMedianTimePast()));
