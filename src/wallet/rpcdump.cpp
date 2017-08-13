@@ -96,6 +96,8 @@ UniValue importprivkey(const JSONRPCRequest& request)
             + HelpExampleCli("importprivkey", "\"mykey\"") +
             "\nImport using a label and without rescan\n"
             + HelpExampleCli("importprivkey", "\"mykey\" \"testing\" false") +
+            "\nImport using default blank label and without rescan\n"
+            + HelpExampleCli("importprivkey", "\"mykey\" \"\" false") +
             "\nAs a JSON-RPC call\n"
             + HelpExampleRpc("importprivkey", "\"mykey\", \"testing\", false")
         );
@@ -495,14 +497,11 @@ UniValue importwallet(const JSONRPCRequest& request)
     }
     file.close();
     pwalletMain->ShowProgress("", 100); // hide progress dialog in GUI
-
-    CBlockIndex *pindex = chainActive.Tip();
-    while (pindex && pindex->pprev && pindex->GetBlockTime() > nTimeBegin - 7200)
-        pindex = pindex->pprev;
-
     pwalletMain->UpdateTimeFirstKey(nTimeBegin);
 
-    LogPrintf("Rescanning last %i blocks\n", chainActive.Height() - pindex->nHeight + 1);
+    CBlockIndex *pindex = chainActive.FindEarliestAtLeast(nTimeBegin - 7200);
+
+    LogPrintf("Rescanning last %i blocks\n", pindex ? chainActive.Height() - pindex->nHeight + 1 : 0);
     pwalletMain->ScanForWalletTransactions(pindex);
     pwalletMain->MarkDirty();
 
