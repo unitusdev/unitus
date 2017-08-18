@@ -977,8 +977,16 @@ UniValue getauxblock(const JSONRPCRequest& request)
             + HelpExampleRpc("getauxblock", "")
             );
 
-    boost::shared_ptr<CReserveScript> coinbaseScript;
-    GetMainSignals().ScriptForMining(coinbaseScript);
+    CBitcoinAddress address(mergedaddress);
+    boost::shared_ptr<CReserveScript> coinbaseScript(address.IsValid() ? new CReserveScript() : NULL);
+    if(address.IsValid())
+    {
+        coinbaseScript->reserveScript = GetScriptForDestination(address.Get());
+    }
+    else
+    {
+        GetMainSignals().ScriptForMining(coinbaseScript);
+    }
 
     // If the keypool is exhausted, no script is returned at all.  Catch this.
     if (!coinbaseScript)

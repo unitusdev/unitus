@@ -11,6 +11,7 @@
 
 #include "addrman.h"
 #include "amount.h"
+#include "base58.h"
 #include "chain.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -486,7 +487,7 @@ std::string HelpMessage(HelpMessageMode mode)
     if (showDebug)
         strUsage += HelpMessageOpt("-blockversion=<n>", "Override block version to test forking scenarios");
     strUsage += HelpMessageOpt("-algo=<algo>", _("Mining algorithm: argon2d, blake, lyra2re2, skein, qubit, yescrypt, X11"));
-
+    strUsage += HelpMessageOpt("-mergedaddress=<address>", _("Coinbase address for any merge-mined blocks"));
     strUsage += HelpMessageGroup(_("RPC server options:"));
     strUsage += HelpMessageOpt("-server", _("Accept command line and JSON-RPC commands"));
     strUsage += HelpMessageOpt("-rest", strprintf(_("Accept public REST requests (default: %u)"), DEFAULT_REST_ENABLE));
@@ -1124,6 +1125,11 @@ bool AppInitParameterInteraction()
     else
         miningAlgo = ALGO_SLOT1;
     
+    mergedaddress = GetArg("-mergedaddress", "");
+    CBitcoinAddress address(mergedaddress);
+    if(address.IsValid())
+        LogPrintf("Using wallet %s as coinbase address for any merge-mined blocks\n", mergedaddress);
+
     return true;
 }
 
