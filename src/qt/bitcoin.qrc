@@ -1,4 +1,4 @@
-<!DOCTYPE RCC><RCC version="1.0">
+<RCC>
     <qresource prefix="/icons">
         <file alias="bitcoin">res/icons/unitus.png</file>
         <file alias="address-book">res/icons/address-book.png</file>
@@ -53,6 +53,9 @@
         <file alias="hd_enabled">res/icons/hd_enabled.png</file>
         <file alias="hd_disabled">res/icons/hd_disabled.png</file>
         <file alias="network_disabled">res/icons/network_disabled.png</file>
+        <file alias="brushed-metal-quick">res/src/bmq.png</file>
+        <file alias="unitus3d">res/src/chain3.png</file>
+        <file alias="rivets">res/icons/rivets.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
@@ -91,8 +94,44 @@
         <file alias="spinner-033">res/movies/spinner-033.png</file>
         <file alias="spinner-034">res/movies/spinner-034.png</file>
         <file alias="spinner-035">res/movies/spinner-035.png</file>
+        <file alias="background-spinner-000">res/movies/background-spinner-000.png</file>
+        <file alias="background-spinner-001">res/movies/background-spinner-001.png</file>
+        <file alias="background-spinner-002">res/movies/background-spinner-002.png</file>
+        <file alias="background-spinner-003">res/movies/background-spinner-003.png</file>
+        <file alias="background-spinner-004">res/movies/background-spinner-004.png</file>
+        <file alias="background-spinner-005">res/movies/background-spinner-005.png</file>
+        <file alias="background-spinner-006">res/movies/background-spinner-006.png</file>
+        <file alias="background-spinner-007">res/movies/background-spinner-007.png</file>
+        <file alias="background-spinner-008">res/movies/background-spinner-008.png</file>
+        <file alias="background-spinner-009">res/movies/background-spinner-009.png</file>
+        <file alias="background-spinner-010">res/movies/background-spinner-010.png</file>
+        <file alias="background-spinner-011">res/movies/background-spinner-011.png</file>
+        <file alias="background-spinner-012">res/movies/background-spinner-012.png</file>
+        <file alias="background-spinner-013">res/movies/background-spinner-013.png</file>
+        <file alias="background-spinner-014">res/movies/background-spinner-014.png</file>
+        <file alias="background-spinner-015">res/movies/background-spinner-015.png</file>
+        <file alias="background-spinner-016">res/movies/background-spinner-016.png</file>
+        <file alias="background-spinner-017">res/movies/background-spinner-017.png</file>
+        <file alias="background-spinner-018">res/movies/background-spinner-018.png</file>
+        <file alias="background-spinner-019">res/movies/background-spinner-019.png</file>
+        <file alias="background-spinner-020">res/movies/background-spinner-020.png</file>
+        <file alias="background-spinner-021">res/movies/background-spinner-021.png</file>
+        <file alias="background-spinner-022">res/movies/background-spinner-022.png</file>
+        <file alias="background-spinner-023">res/movies/background-spinner-023.png</file>
+        <file alias="background-spinner-024">res/movies/background-spinner-024.png</file>
+        <file alias="background-spinner-025">res/movies/background-spinner-025.png</file>
+        <file alias="background-spinner-026">res/movies/background-spinner-026.png</file>
+        <file alias="background-spinner-027">res/movies/background-spinner-027.png</file>
+        <file alias="background-spinner-028">res/movies/background-spinner-028.png</file>
+        <file alias="background-spinner-029">res/movies/background-spinner-029.png</file>
+        <file alias="background-spinner-030">res/movies/background-spinner-030.png</file>
+        <file alias="background-spinner-031">res/movies/background-spinner-031.png</file>
+        <file alias="background-spinner-032">res/movies/background-spinner-032.png</file>
+        <file alias="background-spinner-033">res/movies/background-spinner-033.png</file>
+        <file alias="background-spinner-034">res/movies/background-spinner-034.png</file>
+        <file alias="background-spinner-035">res/movies/background-spinner-035.png</file>
     </qresource>
-	<qresource prefix="/css">
-		<file alias="default">res/css/default.css</file>
-	</qresource>
+    <qresource prefix="/css">
+        <file alias="default">res/css/default.css</file>
+    </qresource>
 </RCC>

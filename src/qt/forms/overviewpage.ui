@@ -6,12 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>596</width>
-    <height>342</height>
+    <width>642</width>
+    <height>511</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="topLayout">
    <item>
@@ -38,12 +44,18 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QFrame" name="frame">
+        <widget class="QFrame" name="walletBalanceFrame">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="lineWidth">
+          <number>2</number>
+         </property>
+         <property name="midLineWidth">
+          <number>1</number>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
@@ -57,7 +69,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Balances</string>
+               <string>Wallet Balances</string>
               </property>
              </widget>
             </item>
@@ -215,13 +227,6 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="labelTotalText">
-              <property name="text">
-               <string>Total:</string>
-              </property>
-             </widget>
-            </item>
             <item row="3" column="1">
              <widget class="QLabel" name="labelImmature">
               <property name="font">
@@ -263,7 +268,7 @@
             <item row="3" column="0">
              <widget class="QLabel" name="labelImmatureText">
               <property name="text">
-               <string>Immature:</string>
+               <string>Unconfirmed:</string>
               </property>
              </widget>
             </item>
@@ -401,13 +406,20 @@
               </property>
              </widget>
             </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="labelTotalText">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
+        <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -424,7 +436,13 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QFrame" name="frame_2">
+        <widget class="QFrame" name="recentTransactionsFrame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -498,7 +516,7 @@
           <item>
            <widget class="QListView" name="listTransactions">
             <property name="styleSheet">
-             <string notr="true">QListView { background: transparent; }</string>
+             <string notr="true">QListView { background: transparent;}</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::NoFrame</enum>
@@ -517,25 +535,14 @@
          </layout>
         </widget>
        </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
  <connections/>
 </ui>

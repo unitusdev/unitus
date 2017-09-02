@@ -33,16 +33,12 @@ class WalletFrame : public QFrame
 public:
     explicit WalletFrame(const PlatformStyle *platformStyle, BitcoinGUI *_gui = 0);
     ~WalletFrame();
-
     void setClientModel(ClientModel *clientModel);
-
     bool addWallet(const QString& name, WalletModel *walletModel);
     bool setCurrentWallet(const QString& name);
     bool removeWallet(const QString &name);
     void removeAllWallets();
-
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
-
     void showOutOfSyncWarning(bool fShow);
 
 Q_SIGNALS:

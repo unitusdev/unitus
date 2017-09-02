@@ -36,10 +36,10 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode,
         ui->deleteAddress->setIcon(QIcon());
         ui->exportButton->setIcon(QIcon());
     } else {
-        ui->newAddress->setIcon(platformStyle->SingleColorIcon(":/icons/add"));
-        ui->copyAddress->setIcon(platformStyle->SingleColorIcon(":/icons/editcopy"));
-        ui->deleteAddress->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-        ui->exportButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
+        ui->newAddress->setIcon(QIcon::fromTheme(":/icons/add"));
+        ui->copyAddress->setIcon(QIcon::fromTheme(":/icons/editcopy"));
+        ui->deleteAddress->setIcon(QIcon::fromTheme(":/icons/remove"));
+        ui->exportButton->setIcon(QIcon::fromTheme(":/icons/export"));
     }
 
     switch(mode)

@@ -1,0 +1,37 @@
+QActionGroup,
+QButton,
+QCheckBox,
+QComboBox,
+QFrame,
+QGroupBox,
+QLabel,
+QMenuBar,
+QMenu,
+QPushButton,
+QRadioButton,
+QSpinBox,
+QStatusBar,
+QTabBar,
+QTabWidget,
+QTableView,
+QTextEdit,
+QToolBar,
+QToolButton,
+QToolTip,
+QTreeView,
+QLineEdit
+{
+    font-family: "Economica";
+}
+
+QToolBar#MainToolbar , QFrame#walletBalanceFrame , QFrame#recentTransactionsFrame, QFrame#requestedPaymentsFrame, QFrame#receiveDetailsFrame, QStackedWidget#SendCoinsEntry
+{
+    background-image: url(:/icons/brushed-metal-quick);
+    border: 1px;
+}
+
+QFrame#walletBalanceFrame , QFrame#recentTransactionsFrame, QFrame#requestedPaymentsFrame, QFrame#receiveDetailsFrame, QStackedWidget#SendCoinsEntry
+{
+    border-image: url(:/icons/rivets) 85 85 85 85 stech strech;
+    border-width: 24px;
+}

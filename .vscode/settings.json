@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "array": "cpp",
+        "qstackedwidget": "cpp",
+        "qpixmap": "cpp",
+        "qpainter": "cpp"
+    }
+}
