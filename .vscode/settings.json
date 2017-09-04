@@ -3,6 +3,7 @@
         "array": "cpp",
         "qstackedwidget": "cpp",
         "qpixmap": "cpp",
-        "qpainter": "cpp"
+        "qpainter": "cpp",
+        "qabstractitemdelegate": "cpp"
     }
 }

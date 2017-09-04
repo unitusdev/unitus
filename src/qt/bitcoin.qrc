@@ -53,9 +53,8 @@
         <file alias="hd_enabled">res/icons/hd_enabled.png</file>
         <file alias="hd_disabled">res/icons/hd_disabled.png</file>
         <file alias="network_disabled">res/icons/network_disabled.png</file>
-        <file alias="brushed-metal-quick">res/src/bmq.png</file>
         <file alias="unitus3d">res/src/chain3.png</file>
-        <file alias="rivets">res/icons/rivets.png</file>
+        <file alias="aboutfaded">res/icons/aboutfaded.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
@@ -133,5 +132,20 @@
     </qresource>
     <qresource prefix="/css">
         <file alias="default">res/css/default.css</file>
+    </qresource>
+    <qresource prefix="/backgrounds">
+        <file alias="backgroundblue">res/src/backgroundblue.png</file>
+        <file alias="backgroundbluetile">res/src/backgroundbluetile.png</file>
+        <file alias="backgroundred">res/src/backgroungred.png</file>
+        <file alias="backgroundredtile">res/src/backgroungredtile.png</file>
+        <file alias="brushed-metal-quick">res/src/bmq.png</file>
+        <file alias="bluenoise">res/src/blue_noise.jpg</file>
+        <file alias="headerbg">res/src/header_bg.jpg</file>
+    </qresource>
+    <qresource prefix="/borders">
+        <file alias="rivets">res/src/rivets.png</file>
+    </qresource>
+    <qresource prefix="/advanced">
+        <file>spinimage.qml</file>
     </qresource>
 </RCC>
