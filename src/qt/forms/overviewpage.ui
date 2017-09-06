@@ -452,7 +452,7 @@ url(:/backgrounds/backgroundblue);
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">border-image: url(:/icons/aboutfaded) 0 0 0 0 no-repeat no-repeat;</string>
+             <string notr="true">border-image: url(:/icons/aboutfaded2) 0 0 0 0 no-repeat no-repeat;</string>
             </property>
             <property name="text">
              <string/>

@@ -31,7 +31,7 @@ QToolBar#MainToolbar
 }
 
 
-QFrame#walletBalanceFrame , QFrame#recentTransactionsFrame, QFrame#requestedPaymentsFrame, QFrame#receiveDetailsFrame, QStackedWidget#SendCoinsEntry
+QFrame#walletBalanceFrame , QFrame#recentTransactionsFrame, QFrame#requestedPaymentsFrame, QFrame#receiveDetailsFrame, QStackedWidget#SendCoinsEntry, QScrollArea#scrollArea, QVBoxLayout#entries
 {
     background-color: rgba(66, 162, 255, 0.70);
     border-color: #AFD7FD;

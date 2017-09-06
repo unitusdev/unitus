@@ -55,6 +55,8 @@
         <file alias="network_disabled">res/icons/network_disabled.png</file>
         <file alias="unitus3d">res/src/chain3.png</file>
         <file alias="aboutfaded">res/icons/aboutfaded.png</file>
+        <file alias="aboutfaded2">res/icons/aboutfaded2.png</file>
+        <file alias="chainsilver">res/src/chainsilver.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
