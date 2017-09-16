@@ -37,10 +37,10 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
         ui->showRequestButton->setIcon(QIcon());
         ui->removeRequestButton->setIcon(QIcon());
     } else {
-        ui->clearButton->setIcon(QIcon::fromTheme(":/icons/remove"));
-        ui->receiveButton->setIcon(QIcon::fromTheme(":/icons/receiving_addresses"));
-        ui->showRequestButton->setIcon(QIcon::fromTheme(":/icons/edit"));
-        ui->removeRequestButton->setIcon(QIcon::fromTheme(":/icons/remove"));
+        ui->clearButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+        ui->receiveButton->setIcon(platformStyle->SingleColorIcon(":/icons/receiving_addresses"));
+        ui->showRequestButton->setIcon(platformStyle->SingleColorIcon(":/icons/edit"));
+        ui->removeRequestButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
     }
 
     // context menu actions

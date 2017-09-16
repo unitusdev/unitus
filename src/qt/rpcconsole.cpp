@@ -426,11 +426,11 @@ RPCConsole::RPCConsole(const PlatformStyle *_platformStyle, QWidget *parent) :
     ui->openDebugLogfileButton->setToolTip(ui->openDebugLogfileButton->toolTip().arg(tr(PACKAGE_NAME)));
 
     if (platformStyle->getImagesOnButtons()) {
-        ui->openDebugLogfileButton->setIcon(QIcon::fromTheme(":/icons/export"));
+        ui->openDebugLogfileButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
     }
-    ui->clearButton->setIcon(QIcon::fromTheme(":/icons/remove"));
-    ui->fontBiggerButton->setIcon(QIcon::fromTheme(":/icons/fontbigger"));
-    ui->fontSmallerButton->setIcon(QIcon::fromTheme(":/icons/fontsmaller"));
+    ui->clearButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+    ui->fontBiggerButton->setIcon(platformStyle->SingleColorIcon(":/icons/fontbigger"));
+    ui->fontSmallerButton->setIcon(platformStyle->SingleColorIcon(":/icons/fontsmaller"));
 
     // Install event filter for up and down arrow
     ui->lineEdit->installEventFilter(this);
