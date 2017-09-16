@@ -242,7 +242,7 @@ QValidateLineEdit#signatureIn_VM,
 /* Receive Request Dialog */
 QTextEdit#outUri
 {
-    font: bold;
+    font: bold 11pt;
 }
 
 /* Note Labels */
