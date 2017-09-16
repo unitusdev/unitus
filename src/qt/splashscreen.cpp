@@ -67,7 +67,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle) 
     //gradient.setColorAt(1, QColor(0,0,200));
     //QRect rGradient(QPoint(0,0), splashSize);
     //pixPaint.fillRect(rGradient, gradient);
-    QPixmap backgroundImage(":/backgrounds/headerbg");
+    QPixmap backgroundImage(":/backgrounds/backgroundblue");
     backgroundImage = backgroundImage.scaled(480*devicePixelRatio, 320*devicePixelRatio, Qt::KeepAspectRatioByExpanding);
     pixPaint.drawPixmap(0, 0, backgroundImage);
 

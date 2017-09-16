@@ -1,28 +1,11 @@
-QActionGroup,
-QButton,
-QCheckBox,
-QComboBox,
-QFrame,
-QGroupBox,
-QLabel,
-QMenuBar,
-QMenu,
-QPushButton,
-QRadioButton,
-QSpinBox,
-QStatusBar,
-QTabBar,
-QTabWidget,
-QTableView,
-QTextEdit,
-QToolBar,
-QToolButton,
-QToolTip,
-QTreeView,
-QLineEdit
+
+
+QToolButton
 {
-    font-family: "Economica";
+    color: rgba(134, 136, 141, 1);
+    font: bold;    
 }
+
 
 QToolBar#MainToolbar
 {
@@ -39,7 +22,7 @@ QFrame#walletBalanceFrame , QFrame#recentTransactionsFrame, QFrame#requestedPaym
     border-width: 1px;
 }
 
-QWidget#WalletMainPage
+QWidget#WalletMainPage, QWidget#RPCConsole, QDialog
 {
     background-image: url(:/backgrounds/bluenoise);
     border: 1px;    
