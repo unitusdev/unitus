@@ -45,7 +45,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Quantity:</string>
+          <string>Quantity</string>
          </property>
         </widget>
        </item>
@@ -74,7 +74,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Bytes:</string>
+          <string>Bytes</string>
          </property>
         </widget>
        </item>
@@ -119,7 +119,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Amount:</string>
+          <string>Amount</string>
          </property>
         </widget>
        </item>
@@ -151,7 +151,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Dust:</string>
+          <string>Dust</string>
          </property>
         </widget>
        </item>
@@ -199,7 +199,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Fee:</string>
+          <string>Fee</string>
          </property>
         </widget>
        </item>
@@ -244,7 +244,7 @@
           </font>
          </property>
          <property name="text">
-          <string>After Fee:</string>
+          <string>After Fee</string>
          </property>
         </widget>
        </item>
@@ -276,7 +276,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Change:</string>
+          <string>Change</string>
          </property>
         </widget>
        </item>
@@ -304,7 +304,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QFrame" name="frame">
+    <widget class="QFrame" name="frameCoinControlMode">
      <property name="minimumSize">
       <size>
        <width>0</width>

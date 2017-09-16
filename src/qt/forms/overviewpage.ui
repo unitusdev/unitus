@@ -241,7 +241,7 @@ url(:/backgrounds/backgroundblue);
             <item row="3" column="0">
              <widget class="QLabel" name="labelImmatureText">
               <property name="text">
-               <string>Unconfirmed:</string>
+               <string>Unconfirmed</string>
               </property>
              </widget>
             </item>
@@ -296,7 +296,7 @@ url(:/backgrounds/backgroundblue);
             <item row="1" column="0">
              <widget class="QLabel" name="labelBalanceText">
               <property name="text">
-               <string>Available:</string>
+               <string>Available</string>
               </property>
              </widget>
             </item>
@@ -341,7 +341,7 @@ url(:/backgrounds/backgroundblue);
             <item row="2" column="0">
              <widget class="QLabel" name="labelPendingText">
               <property name="text">
-               <string>Pending:</string>
+               <string>Pending</string>
               </property>
              </widget>
             </item>
@@ -358,7 +358,7 @@ url(:/backgrounds/backgroundblue);
             <item row="5" column="0">
              <widget class="QLabel" name="labelTotalText">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Total&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>

@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="labelOpenUriNote">
      <property name="text">
       <string>Open payment request from URI or file</string>
      </property>
@@ -24,9 +24,9 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="labelURI">
        <property name="text">
-        <string>URI:</string>
+        <string>URI</string>
        </property>
       </widget>
      </item>

@@ -52,7 +52,7 @@
         <property name="lineWidth">
          <number>0</number>
         </property>
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="labelReceiveCoinsDialog">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -76,15 +76,15 @@
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="2" column="0">
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="labelReceiveCoinsLabel">
           <property name="toolTip">
            <string>An optional label to associate with the new receiving address.</string>
           </property>
           <property name="text">
-           <string>&amp;Label:</string>
+           <string>&amp;Label</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
           </property>
           <property name="buddy">
            <cstring>reqLabel</cstring>
@@ -136,15 +136,15 @@
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="labelReceiveCoinsAmount">
           <property name="toolTip">
            <string>An optional amount to request. Leave this empty or zero to not request a specific amount.</string>
           </property>
           <property name="text">
-           <string>&amp;Amount:</string>
+           <string>&amp;Amount</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
           </property>
           <property name="buddy">
            <cstring>reqAmount</cstring>
@@ -152,15 +152,15 @@
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="labelReceiveCoinsMessage">
           <property name="toolTip">
            <string>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Unitus network.</string>
           </property>
           <property name="text">
-           <string>&amp;Message:</string>
+           <string>&amp;Message</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
           </property>
           <property name="buddy">
            <cstring>reqMessage</cstring>
@@ -294,7 +294,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="labelRequestPaymentsHistory">
         <property name="font">
          <font>
           <weight>75</weight>

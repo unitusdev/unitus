@@ -559,7 +559,7 @@
          <item>
           <widget class="QLabel" name="langLabel">
            <property name="text">
-            <string>User Interface &amp;language:</string>
+            <string>User Interface &amp;language</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -583,7 +583,7 @@
          <item>
           <widget class="QLabel" name="unitLabel">
            <property name="text">
-            <string>&amp;Unit to show amounts in:</string>
+            <string>&amp;Unit to show amounts in</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -651,7 +651,7 @@
         <item>
          <widget class="QLabel" name="overriddenByCommandLineInfoLabel">
           <property name="text">
-           <string>Active command-line options that override above options:</string>
+           <string>Active command-line options that override above options</string>
           </property>
           <property name="textFormat">
            <enum>Qt::PlainText</enum>

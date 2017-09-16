@@ -1,4 +1,4 @@
-/* Toolbar Styling*/
+/* Toolbar Styling */
 QToolButton
 {
     color: rgba(134, 136, 141, 1);
@@ -10,15 +10,6 @@ QToolBar#MainToolbar
     border: 1px;
 }
 
-
-QFrame#walletBalanceFrame , QFrame#recentTransactionsFrame, QFrame#requestedPaymentsFrame, QFrame#receiveDetailsFrame, QStackedWidget#SendCoinsEntry, QScrollArea#scrollArea, QVBoxLayout#entries
-{
-    background-color: rgba(66, 162, 255, 0.70);
-    border-color: #AFD7FD;
-    border-style: solid;
-    border-width: 1px;
-}
-
 QWidget#WalletMainPage, QWidget#RPCConsole, QDialog
 {
     background-image: url(:/backgrounds/bluenoise);
@@ -26,23 +17,102 @@ QWidget#WalletMainPage, QWidget#RPCConsole, QDialog
 }
 
 /* Explicit Definition of Styles*/
+
+/* Frames*/
+/* Overview Page*/
+QFrame#walletBalanceFrame , 
+QFrame#recentTransactionsFrame, 
+QFrame#requestedPaymentsFrame, 
+QFrame#receiveDetailsFrame, 
+QStackedWidget#SendCoinsEntry, 
+QScrollArea#scrollArea, 
+QVBoxLayout#entries,
+/* Send Payment Page*/
+QFrame#frameCoinControl,
+QFrame#frameFee,
+/* Receive Coins Page */
+QFrame#receiveDetailsFrame,
+QFrame#requestedPaymentsFrame,
+/* Coin Control Dialog */
+QFrame#frameCoinControlMode,
+/* Help Message Dialog */
+QFrame#frameHelpMessageBelowLogo
+{
+    background-color: rgba(66, 162, 255, 0.70);
+    border-color: #AFD7FD;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/* Section Headings*/
 /* Overview Page*/
 QLabel#WalletBalancesHeading,
-QLabel#RecentTransactionsHeading
+QLabel#RecentTransactionsHeading,
+QLabel#labelCoinControlFeatures,
+/* Receive Coins Page */
+QLabel#labelRequestPaymentsHistory,
+/* Intro Page */
+QLabel#welcomeLabel
 {
     color: rgba(255, 255, 255, 1);
     font: bold;        
 }
 
+/* Item Headings*/
+/* Overview Page*/
 QLabel#labelBalanceText,
 QLabel#labelPendingText,
 QLabel#labelImmatureText,
-QLabel#labelTotalText
+QLabel#labelTotalText,
+/* Send Payment Page*/
+QLabel#payToLabel,
+QLabel#labellLabel,
+QLabel#amountLabel,
+QLabel#messageLabel,
+QLabel#labelFeeHeadline,
+QLabel#labelFeeMinimized,
+QLabel#labelSendPageBalance,
+QLabel#labelCoinControlQuantityText,
+QLabel#labelCoinControlAmountText,
+QLabel#labelCoinControlFeeText,
+QLabel#labelCoinControlAfterFeeText,
+QLabel#labelCoinControlBytesText,
+QLabel#labelCoinControlLowOutputText,
+QLabel#labelCoinControlChangeText,
+QLabel#labelSmartFee3,
+QLabel#labelSmartFeeNormal,
+QLabel#labelSmartFeeFast,
+QLabel#confirmationTargetLabel,
+/* Receive Coins Page */
+QLabel#labelReceiveCoinsLabel,
+QLabel#labelReceiveCoinsAmount,
+QLabel#labelReceiveCoinsMessage,
+/* Ask Password Page */
+QLabel#passLabel1,
+QLabel#passLabel2,
+QLabel#passLabel3,
+/* Coin Control Dialog */
+QLabel#labelCoinControlQuantityText,
+QLabel#labelCoinControlAmountText,
+QLabel#labelCoinControlFeeText,
+QLabel#labelCoinControlAfterFeeText,
+QLabel#labelCoinControlBytesText,
+QLabel#labelCoinControlLowOutputText,
+QLabel#labelCoinControlChangeText,
+/* Edit Address Dialog */
+QLabel#labelEditAddressDialogLabel,
+QLabel#labelEditAddressDialogAddress,
+/* Open URI Page */
+QLabel#labelURI,
+/* Sign Verify Message Page */
+QLabel#signatureLabel_SM
 {
     color: rgba(255, 255, 255, 1);
     font: bold;    
 }
 
+/* Item Values*/
+/* Overview Page*/
 QLabel#labelBalance,
 QLabel#labelWatchAvailable,
 QLabel#labelUnconfirmed,
@@ -52,8 +122,167 @@ QLabel#labelWatchImmature,
 QLabel#labelTotal,
 QLabel#labelWatchTotal,
 QLabel#labelSpendable,
-QLabel#labelWatchonly
+QLabel#labelWatchonly,
+/* Send Payment Page*/
+QLabel#labelCoinControlQuantity,
+QLabel#labelCoinControlAmount,
+QLabel#labelCoinControlFee,
+QLabel#labelCoinControlAfterFee,
+QLabel#labelCoinControlBytes,
+QLabel#labelCoinControlLowOutput,
+QLabel#labelCoinControlChange,
+/* Coin Control Dialog */
+QLabel#labelCoinControlQuantity,
+QLabel#labelCoinControlAmount,
+QLabel#labelCoinControlFee,
+QLabel#labelCoinControlAfterFee,
+QLabel#labelCoinControlBytes,
+QLabel#labelCoinControlLowOutput,
+QLabel#labelCoinControlChange
 {
     color:#AFD7FD;
 }
 
+/* Buttons*/
+/* Send Payment Page*/
+QPushButton#pushButtonCoinControl,
+QPushButton#buttonChooseFee,
+QPushButton#buttonMinimizeFee,
+QPushButton#sendButton,
+QPushButton#clearButton,
+QPushButton#addButton,
+/* Receive Coins Page */
+QPushButton#receiveButton,
+QPushButton#clearButton,
+QPushButton#showRequestButton,
+QPushButton#removeRequestButton,
+/* Address Book Page */
+QPushButton#newAddress,
+QPushButton#copyAddress,
+QPushButton#deleteAddress,
+QPushButton#exportButton,
+QPushButton#closeButton,
+/* Coin Control Dialog */
+QPushButton#pushButtonSelectAll,
+/* Intro Page */
+QPushButton#ellipsisButton,
+/* Open URI Page */
+QPushButton#selectFileButton,
+/* Sign Verify Message Page */
+QPushButton#addressBookButton_SM,
+QPushButton#pasteButton_SM,
+QPushButton#signMessageButton_SM,
+QPushButton#clearButton_SM,
+QPushButton#copySignatureButton_SM,
+QPushButton#addressBookButton_VM,
+QPushButton#verifyMessageButton_VM,
+QPushButton#clearButton_VM,
+/* Receive Request Dialog */
+QPushButton#btnCopyURI,
+QPushButton#btnCopyAddress,
+QPushButton#btnSaveAs
+{
+    color:#AFD7FD;
+}
+
+/* Checkboxes*/
+/* Send Payment Page*/
+QCheckbox#checkboxSubtractFeeFromAmount,
+QCheckbox#checkBoxCoinControlChange,
+QCheckbox#checkBoxMinimumFee,
+QLabel#labelMinFeeWarning,
+/* Receive Coins Page */
+QLabel#reuseAddress
+{
+    color: rgba(255, 255, 255, 1);
+    font: bold;    
+}
+
+/* Radio Buttons*/
+/* Send Payment Page*/
+QRadioButton#radioSmartFee,
+QRadioButton#radioCustomFee,
+QRadioButton#radioCustomPerKilobyte,
+QRadioButton#radioCustomAtLeast,
+/* Coin Control Dialog */
+QRadioButton#radioTreeMode,
+QRadioButton#radioListMode,
+/* Intro Page */
+QRadioButton#dataDirDefault,
+QRadioButton#dataDirCustom
+{
+    color: rgba(255, 255, 255, 1);
+}
+
+/* Text Editors*/
+/* Send Payment Page*/
+QValidateLineEdit#payTo,
+QLineEdit#addAsLabel,
+BitcoinAmountField#payAmount,
+QValidateLineEdit#lineEditCoinControlChange,
+BitcoinAmountField#customFee,
+/* Edit Address Dialog */
+QLineEdit#labelEdit,
+QValidateLineEdit#addressEdit,
+/* Help Message Dialog */
+QTextEdit#helpMessage,
+/* Intro Page */
+QLineEdit#dataDirectory,
+/* Open URI Page */
+QValidateLineEdit#uriEdit,
+/* Transaction Description Dialog */
+QTextEdit#detailText,
+/* Sign Verify Message Page */
+QValidateLineEdit#addressIn_SM,
+QValidateLineEdit#addressIn_VM,
+QPlainTextEdit#messageIn_SM,
+QPlainTextEdit#messageIn_VM,
+QLineEdit#signatureOut_SM,
+QValidateLineEdit#signatureIn_VM,
+/* Receive Request Dialog */
+QTextEdit#outUri
+{
+    font: bold;
+}
+
+/* Note Labels */
+/* Send Payment Page*/
+QLabel#labelCoinControlAutomaticallySelected,
+QLabel#labelSmartFee2,
+/* Receive Coins Page */
+QLabel#labelReceiveCoinsDialog,
+/* Address Book Page */
+QLabel#labelExplanation,
+/* Coin Control Dialog */
+QLabel#labelLocked,
+/* Help Message Dialog */
+QLabel#aboutMessage,
+/* Intro Page */
+QLabel#storageLabel,
+QLabel#sizeWarningLabel,
+/* Open URI Page */
+QLabel#labelOpenUriNote,
+/* Sign Verify Message Page */
+QLabel#infoLabel_SM,
+QLabel#infoLabel_VM,
+QLabel#statusLabel_SM,
+QLabel#statusLabel_VM
+{
+    color:#000000;
+}
+
+/* Error Labels */
+/* Send Payment Page*/
+QLabel#labelCoinControlInsuffFunds,
+/* Intro Page */
+QLabel#errorMessage
+{
+    color:#FF0000;
+}
+
+/* Waning Labels */
+/* Ask Password Page */
+QLabel#warningLabel
+{
+    color:#FF7E00;
+}

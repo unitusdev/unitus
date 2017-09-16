@@ -225,7 +225,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Quantity:</string>
+                  <string>Quantity</string>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -260,7 +260,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Bytes:</string>
+                  <string>Bytes</string>
                  </property>
                 </widget>
                </item>
@@ -308,7 +308,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Amount:</string>
+                  <string>Amount</string>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -340,7 +340,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Dust:</string>
+                  <string>Dust</string>
                  </property>
                 </widget>
                </item>
@@ -388,7 +388,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Fee:</string>
+                  <string>Fee</string>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -439,7 +439,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>After Fee:</string>
+                  <string>After Fee</string>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -471,7 +471,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>Change:</string>
+                  <string>Change</string>
                  </property>
                 </widget>
                </item>
@@ -923,7 +923,7 @@
                <item>
                 <widget class="QRadioButton" name="radioSmartFee">
                  <property name="text">
-                  <string>Recommended:</string>
+                  <string>Recommended</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -953,7 +953,7 @@
                <item>
                 <widget class="QRadioButton" name="radioCustomFee">
                  <property name="text">
-                  <string>Custom:</string>
+                  <string>Custom</string>
                  </property>
                  <attribute name="buttonGroup">
                   <string notr="true">groupFee</string>
@@ -1034,7 +1034,7 @@
                    <item>
                     <widget class="QLabel" name="labelSmartFee3">
                      <property name="text">
-                      <string>Confirmation time target:</string>
+                      <string>Confirmation time target</string>
                      </property>
                      <property name="margin">
                       <number>2</number>
@@ -1269,7 +1269,7 @@
         <number>3</number>
        </property>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="labelSendPageBalance">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1277,7 +1277,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Balance:</string>
+          <string>Balance</string>
          </property>
         </widget>
        </item>
@@ -1324,7 +1324,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="groupCustomFee"/>
   <buttongroup name="groupFee"/>
+  <buttongroup name="groupCustomFee"/>
  </buttongroups>
 </ui>

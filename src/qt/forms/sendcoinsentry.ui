@@ -125,10 +125,10 @@
     <item row="3" column="0">
      <widget class="QLabel" name="messageLabel">
       <property name="text">
-       <string>Message:</string>
+       <string>Message</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
@@ -142,10 +142,10 @@
     <item row="0" column="0">
      <widget class="QLabel" name="payToLabel">
       <property name="text">
-       <string>Pay &amp;To:</string>
+       <string>Pay &amp;To</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
       <property name="buddy">
        <cstring>payTo</cstring>
@@ -182,10 +182,10 @@
     <item row="2" column="0">
      <widget class="QLabel" name="amountLabel">
       <property name="text">
-       <string>A&amp;mount:</string>
+       <string>A&amp;mount</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
       <property name="buddy">
        <cstring>payAmount</cstring>
@@ -195,10 +195,10 @@
     <item row="1" column="0">
      <widget class="QLabel" name="labellLabel">
       <property name="text">
-       <string>&amp;Label:</string>
+       <string>&amp;Label</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
       <property name="buddy">
        <cstring>addAsLabel</cstring>
