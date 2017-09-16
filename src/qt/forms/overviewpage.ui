@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="autoFillBackground">
-   <bool>false</bool>
-  </property>
   <property name="styleSheet">
    <string notr="true">QWidget#OverviewPage
 {
@@ -64,15 +61,12 @@ url(:/backgrounds/backgroundblue);
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
-             <widget class="QLabel" name="label_5">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
+             <widget class="QLabel" name="WalletBalancesHeading">
               <property name="text">
                <string>Wallet Balances</string>
+              </property>
+              <property name="textFormat">
+               <enum>Qt::RichText</enum>
               </property>
              </widget>
             </item>
@@ -131,12 +125,6 @@ url(:/backgrounds/backgroundblue);
             </property>
             <item row="2" column="2">
              <widget class="QLabel" name="labelWatchPending">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -156,12 +144,6 @@ url(:/backgrounds/backgroundblue);
             </item>
             <item row="2" column="1">
              <widget class="QLabel" name="labelUnconfirmed">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -181,12 +163,6 @@ url(:/backgrounds/backgroundblue);
             </item>
             <item row="3" column="2">
              <widget class="QLabel" name="labelWatchImmature">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -232,12 +208,6 @@ url(:/backgrounds/backgroundblue);
             </item>
             <item row="3" column="1">
              <widget class="QLabel" name="labelImmature">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -277,12 +247,6 @@ url(:/backgrounds/backgroundblue);
             </item>
             <item row="5" column="1">
              <widget class="QLabel" name="labelTotal">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -302,12 +266,6 @@ url(:/backgrounds/backgroundblue);
             </item>
             <item row="5" column="2">
              <widget class="QLabel" name="labelWatchTotal">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -344,12 +302,6 @@ url(:/backgrounds/backgroundblue);
             </item>
             <item row="1" column="1">
              <widget class="QLabel" name="labelBalance">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -369,12 +321,6 @@ url(:/backgrounds/backgroundblue);
             </item>
             <item row="1" column="2">
              <widget class="QLabel" name="labelWatchAvailable">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -497,15 +443,9 @@ url(:/backgrounds/backgroundblue);
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QLabel" name="label_4">
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
+             <widget class="QLabel" name="RecentTransactionsHeading">
               <property name="text">
-               <string>Recent transactions</string>
+               <string>Recent Transactions</string>
               </property>
              </widget>
             </item>

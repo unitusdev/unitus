@@ -1,12 +1,9 @@
-
-
+/* Toolbar Styling*/
 QToolButton
 {
     color: rgba(134, 136, 141, 1);
     font: bold;    
 }
-
-
 QToolBar#MainToolbar
 {
     background-image: url(:/backgrounds/headerbg);
@@ -27,3 +24,36 @@ QWidget#WalletMainPage, QWidget#RPCConsole, QDialog
     background-image: url(:/backgrounds/bluenoise);
     border: 1px;    
 }
+
+/* Explicit Definition of Styles*/
+/* Overview Page*/
+QLabel#WalletBalancesHeading,
+QLabel#RecentTransactionsHeading
+{
+    color: rgba(255, 255, 255, 1);
+    font: bold;        
+}
+
+QLabel#labelBalanceText,
+QLabel#labelPendingText,
+QLabel#labelImmatureText,
+QLabel#labelTotalText
+{
+    color: rgba(255, 255, 255, 1);
+    font: bold;    
+}
+
+QLabel#labelBalance,
+QLabel#labelWatchAvailable,
+QLabel#labelUnconfirmed,
+QLabel#labelWatchPending,
+QLabel#labelImmature,
+QLabel#labelWatchImmature,
+QLabel#labelTotal,
+QLabel#labelWatchTotal,
+QLabel#labelSpendable,
+QLabel#labelWatchonly
+{
+    color:#AFD7FD;
+}
+
