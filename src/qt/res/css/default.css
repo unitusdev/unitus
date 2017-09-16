@@ -185,6 +185,24 @@ QPushButton#btnSaveAs
     color:#AFD7FD;
 }
 
+/* Dialog Buttons */
+/* Coin Control Dialog */
+/* Ask Password Page */ 
+/* Edit Address Dialog */
+/* Intro Page */
+/* Open URI Page */
+/* Transaction Description Dialog */
+/* Receive Request Dialog */
+QDialogButtonBox#buttonBox,
+/* Help Message Dialog */
+QDialogButtonBox#okButton
+{
+    dialogbuttonbox-buttons-have-icons: 1;
+    icon-size: 16px 16px;
+    dialog-ok-icon: url(:/icons/synced);
+    dialog-cancel-icon: url(:/icons/quit);
+}
+
 /* Checkboxes*/
 /* Send Payment Page*/
 QCheckbox#checkboxSubtractFeeFromAmount,

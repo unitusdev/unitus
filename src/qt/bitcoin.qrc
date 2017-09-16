@@ -106,6 +106,7 @@
         <file alias="brushed-metal-quick">res/src/bmq.png</file>
         <file alias="bluenoise">res/src/blue_noise.jpg</file>
         <file alias="headerbg">res/src/header_bg.jpg</file>
+        <file alias="splashbg">res/src/splashbg.png</file>
     </qresource>
     <qresource prefix="/borders">
         <file alias="rivets">res/src/rivets.png</file>

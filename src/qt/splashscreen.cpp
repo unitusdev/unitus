@@ -67,7 +67,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle) 
     //gradient.setColorAt(1, QColor(0,0,200));
     //QRect rGradient(QPoint(0,0), splashSize);
     //pixPaint.fillRect(rGradient, gradient);
-    QPixmap backgroundImage(":/backgrounds/backgroundblue");
+    QPixmap backgroundImage(":/backgrounds/splashbg");
     backgroundImage = backgroundImage.scaled(480*devicePixelRatio, 320*devicePixelRatio, Qt::KeepAspectRatioByExpanding);
     pixPaint.drawPixmap(0, 0, backgroundImage);
 
@@ -78,7 +78,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle) 
     //QPixmap icon(networkStyle->getAppIcon().pixmap(requiredSize));
     QPixmap icon(":/icons/chainsilver");
     
-    pixPaint.drawPixmap(rectIcon, icon);
+    //pixPaint.drawPixmap(rectIcon, icon);
 
     // check font size and drawing with
     pixPaint.setFont(QFont(font, 33*fontFactor));

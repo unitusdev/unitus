@@ -143,6 +143,10 @@
        <property name="text">
         <string>C&amp;lose</string>
        </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/quit</normaloff>:/icons/quit</iconset>
+       </property>
        <property name="autoDefault">
         <bool>false</bool>
        </property>
