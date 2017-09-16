@@ -113,4 +113,7 @@
     <qresource prefix="/advanced">
         <file>spinimage.qml</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file alias="MuseoSansRounded">res/fonts/MuseoSansRounded-700.otf</file>
+    </qresource>
 </RCC>
