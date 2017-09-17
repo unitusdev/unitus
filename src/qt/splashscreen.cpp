@@ -59,7 +59,7 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle) 
 #endif
 
     QPainter pixPaint(&pixmap);
-    pixPaint.setPen(QColor(255,255,255));
+    pixPaint.setPen(QColor(62, 62, 62));
 
     // draw a slightly radial gradient
     //QRadialGradient gradient(QPoint(0,0), splashSize.width()/devicePixelRatio);
