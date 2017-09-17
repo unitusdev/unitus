@@ -100,10 +100,6 @@
         <file alias="default">res/css/default.css</file>
     </qresource>
     <qresource prefix="/backgrounds">
-        <file alias="backgroundblue">res/src/backgroundblue.png</file>
-        <file alias="backgroundred">res/src/backgroungred.png</file>
-        <file alias="backgroundredtile">res/src/backgroungredtile.png</file>
-        <file alias="brushed-metal-quick">res/src/bmq.png</file>
         <file alias="bluenoise">res/src/blue_noise.jpg</file>
         <file alias="headerbg">res/src/header_bg.jpg</file>
         <file alias="splashbg">res/src/splashbg.png</file>
