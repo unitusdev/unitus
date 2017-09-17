@@ -62,7 +62,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         licenseInfoHTML.replace("\n", "<br>");
 
         ui->aboutMessage->setTextFormat(Qt::RichText);
-        ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        ui->scrollAreaAbout->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         text = version + "\n" + licenseInfo;
         ui->aboutMessage->setText(version + "<br><br>" + licenseInfoHTML);
         ui->aboutMessage->setWordWrap(true);
@@ -127,7 +127,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         }
 
         ui->helpMessage->moveCursor(QTextCursor::Start);
-        ui->scrollArea->setVisible(false);
+        ui->scrollAreaAbout->setVisible(false);
         ui->aboutLogo->setVisible(false);
     }
 }
