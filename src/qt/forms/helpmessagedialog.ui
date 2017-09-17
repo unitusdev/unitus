@@ -78,6 +78,15 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QTextEdit" name="helpMessage">
+       <property name="styleSheet">
+        <string notr="true">QTextEdit
+{
+    background: transparent;
+}</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -108,6 +117,12 @@
           <widget class="QLabel" name="aboutMessage">
            <property name="cursor">
             <cursorShape>IBeamCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel
+{
+    background: transparent;
+}</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>

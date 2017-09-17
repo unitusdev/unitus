@@ -579,6 +579,12 @@
    </item>
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="styleSheet">
+      <string notr="true">QScrollArea
+{
+    background: transparent;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -593,6 +599,12 @@
         <width>832</width>
         <height>69</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget#scrollAreaWidgetContents
+{
+    background: transparent;
+}</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
        <property name="leftMargin">
@@ -1324,7 +1336,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="groupFee"/>
   <buttongroup name="groupCustomFee"/>
+  <buttongroup name="groupFee"/>
  </buttongroups>
 </ui>

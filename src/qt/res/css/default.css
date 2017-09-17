@@ -34,14 +34,21 @@ QFrame#frameFee,
 QFrame#receiveDetailsFrame,
 QFrame#requestedPaymentsFrame,
 /* Coin Control Dialog */
-QFrame#frameCoinControlMode,
+QFrame#frameCoinControlMode
 /* Help Message Dialog */
-QFrame#frameHelpMessageBelowLogo
+/* QFrame#frameHelpMessageBelowLogo */
 {
     background-color: rgba(66, 162, 255, 0.70);
     border-color: #AFD7FD;
     border-style: solid;
     border-width: 1px;
+}
+
+/* Scroll Areas*/
+/* Send Payment Page*/
+QScrollArea#scrollArea
+{
+    background: transparent;
 }
 
 /* Section Headings*/
@@ -243,7 +250,7 @@ BitcoinAmountField#customFee,
 QLineEdit#labelEdit,
 QValidateLineEdit#addressEdit,
 /* Help Message Dialog */
-QTextEdit#helpMessage,
+/* QTextEdit#helpMessage, */
 /* Intro Page */
 QLineEdit#dataDirectory,
 /* Open URI Page */
