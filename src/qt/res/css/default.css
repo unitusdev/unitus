@@ -1,7 +1,7 @@
 /* Toolbar Styling */
 QToolButton
 {
-    color: rgba(134, 136, 141, 1);
+    color: #86888D;
     font: bold;    
 }
 QToolBar#MainToolbar
@@ -54,7 +54,7 @@ QLabel#labelRequestPaymentsHistory,
 /* Intro Page */
 QLabel#welcomeLabel
 {
-    color: rgba(255, 255, 255, 1);
+    color: #FFFFFF;    
     font: bold;        
 }
 
@@ -107,7 +107,7 @@ QLabel#labelURI,
 /* Sign Verify Message Page */
 QLabel#signatureLabel_SM
 {
-    color: rgba(255, 255, 255, 1);
+    color: #FFFFFF;
     font: bold;    
 }
 
@@ -212,7 +212,7 @@ QLabel#labelMinFeeWarning,
 /* Receive Coins Page */
 QLabel#reuseAddress
 {
-    color: rgba(255, 255, 255, 1);
+    color: #FFFFFF;
     font: bold;    
 }
 
@@ -229,7 +229,7 @@ QRadioButton#radioListMode,
 QRadioButton#dataDirDefault,
 QRadioButton#dataDirCustom
 {
-    color: rgba(255, 255, 255, 1);
+    color: #FFFFFF;
 }
 
 /* Text Editors*/
