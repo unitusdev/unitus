@@ -390,15 +390,15 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx
     switch(wtx->type)
     {
     case TransactionRecord::Generated:
-        return QIcon(":/icons/tx_mined");
+        return platformStyle->SingleColorIconCustom(":/icons/tx_mined", COLOR_ADDRESS_GENERATED);
     case TransactionRecord::RecvWithAddress:
     case TransactionRecord::RecvFromOther:
-        return QIcon(":/icons/tx_input");
+        return platformStyle->SingleColorIconCustom(":/icons/tx_input", COLOR_ADDRESS_RECEIVE); 
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
-        return QIcon(":/icons/tx_output");
+        return platformStyle->SingleColorIconCustom(":/icons/tx_output", COLOR_ADDRESS_MINED); 
     default:
-        return QIcon(":/icons/tx_inout");
+        return platformStyle->SingleColorIconCustom(":/icons/tx_inout", COLOR_ADDRESS); 
     }
 }
 
@@ -470,22 +470,22 @@ QVariant TransactionTableModel::txStatusDecoration(const TransactionRecord *wtx)
     case TransactionStatus::Offline:
         return COLOR_TX_STATUS_OFFLINE;
     case TransactionStatus::Unconfirmed:
-        return QIcon(":/icons/transaction_0");
+        return platformStyle->SingleColorIconCustom(":/icons/transaction_0", COLOR_UNCONFIRMED);
     case TransactionStatus::Abandoned:
-        return QIcon(":/icons/transaction_abandoned");
+        return platformStyle->SingleColorIconCustom(":/icons/transaction_abandoned", COLOR_TX_STATUS_DANGER);
     case TransactionStatus::Confirming:
         switch(wtx->status.depth)
         {
-        case 1: return QIcon(":/icons/transaction_1");
-        case 2: return QIcon(":/icons/transaction_2");
-        case 3: return QIcon(":/icons/transaction_3");
-        case 4: return QIcon(":/icons/transaction_4");
-        default: return QIcon(":/icons/transaction_5");
+        case 1: return platformStyle->SingleColorIconCustom(":/icons/transaction_1", COLOR_BAREADDRESS);
+        case 2: return platformStyle->SingleColorIconCustom(":/icons/transaction_2", COLOR_BAREADDRESS);
+        case 3: return platformStyle->SingleColorIconCustom(":/icons/transaction_3", COLOR_BAREADDRESS);
+        case 4: return platformStyle->SingleColorIconCustom(":/icons/transaction_4", COLOR_BAREADDRESS);
+        default: return platformStyle->SingleColorIconCustom(":/icons/transaction_5", COLOR_BAREADDRESS);
         };
     case TransactionStatus::Confirmed:
-        return QIcon(":/icons/transaction_confirmed");
+        return platformStyle->SingleColorIconCustom(":/icons/transaction_confirmed", COLOR_BAREADDRESS);
     case TransactionStatus::Conflicted:
-        return QIcon(":/icons/transaction_conflicted");
+        return platformStyle->SingleColorIconCustom(":/icons/transaction_conflicted", COLOR_UNCONFIRMED);
     case TransactionStatus::Immature: {
         int total = wtx->status.depth + wtx->status.matures_in;
         int part = (wtx->status.depth * 4 / total) + 1;
@@ -493,7 +493,7 @@ QVariant TransactionTableModel::txStatusDecoration(const TransactionRecord *wtx)
         }
     case TransactionStatus::MaturesWarning:
     case TransactionStatus::NotAccepted:
-        return QIcon(":/icons/transaction_0");
+        return platformStyle->SingleColorIconCustom(":/icons/transaction_0", COLOR_UNCONFIRMED);
     default:
         return COLOR_BLACK;
     }

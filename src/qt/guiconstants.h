@@ -34,6 +34,16 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 /* Transaction list -- TX status decoration - default color */
 #define COLOR_BLACK QColor(0, 0, 0)
 
+/* Transaction list -- Address decoration - Generated */
+#define COLOR_ADDRESS_GENERATED QColor(218,165,32, 127) // Gold
+/* Transaction list -- Address decoration - Receive */
+#define COLOR_ADDRESS_RECEIVE QColor(34,139,34, 127) // Forest Green
+/* Transaction list -- Address decoration - Send */
+#define COLOR_ADDRESS_MINED QColor(220,20,6, 127)  // Crimson
+/* Transaction list -- Address decoration - Default */
+#define COLOR_ADDRESS QColor(75,0,130, 127) // Indigo
+
+
 /* Tooltips longer than this (in characters) are converted into rich text,
    so that they can be word-wrapped.
  */
