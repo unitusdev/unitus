@@ -4,15 +4,11 @@ QToolButton
     color: #C0C0C0;
     font: bold;    
 }
+
 QToolBar#MainToolbar
 {
     background-image: url(:/backgrounds/headerbg);
     border: 1px;
-}
-
-QMenuBar
-{
-    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 lightgray, stop:1 darkgray);    
 }
 
 QWidget#WalletMainPage, QWidget#RPCConsole, QDialog
