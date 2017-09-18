@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Debug window</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
   <property name="styleSheet">
    <string notr="true">QWidget#RPCConsole
 {
