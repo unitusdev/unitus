@@ -11,7 +11,11 @@ QToolBar#MainToolbar
     border: 1px;
 }
 
-QWidget#WalletMainPage, QWidget#RPCConsole, QDialog
+QWidget#WalletMainPage, 
+QWidget#RPCConsole, 
+QDialog,
+/* Debug Dialog */
+QWidget#RPCConsole
 {
     background-image: url(:/backgrounds/bluenoise);
     border: 1px;    
