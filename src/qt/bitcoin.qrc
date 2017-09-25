@@ -53,9 +53,7 @@
         <file alias="hd_enabled">res/icons/hd_enabled.png</file>
         <file alias="hd_disabled">res/icons/hd_disabled.png</file>
         <file alias="network_disabled">res/icons/network_disabled.png</file>
-        <file alias="unitus3d">res/src/chain3.png</file>
         <file alias="aboutfaded">res/icons/aboutfaded.png</file>
-        <file alias="aboutfaded2">res/icons/aboutfaded2.png</file>
         <file alias="chainsilver">res/src/chainsilver.png</file>
     </qresource>
     <qresource prefix="/movies">
@@ -100,18 +98,14 @@
         <file alias="default">res/css/default.css</file>
     </qresource>
     <qresource prefix="/backgrounds">
-        <file alias="bluenoise">res/src/blue_noise.jpg</file>
         <file alias="headerbg">res/src/header_bg.jpg</file>
         <file alias="splashbg">res/src/splashbg.png</file>
-        <file alias="redpolygons">res/src/red_polygons.jpg</file>
+        <file alias="greybg">res/src/header_bg.jpg</file>
     </qresource>
     <qresource prefix="/borders">
         <file alias="rivets">res/src/rivets.png</file>
     </qresource>
     <qresource prefix="/advanced">
         <file>spinimage.qml</file>
-    </qresource>
-    <qresource prefix="/fonts">
-        <file alias="MuseoSansRounded">res/fonts/MuseoSansRounded-700.otf</file>
     </qresource>
 </RCC>

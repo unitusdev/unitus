@@ -13,15 +13,8 @@
   <property name="windowTitle">
    <string>Debug window</string>
   </property>
-  <property name="autoFillBackground">
-   <bool>true</bool>
-  </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#RPCConsole
-{
-    background-image: url(:/backgrounds/bluenoise);
-    border: 1px;    
-}</string>
+   <string notr="true">QWidget#RPCConsole</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
