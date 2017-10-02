@@ -116,6 +116,7 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     vlayout->setSpacing(0);
 
     QTableView *view = new QTableView(this);
+    view->setObjectName("transactionTableView");
     vlayout->addLayout(hlayout);
     vlayout->addWidget(createDateRangeWidget());
     vlayout->addWidget(view);

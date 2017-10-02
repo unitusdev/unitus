@@ -11,14 +11,49 @@ QToolBar#MainToolbar
     border: 1px;
 }
 
+QToolBar > QToolButton:checked, QToolBar > QToolButton:hover {
+	color:#000000;
+	font-weight:bold;
+}
+
+/* Menu */
+
+QMenuBar {
+background-color:#656A75;
+}
+
+QMenuBar::item {
+background-color:#656A75;
+color:#ffffff;
+}
+
+QMenuBar::item:selected {
+background-color:#9198A7;
+}
+
+QMenu {
+background-color:#767A83;
+}
+
+QMenu::item {
+color:#ffffff;
+}
+
+QMenu::item:selected {
+background-color:#9198A7;
+color:#ffffff;
+}
+
+/* Windows & Dialogs */
+
 QWidget#WalletMainPage, 
-QWidget#RPCConsole, 
+QDialog#RPCConsole, 
 QDialog,
-/* Debug Dialog */
-QWidget#RPCConsole
+QVBoxLayout#rpcVerticalLayout_2
 {
-    background-image: url(:/backgrounds/bluenoise);
+    background-image: url(:/backgrounds/headerbg);
     border: 1px;    
+    color:#ffffff;
 }
 
 /* Explicit Definition of Styles*/
@@ -46,7 +81,7 @@ QFrame#frameCoinControlMode
     background-color: rgba(66, 162, 255, 0.70);
     border-color: #AFD7FD;
     border-style: solid;
-    border-width: 1px;
+    border-width: 0px;
 }
 
 /* Scroll Areas*/
@@ -247,7 +282,6 @@ QRadioButton#dataDirCustom
 /* Text Editors*/
 /* Send Payment Page*/
 QValidateLineEdit#payTo,
-QLineEdit#addAsLabel,
 BitcoinAmountField#payAmount,
 QValidateLineEdit#lineEditCoinControlChange,
 BitcoinAmountField#customFee,
@@ -281,17 +315,11 @@ QLabel#labelCoinControlAutomaticallySelected,
 QLabel#labelSmartFee2,
 /* Receive Coins Page */
 QLabel#labelReceiveCoinsDialog,
-/* Address Book Page */
-QLabel#labelExplanation,
 /* Coin Control Dialog */
 QLabel#labelLocked,
-/* Help Message Dialog */
-QLabel#aboutMessage,
 /* Intro Page */
 QLabel#storageLabel,
 QLabel#sizeWarningLabel,
-/* Open URI Page */
-QLabel#labelOpenUriNote,
 /* Sign Verify Message Page */
 QLabel#infoLabel_SM,
 QLabel#infoLabel_VM,
@@ -300,6 +328,25 @@ QLabel#statusLabel_VM
 {
     color:#000000;
 }
+
+/* Note Labels on dark bg */
+/* Receive Coins Page */
+QLabel#labelReceiveCoinsDialog,
+/* Help Message Dialog */
+QLabel#aboutMessage,
+QLabel#helpMessage,
+QTextDocument,
+/* Address Book Page */
+QLabel#labelExplanation,
+/* Open URI Page */
+QLabel#labelOpenUriNote,
+/* Options */
+QLabel#overriddenByCommandLineInfoLabel,
+QLabel#overriddenByCommandLineLabel
+{
+    color:#FFFFFF;
+}
+
 
 /* Error Labels */
 /* Send Payment Page*/

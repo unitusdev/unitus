@@ -14,10 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#OverviewPage
-{
-url(:/backgrounds/backgroundblue);
-}</string>
+   <string notr="true">QWidget#OverviewPage</string>
   </property>
   <layout class="QVBoxLayout" name="topLayout">
    <item>
