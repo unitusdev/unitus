@@ -252,12 +252,12 @@ QDialogButtonBox#okButton
 
 /* Checkboxes*/
 /* Send Payment Page*/
-QCheckbox#checkboxSubtractFeeFromAmount,
-QCheckbox#checkBoxCoinControlChange,
-QCheckbox#checkBoxMinimumFee,
+QCheckBox#checkboxSubtractFeeFromAmount,
+QCheckBox#checkBoxCoinControlChange,
+QCheckBox#checkBoxMinimumFee,
 QLabel#labelMinFeeWarning,
 /* Receive Coins Page */
-QLabel#reuseAddress
+QCheckBox#reuseAddress
 {
     color: #FFFFFF;
     font: bold;    
