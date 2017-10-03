@@ -72,6 +72,9 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         QString header = tr("Usage:") + "\n" +
             "  unitus-qt [" + tr("command-line options") + "]                     " + "\n";
         QTextCursor cursor(ui->helpMessage->document());
+        QTextCharFormat charFormat;
+        charFormat.setForeground( QBrush( QColor( "white" ) ) );
+        cursor.setCharFormat( charFormat );
         cursor.insertText(version);
         cursor.insertBlock();
         cursor.insertText(header);
@@ -105,6 +108,8 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
 
         QTextCharFormat bold;
         bold.setFontWeight(QFont::Bold);
+        bold.setForeground( QBrush( QColor( "white" ) ) );
+        
 
         Q_FOREACH (const QString &line, coreOptions.split("\n")) {
             if (line.startsWith("  -"))
@@ -112,10 +117,10 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
                 cursor.currentTable()->appendRows(1);
                 cursor.movePosition(QTextCursor::PreviousCell);
                 cursor.movePosition(QTextCursor::NextRow);
-                cursor.insertText(line.trimmed());
+                cursor.insertText(line.trimmed(), charFormat);
                 cursor.movePosition(QTextCursor::NextCell);
             } else if (line.startsWith("   ")) {
-                cursor.insertText(line.trimmed()+' ');
+                cursor.insertText(line.trimmed()+' ', charFormat);
             } else if (line.size() > 0) {
                 //Title of a group
                 if (cursor.currentTable())

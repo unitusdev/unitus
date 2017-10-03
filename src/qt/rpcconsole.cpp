@@ -422,6 +422,7 @@ RPCConsole::RPCConsole(const PlatformStyle *_platformStyle, QWidget *parent) :
 {
     ui->setupUi(this);
     this->setObjectName("RPCConsole");
+    this->setStyleSheet(QStringLiteral("#RPCConsole{background-image: url(:/backgrounds/headerbg);border:1px;color:#ffffff;}"));
     GUIUtil::restoreWindowGeometry("nRPCConsoleWindow", this->size(), this);
 
     ui->openDebugLogfileButton->setToolTip(ui->openDebugLogfileButton->toolTip().arg(tr(PACKAGE_NAME)));

@@ -14,9 +14,12 @@
    <string>Debug window</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#RPCConsole</string>
+   <string notr="true">#RPCConsole
+{
+background-image: url(:/backgrounds/headerbg);
+}</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="rpcVerticalLayout_2">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">

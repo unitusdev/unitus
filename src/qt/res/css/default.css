@@ -47,11 +47,13 @@ color:#ffffff;
 /* Windows & Dialogs */
 
 QWidget#WalletMainPage, 
-QWidget#RPCConsole, 
-QDialog
+QDialog#RPCConsole, 
+QDialog,
+QVBoxLayout#rpcVerticalLayout_2
 {
-    background-image: url(:/backgrounds/greybg);
+    background-image: url(:/backgrounds/headerbg);
     border: 1px;    
+    color:#ffffff;
 }
 
 /* Explicit Definition of Styles*/
@@ -313,17 +315,11 @@ QLabel#labelCoinControlAutomaticallySelected,
 QLabel#labelSmartFee2,
 /* Receive Coins Page */
 QLabel#labelReceiveCoinsDialog,
-/* Address Book Page */
-QLabel#labelExplanation,
 /* Coin Control Dialog */
 QLabel#labelLocked,
-/* Help Message Dialog */
-QLabel#aboutMessage,
 /* Intro Page */
 QLabel#storageLabel,
 QLabel#sizeWarningLabel,
-/* Open URI Page */
-QLabel#labelOpenUriNote,
 /* Sign Verify Message Page */
 QLabel#infoLabel_SM,
 QLabel#infoLabel_VM,
@@ -332,6 +328,25 @@ QLabel#statusLabel_VM
 {
     color:#000000;
 }
+
+/* Note Labels on dark bg */
+/* Receive Coins Page */
+QLabel#labelReceiveCoinsDialog,
+/* Help Message Dialog */
+QLabel#aboutMessage,
+QLabel#helpMessage,
+QTextDocument,
+/* Address Book Page */
+QLabel#labelExplanation,
+/* Open URI Page */
+QLabel#labelOpenUriNote,
+/* Options */
+QLabel#overriddenByCommandLineInfoLabel,
+QLabel#overriddenByCommandLineLabel
+{
+    color:#FFFFFF;
+}
+
 
 /* Error Labels */
 /* Send Payment Page*/
