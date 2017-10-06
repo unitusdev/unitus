@@ -1279,7 +1279,8 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
                 (cleanSubVer == "/Satoshi:0.9.6/") ||
                 (cleanSubVer == "/Satoshi:0.9.6.1/") ||
                 (cleanSubVer == "/Satoshi:0.9.6.2/") ||
-                (cleanSubVer == "/Satoshi:0.9.6.4/")
+                (cleanSubVer == "/Satoshi:0.9.6.4/") ||
+                (cleanSubVer == "/Satoshi:0.14.0/")
             )
             {
                 // disconnect from peers older than this client version
