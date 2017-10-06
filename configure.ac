@@ -110,19 +110,19 @@ AC_ARG_ENABLE([upnp-default],
   [use_upnp_default=no])
 
 AC_ARG_ENABLE(tests,
-    AS_HELP_STRING([--disable-tests],[do not compile tests (default is to compile)]),
+    AS_HELP_STRING([--enable-tests],[compile tests (default is to not compile)]),
     [use_tests=$enableval],
-    [use_tests=yes])
+    [use_tests=no])
 
 AC_ARG_ENABLE(gui-tests,
-    AS_HELP_STRING([--disable-gui-tests],[do not compile GUI tests (default is to compile if GUI and tests enabled)]),
+    AS_HELP_STRING([--enable-gui-tests],[compile GUI tests (default is to compile if GUI and tests enabled)]),
     [use_gui_tests=$enableval],
     [use_gui_tests=$use_tests])
 
 AC_ARG_ENABLE(bench,
-    AS_HELP_STRING([--disable-bench],[do not compile benchmarks (default is to compile)]),
+    AS_HELP_STRING([--enable-bench],[compile benchmarks (default is to not compile)]),
     [use_bench=$enableval],
-    [use_bench=yes])
+    [use_bench=no])
 
 AC_ARG_ENABLE([extended-rpc-tests],
     AS_HELP_STRING([--enable-extended-rpc-tests],[enable expensive RPC tests when using lcov (default no)]),
