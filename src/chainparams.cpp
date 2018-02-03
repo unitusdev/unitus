@@ -123,10 +123,10 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 0; // Disabled
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000003f94d1ad391682fe038bf5");
+        consensus.nMinimumChainWork = uint256S("0x13b35000000000000000000000000000000000000000000959d585fcfb52a62a");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        consensus.defaultAssumeValid = uint256S("0x00000000000000000013176bf8d7dfeab4e1db31dc93bc311b436e82ab226b90"); //453354
+        consensus.defaultAssumeValid = uint256S("0x8f0e3d076574ed50b461b7fdaa21698d809f7454ff9fdb620d24796c848b703f"); //1287500
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -145,11 +145,10 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0xd8a2b2439d013a59f3bfc626a33487a3d7d27e42a3c9e0b81af814cd8e592f31"));
         assert(genesis.hashMerkleRoot == uint256S("0x7e86d7e6d123ba67684125d094d010a6e04ab753fd5d601c024c155c0a4eb51e"));
 
-        vSeeds.push_back(CDNSSeedData("seed1.unitus.online", "seed1.unitus.online", true));
-        vSeeds.push_back(CDNSSeedData("seed2.unitus.online", "seed2.unitus.online", true));
-        vSeeds.push_back(CDNSSeedData("seed3.unitus.online", "seed3.unitus.online", true));
-        vSeeds.push_back(CDNSSeedData("seed4.unitus.online", "seed4.unitus.online", true));
-        vSeeds.push_back(CDNSSeedData("seed5.unitus.online", "seed5.unitus.online", true));
+        vSeeds.push_back(CDNSSeedData("core.easymine.online", "core.easymine.online", true));
+        vSeeds.push_back(CDNSSeedData("use.easymine.online", "use.easymine.online", true));
+        vSeeds.push_back(CDNSSeedData("us.nutty.one", "us.nutty.one", true));
+        vSeeds.push_back(CDNSSeedData("nz.nutty.one", "nz.nutty.one", true));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,68);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,10);
