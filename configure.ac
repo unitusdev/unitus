@@ -284,6 +284,7 @@ case $host in
      AC_CHECK_LIB([iphlpapi],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([crypt32],      [main],, AC_MSG_ERROR(lib missing))
 	 AC_CHECK_LIB([mman],         [main],, AC_MSG_ERROR(lib missing))
+	 AC_CHECK_LIB([crypto],         [main],, AC_MSG_ERROR(lib missing))
 
      # -static is interpreted by libtool, where it has a different meaning.
      # In libtool-speak, it's -all-static.
