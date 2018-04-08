@@ -36,7 +36,7 @@ public:
     explicit TransactionView(const PlatformStyle *platformStyle, QWidget *parent = 0);
 
     void setModel(WalletModel *model);
-
+    void setWalletStatusLabels(QLabel * p_icon, QLabel * p_label);
     // Date ranges for filter
     enum DateEnum
     {
@@ -77,6 +77,9 @@ private:
     QDateTimeEdit *dateTo;
     QAction *abandonAction;
 
+//    QLabel * walletUnlockedIcon;
+//    QLabel * walletUnlockedLabel;
+
     QWidget *createDateRangeWidget();
 
     GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
@@ -114,6 +117,11 @@ public Q_SLOTS:
     void changedAmount(const QString &amount);
     void exportClicked();
     void focusTransaction(const QModelIndex&);
+
+#ifdef ENABLE_WALLET
+    void setEncryptionStatus(int status);
+#endif
+
 
 };
 

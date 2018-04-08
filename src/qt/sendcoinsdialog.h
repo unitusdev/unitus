@@ -54,6 +54,9 @@ public Q_SLOTS:
     void updateTabsAndLabels();
     void setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                     const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
+#ifdef ENABLE_WALLET
+    void setEncryptionStatus(int status);
+#endif
 
 private:
     Ui::SendCoinsDialog *ui;

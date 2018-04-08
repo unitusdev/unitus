@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>850</width>
-    <height>526</height>
+    <width>910</width>
+    <height>755</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Send Coins</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0">
    <property name="bottomMargin">
     <number>8</number>
    </property>
@@ -51,7 +51,7 @@
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>6</number>
+       <number>0</number>
       </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayoutCoinControl" stretch="0,0,0,0,1">
@@ -59,10 +59,13 @@
          <number>0</number>
         </property>
         <property name="leftMargin">
-         <number>10</number>
+         <number>45</number>
         </property>
         <property name="topMargin">
          <number>10</number>
+        </property>
+        <property name="rightMargin">
+         <number>45</number>
         </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayoutCoinControl1">
@@ -103,6 +106,11 @@
           </property>
           <item>
            <widget class="QPushButton" name="pushButtonCoinControl">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
@@ -208,7 +216,7 @@
                 <number>14</number>
                </property>
                <property name="leftMargin">
-                <number>10</number>
+                <number>0</number>
                </property>
                <property name="topMargin">
                 <number>4</number>
@@ -499,7 +507,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayoutCoinControl4" stretch="0,0,0">
+         <layout class="QHBoxLayout" name="horizontalLayoutCoinControl4" stretch="0,0,0,0">
           <property name="spacing">
            <number>12</number>
           </property>
@@ -523,6 +531,22 @@
            </widget>
           </item>
           <item>
+           <spacer name="horizontalSpacer_18">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>15</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QValidatedLineEdit" name="lineEditCoinControlChange">
             <property name="enabled">
              <bool>false</bool>
@@ -532,6 +556,12 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>37</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -596,8 +626,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>832</width>
-        <height>69</height>
+        <width>892</width>
+        <height>73</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -685,10 +715,13 @@
          <number>0</number>
         </property>
         <property name="leftMargin">
-         <number>10</number>
+         <number>45</number>
         </property>
         <property name="topMargin">
-         <number>0</number>
+         <number>15</number>
+        </property>
+        <property name="rightMargin">
+         <number>45</number>
         </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayoutFee1">
@@ -696,12 +729,68 @@
            <number>0</number>
           </property>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayoutFee7">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <item>
-             <spacer name="verticalSpacerSmartFee">
+           <layout class="QGridLayout" name="gridLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelFeeHeadline">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>225</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font-weight:bold;</string>
+              </property>
+              <property name="text">
+               <string>Transaction Fee:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="buttonChooseFee">
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Choose...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayoutSmartFee">
+              <property name="spacing">
+               <number>10</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="labelFeeMinimized">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <spacer name="verticalSpacer_7">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -710,64 +799,24 @@
               </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>1</width>
-                <height>4</height>
+                <width>20</width>
+                <height>22</height>
                </size>
               </property>
              </spacer>
             </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayoutSmartFee">
-              <property name="spacing">
-               <number>10</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="labelFeeHeadline">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">font-weight:bold;</string>
-                </property>
-                <property name="text">
-                 <string>Transaction Fee:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="labelFeeMinimized">
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="buttonChooseFee">
-                <property name="text">
-                 <string>Choose...</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
+            <item row="5" column="1">
              <spacer name="verticalSpacer_5">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
               <property name="sizeHint" stdset="0">
                <size>
-                <width>1</width>
-                <height>1</height>
+                <width>13</width>
+                <height>7</height>
                </size>
               </property>
              </spacer>
@@ -789,6 +838,11 @@
           </item>
           <item>
            <widget class="QPushButton" name="buttonMinimizeFee">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <property name="toolTip">
              <string>collapse fee-settings</string>
             </property>
@@ -831,119 +885,245 @@
              <property name="verticalSpacing">
               <number>4</number>
              </property>
-             <item row="1" column="1">
-              <layout class="QVBoxLayout" name="verticalLayoutFee8">
-               <property name="spacing">
-                <number>6</number>
-               </property>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayoutFee13">
-                 <item>
-                  <widget class="QRadioButton" name="radioCustomPerKilobyte">
-                   <property name="toolTip">
-                    <string>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</string>
-                   </property>
-                   <property name="text">
-                    <string>per kilobyte</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                   <attribute name="buttonGroup">
-                    <string notr="true">groupCustomFee</string>
-                   </attribute>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioCustomAtLeast">
-                   <property name="toolTip">
-                    <string>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</string>
-                   </property>
-                   <property name="text">
-                    <string>total at least</string>
-                   </property>
-                   <attribute name="buttonGroup">
-                    <string notr="true">groupCustomFee</string>
-                   </attribute>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="BitcoinAmountField" name="customFee"/>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_6">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>1</width>
-                     <height>1</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayoutFee8">
-                 <item>
-                  <widget class="QCheckBox" name="checkBoxMinimumFee">
-                   <property name="toolTip">
-                    <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for Unitus transactions than the network can process.</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="labelMinFeeWarning">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="toolTip">
-                    <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for Unitus transactions than the network can process.</string>
-                   </property>
-                   <property name="text">
-                    <string>(read the tooltip)</string>
-                   </property>
-                   <property name="margin">
-                    <number>5</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>1</width>
-                     <height>1</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
              <item row="0" column="0">
               <layout class="QVBoxLayout" name="verticalLayoutFee4" stretch="0,1">
                <item>
-                <widget class="QRadioButton" name="radioSmartFee">
-                 <property name="text">
-                  <string>Recommended</string>
+                <layout class="QVBoxLayout" name="verticalLayoutFee3" stretch="0,0,1">
+                 <property name="spacing">
+                  <number>6</number>
                  </property>
-                 <property name="checked">
-                  <bool>true</bool>
+                 <property name="topMargin">
+                  <number>2</number>
                  </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">groupFee</string>
-                 </attribute>
-                </widget>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayoutFee12">
+                   <item>
+                    <widget class="QRadioButton" name="radioSmartFee">
+                     <property name="text">
+                      <string>Recommended</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">groupFee</string>
+                     </attribute>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_11">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="labelSmartFee">
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="margin">
+                      <number>2</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_14">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>12</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="labelFeeEstimation">
+                     <property name="text">
+                      <string/>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="labelSmartFee2">
+                     <property name="text">
+                      <string>(Smart fee not initialized yet. This usually takes a few blocks...)</string>
+                     </property>
+                     <property name="margin">
+                      <number>2</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_5">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>1</width>
+                       <height>1</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayoutFee9">
+                   <property name="topMargin">
+                    <number>7</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>7</number>
+                   </property>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayoutFee6">
+                     <property name="rightMargin">
+                      <number>20</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="labelSmartFee3">
+                       <property name="text">
+                        <string>Confirmation time target</string>
+                       </property>
+                       <property name="margin">
+                        <number>2</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer_3">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>1</width>
+                         <height>1</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayoutFee5">
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <widget class="QSlider" name="sliderSmartFee">
+                       <property name="minimum">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <number>23</number>
+                       </property>
+                       <property name="pageStep">
+                        <number>1</number>
+                       </property>
+                       <property name="value">
+                        <number>0</number>
+                       </property>
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="invertedAppearance">
+                        <bool>false</bool>
+                       </property>
+                       <property name="invertedControls">
+                        <bool>false</bool>
+                       </property>
+                       <property name="tickPosition">
+                        <enum>QSlider::NoTicks</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayoutFee10">
+                       <item>
+                        <widget class="QLabel" name="labelSmartFeeNormal">
+                         <property name="text">
+                          <string>normal</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="horizontalSpacer_7">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="confirmationTargetLabel">
+                         <property name="text">
+                          <string notr="true">(count)</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="horizontalSpacer_3">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="labelSmartFeeFast">
+                         <property name="text">
+                          <string>fast</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>1</width>
+                     <height>1</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
                </item>
                <item>
                 <spacer name="verticalSpacer_2">
@@ -963,100 +1143,90 @@
              <item row="1" column="0">
               <layout class="QVBoxLayout" name="verticalLayoutFee9" stretch="0,1">
                <item>
-                <widget class="QRadioButton" name="radioCustomFee">
-                 <property name="text">
-                  <string>Custom</string>
+                <layout class="QVBoxLayout" name="verticalLayoutFee8">
+                 <property name="spacing">
+                  <number>6</number>
                  </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">groupFee</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <spacer name="verticalSpacer_6">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>1</width>
-                   <height>1</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item row="0" column="1">
-              <layout class="QVBoxLayout" name="verticalLayoutFee3" stretch="0,0,1">
-               <property name="spacing">
-                <number>6</number>
-               </property>
-               <property name="topMargin">
-                <number>2</number>
-               </property>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayoutFee12">
                  <item>
-                  <widget class="QLabel" name="labelSmartFee">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="margin">
-                    <number>2</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="labelFeeEstimation">
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="labelSmartFee2">
-                   <property name="text">
-                    <string>(Smart fee not initialized yet. This usually takes a few blocks...)</string>
-                   </property>
-                   <property name="margin">
-                    <number>2</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_5">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>1</width>
-                     <height>1</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayoutFee9">
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayoutFee6">
+                  <layout class="QHBoxLayout" name="horizontalLayoutFee13">
                    <item>
-                    <widget class="QLabel" name="labelSmartFee3">
+                    <widget class="QRadioButton" name="radioCustomFee">
                      <property name="text">
-                      <string>Confirmation time target</string>
+                      <string>Custom</string>
                      </property>
-                     <property name="margin">
-                      <number>2</number>
-                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">groupFee</string>
+                     </attribute>
                     </widget>
                    </item>
                    <item>
-                    <spacer name="verticalSpacer_3">
+                    <spacer name="horizontalSpacer_16">
                      <property name="orientation">
-                      <enum>Qt::Vertical</enum>
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="radioCustomPerKilobyte">
+                     <property name="toolTip">
+                      <string>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</string>
+                     </property>
+                     <property name="text">
+                      <string>per kilobyte</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">groupCustomFee</string>
+                     </attribute>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="radioCustomAtLeast">
+                     <property name="toolTip">
+                      <string>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</string>
+                     </property>
+                     <property name="text">
+                      <string>total at least</string>
+                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">groupCustomFee</string>
+                     </attribute>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_17">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>12</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="BitcoinAmountField" name="customFee"/>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_6">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
@@ -1069,95 +1239,55 @@
                   </layout>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayoutFee5">
-                   <property name="rightMargin">
-                    <number>30</number>
+                  <layout class="QHBoxLayout" name="horizontalLayoutFee8">
+                   <property name="topMargin">
+                    <number>7</number>
                    </property>
                    <item>
-                    <widget class="QSlider" name="sliderSmartFee">
-                     <property name="minimum">
-                      <number>0</number>
+                    <widget class="QCheckBox" name="checkBoxMinimumFee">
+                     <property name="toolTip">
+                      <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for Unitus transactions than the network can process.</string>
                      </property>
-                     <property name="maximum">
-                      <number>23</number>
-                     </property>
-                     <property name="pageStep">
-                      <number>1</number>
-                     </property>
-                     <property name="value">
-                      <number>0</number>
-                     </property>
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="invertedAppearance">
-                      <bool>false</bool>
-                     </property>
-                     <property name="invertedControls">
-                      <bool>false</bool>
-                     </property>
-                     <property name="tickPosition">
-                      <enum>QSlider::NoTicks</enum>
+                     <property name="text">
+                      <string/>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayoutFee10">
-                     <item>
-                      <widget class="QLabel" name="labelSmartFeeNormal">
-                       <property name="text">
-                        <string>normal</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_7">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="confirmationTargetLabel">
-                       <property name="text">
-                        <string notr="true">(count)</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_3">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="labelSmartFeeFast">
-                       <property name="text">
-                        <string>fast</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    <widget class="QLabel" name="labelMinFeeWarning">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="toolTip">
+                      <string>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for Unitus transactions than the network can process.</string>
+                     </property>
+                     <property name="text">
+                      <string>(read the tooltip)</string>
+                     </property>
+                     <property name="margin">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_2">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>1</width>
+                       <height>1</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </item>
                 </layout>
                </item>
                <item>
-                <spacer name="verticalSpacer_4">
+                <spacer name="verticalSpacer_6">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
@@ -1181,10 +1311,13 @@
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>800</width>
-            <height>1</height>
+            <height>20</height>
            </size>
           </property>
          </spacer>
@@ -1196,12 +1329,18 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="leftMargin">
+      <number>45</number>
+     </property>
+     <property name="rightMargin">
+      <number>45</number>
+     </property>
      <item>
       <widget class="QPushButton" name="sendButton">
        <property name="minimumSize">
         <size>
-         <width>150</width>
-         <height>0</height>
+         <width>200</width>
+         <height>50</height>
         </size>
        </property>
        <property name="toolTip">
@@ -1214,6 +1353,12 @@
         <iconset resource="../bitcoin.qrc">
          <normaloff>:/icons/send</normaloff>:/icons/send</iconset>
        </property>
+       <property name="iconSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
        <property name="autoDefault">
         <bool>false</bool>
        </property>
@@ -1223,6 +1368,22 @@
       </widget>
      </item>
      <item>
+      <spacer name="horizontalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>25</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="clearButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -1230,11 +1391,16 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="toolTip">
         <string>Clear all fields of the form.</string>
        </property>
        <property name="text">
-        <string>Clear &amp;All</string>
+        <string>Clear &amp;all</string>
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
@@ -1246,12 +1412,33 @@
       </widget>
      </item>
      <item>
+      <spacer name="horizontalSpacer_9">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>25</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="addButton">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
        <property name="toolTip">
         <string>Send to multiple recipients at once</string>
        </property>
        <property name="text">
-        <string>Add &amp;Recipient</string>
+        <string>Add &amp;receiver</string>
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
@@ -1294,6 +1481,22 @@
         </widget>
        </item>
        <item>
+        <spacer name="horizontalSpacer_10">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>12</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QLabel" name="labelBalance">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1316,19 +1519,139 @@
      </item>
     </layout>
    </item>
+   <item>
+    <spacer name="verticalSpacer_8">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>17</width>
+       <height>32</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QFrame" name="frameTemp">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>35</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <spacer name="horizontalSpacer_12">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>364</width>
+          <height>12</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="walletUnlockedIcon">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="../bitcoin.qrc">:/icons/lock_open</pixmap>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_13">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>13</width>
+          <height>12</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="walletUnlockedLabel">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Wallet unlocked</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_15">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>32</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QValidatedLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qvalidatedlineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>BitcoinAmountField</class>
    <extends>QLineEdit</extends>
    <header>bitcoinamountfield.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QValidatedLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>qvalidatedlineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
@@ -1336,7 +1659,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="groupCustomFee"/>
   <buttongroup name="groupFee"/>
+  <buttongroup name="groupCustomFee"/>
  </buttongroups>
 </ui>

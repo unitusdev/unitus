@@ -422,17 +422,19 @@ RPCConsole::RPCConsole(const PlatformStyle *_platformStyle, QWidget *parent) :
 {
     ui->setupUi(this);
     this->setObjectName("RPCConsole");
-    //this->setStyleSheet(QStringLiteral("#RPCConsole{background-image: url(:/backgrounds/headerbg);border:1px;color:#ffffff;}"));
+//    this->setStyleSheet(QStringLiteral("#RPCConsole{background-image: url(:/backgrounds/headerbg);border:1px;color:#ffffff;}"));
     GUIUtil::restoreWindowGeometry("nRPCConsoleWindow", this->size(), this);
 
     ui->openDebugLogfileButton->setToolTip(ui->openDebugLogfileButton->toolTip().arg(tr(PACKAGE_NAME)));
 
     if (platformStyle->getImagesOnButtons()) {
-        ui->openDebugLogfileButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
+        ui->openDebugLogfileButton->setIcon(QIcon(/*":/icons/export"*/));
     }
     ui->clearButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
     ui->fontBiggerButton->setIcon(platformStyle->SingleColorIcon(":/icons/fontbigger"));
     ui->fontSmallerButton->setIcon(platformStyle->SingleColorIcon(":/icons/fontsmaller"));
+    ui->btnClearTrafficGraph->setIcon(QIcon(":/icons/arrow_right"));
+    ui->btnClearTrafficGraph->setLayoutDirection(Qt::RightToLeft);
 
     // Install event filter for up and down arrow
     ui->lineEdit->installEventFilter(this);
@@ -549,6 +551,11 @@ void RPCConsole::setClientModel(ClientModel *model)
         ui->peerWidget->setColumnWidth(PeerTableModel::Subversion, SUBVERSION_COLUMN_WIDTH);
         ui->peerWidget->setColumnWidth(PeerTableModel::Ping, PING_COLUMN_WIDTH);
         ui->peerWidget->horizontalHeader()->setStretchLastSection(true);
+        ui->peerWidget->setShowGrid(false);
+        ui->peerWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        ui->peerWidget->setGridStyle(Qt::NoPen);
+        ui->peerWidget->verticalHeader()->setDefaultSectionSize(50);
+
 
         // create peer table context menu actions
         QAction* disconnectAction = new QAction(tr("&Disconnect"), this);
@@ -601,6 +608,10 @@ void RPCConsole::setClientModel(ClientModel *model)
         ui->banlistWidget->setColumnWidth(BanTableModel::Address, BANSUBNET_COLUMN_WIDTH);
         ui->banlistWidget->setColumnWidth(BanTableModel::Bantime, BANTIME_COLUMN_WIDTH);
         ui->banlistWidget->horizontalHeader()->setStretchLastSection(true);
+        ui->banlistWidget->setShowGrid(false);
+        ui->banlistWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        ui->banlistWidget->setGridStyle(Qt::NoPen);
+        ui->banlistWidget->verticalHeader()->setDefaultSectionSize(50);
 
         // create ban table context menu action
         QAction* unbanAction = new QAction(tr("&Unban"), this);

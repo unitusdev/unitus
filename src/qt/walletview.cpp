@@ -44,13 +44,72 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     transactionView = new TransactionView(platformStyle, this);
     vbox->addWidget(transactionView);
     QPushButton *exportButton = new QPushButton(tr("&Export"), this);
+    exportButton->setObjectName("exportButton_bg");
+    exportButton->setMinimumHeight(50);
+    exportButton->setMinimumWidth(200);
     exportButton->setToolTip(tr("Export the data in the current tab to a file"));
-    if (platformStyle->getImagesOnButtons()) {
-        exportButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
-    }
-    hbox_buttons->addStretch();
+//    if (platformStyle->getImagesOnButtons()) {
+//        exportButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
+//    }
+    hbox_buttons->addSpacing(35);
     hbox_buttons->addWidget(exportButton);
+    hbox_buttons->addStretch();
     vbox->addLayout(hbox_buttons);
+    vbox->addSpacing(35);
+//    QFont font2;
+//    font2.setPointSize(9);
+
+//    QFrame * frameTemp = new QFrame(this);
+//    frameTemp->setObjectName(QStringLiteral("frameTemp"));
+//    QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Preferred);
+//    sizePolicy7.setHorizontalStretch(0);
+//    sizePolicy7.setVerticalStretch(0);
+//    sizePolicy7.setHeightForWidth(frameTemp->sizePolicy().hasHeightForWidth());
+//    frameTemp->setSizePolicy(sizePolicy7);
+//    frameTemp->setMinimumSize(QSize(0, 35));
+//    frameTemp->setFrameShape(QFrame::StyledPanel);
+//    frameTemp->setFrameShadow(QFrame::Raised);
+//    QHBoxLayout * horizontalLayout_4 = new QHBoxLayout(frameTemp);
+//    horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+//    QSpacerItem * horizontalSpacer_14 = new QSpacerItem(22, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+//    horizontalLayout_4->addItem(horizontalSpacer_14);
+
+//    QLabel * testBuildLabel = new QLabel(frameTemp);
+//    testBuildLabel->setObjectName(QStringLiteral("testBuildLabel"));
+//    testBuildLabel->setText("This is a test-build. Do not use for mining or merchant apps.");
+//    testBuildLabel->setFont(font2);
+
+//    horizontalLayout_4->addWidget(testBuildLabel);
+
+//    QSpacerItem * horizontalSpacer_12 = new QSpacerItem(364, 12, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+//    horizontalLayout_4->addItem(horizontalSpacer_12);
+
+//    QLabel * walletUnlockedIcon = new QLabel(frameTemp);
+//    walletUnlockedIcon->setObjectName(QStringLiteral("walletUnlockedIcon"));
+//    walletUnlockedIcon->setPixmap(QPixmap(QString::fromUtf8(":/icons/lock_open")));
+
+//    horizontalLayout_4->addWidget(walletUnlockedIcon);
+
+//    QSpacerItem * horizontalSpacer_13 = new QSpacerItem(13, 12, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+//    horizontalLayout_4->addItem(horizontalSpacer_13);
+
+//    QLabel  *walletUnlockedLabel = new QLabel(frameTemp);
+//    walletUnlockedLabel->setObjectName(QStringLiteral("walletUnlockedLabel"));
+//    walletUnlockedLabel->setText("Wallet unlocked");
+//    walletUnlockedLabel->setFont(font2);
+//    transactionView->setWalletStatusLabels(walletUnlockedIcon, walletUnlockedLabel);
+
+//    horizontalLayout_4->addWidget(walletUnlockedLabel);
+
+//    QSpacerItem * horizontalSpacer_15 = new QSpacerItem(22, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+
+//    horizontalLayout_4->addItem(horizontalSpacer_15);
+
+//    vbox->addWidget(frameTemp);
+
     transactionsPage->setLayout(vbox);
 
     receiveCoinsPage = new ReceiveCoinsDialog(platformStyle);
@@ -96,6 +155,12 @@ void WalletView::setBitcoinGUI(BitcoinGUI *gui)
 
         // Pass through encryption status changed signals
         connect(this, SIGNAL(encryptionStatusChanged(int)), gui, SLOT(setEncryptionStatus(int)));
+        connect(this, SIGNAL(encryptionStatusChanged(int)), overviewPage, SLOT(setEncryptionStatus(int)));
+        connect(this, SIGNAL(encryptionStatusChanged(int)), sendCoinsPage, SLOT(setEncryptionStatus(int)));
+        connect(this, SIGNAL(encryptionStatusChanged(int)), transactionView, SLOT(setEncryptionStatus(int)));
+#ifdef ENABLE_WALLET
+        connect(overviewPage, SIGNAL(lockWallet(bool)), this, SLOT(encryptWallet(bool)));
+#endif
 
         // Pass through transaction notifications
         connect(this, SIGNAL(incomingTransaction(QString,int,CAmount,QString,QString,QString)), gui, SLOT(incomingTransaction(QString,int,CAmount,QString,QString,QString)));

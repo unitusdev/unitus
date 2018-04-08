@@ -85,7 +85,7 @@ namespace GUIUtil {
 
 QString dateTimeStr(const QDateTime &date)
 {
-    return date.date().toString(Qt::SystemLocaleShortDate) + QString(" ") + date.toString("hh:mm");
+    return date.date().toString(Qt::SystemLocaleShortDate);// + QString(" ") + date.toString("hh:mm");
 }
 
 QString dateTimeStr(qint64 nTime)
@@ -96,7 +96,8 @@ QString dateTimeStr(qint64 nTime)
 QFont fixedPitchFont()
 {
 #if QT_VERSION >= 0x50200
-    return QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    return QFont();
+//    return QFontDatabase::systemFont(QFontDatabase::FixedFont);
 #else
     QFont font("Monospace");
 #if QT_VERSION >= 0x040800

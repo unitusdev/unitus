@@ -40,17 +40,17 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     transactionView(0), abandonAction(0), columnResizingFixer(0)
 {
     // Build filter row
-    setContentsMargins(0,0,0,0);
+    setContentsMargins(0,35,0,35);
 
     QHBoxLayout *hlayout = new QHBoxLayout();
     hlayout->setContentsMargins(0,0,0,0);
 
     if (platformStyle->getUseExtraSpacing()) {
         hlayout->setSpacing(5);
-        hlayout->addSpacing(26);
+//        hlayout->addSpacing(35/*26*/);
     } else {
         hlayout->setSpacing(0);
-        hlayout->addSpacing(23);
+//        hlayout->addSpacing(30/*23*/);
     }
 
     watchOnlyWidget = new QComboBox(this);
@@ -62,10 +62,11 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
 
     dateWidget = new QComboBox(this);
     if (platformStyle->getUseExtraSpacing()) {
-        dateWidget->setFixedWidth(121);
+        dateWidget->setFixedWidth(171);
     } else {
-        dateWidget->setFixedWidth(120);
+        dateWidget->setFixedWidth(170);
     }
+    dateWidget->setObjectName("tranDateCombobox");
     dateWidget->addItem(tr("All"), All);
     dateWidget->addItem(tr("Today"), Today);
     dateWidget->addItem(tr("This week"), ThisWeek);
@@ -74,14 +75,15 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     dateWidget->addItem(tr("This year"), ThisYear);
     dateWidget->addItem(tr("Range..."), Range);
     hlayout->addWidget(dateWidget);
+    hlayout->addSpacing(20);
 
     typeWidget = new QComboBox(this);
     if (platformStyle->getUseExtraSpacing()) {
-        typeWidget->setFixedWidth(121);
+        typeWidget->setFixedWidth(151);
     } else {
-        typeWidget->setFixedWidth(120);
+        typeWidget->setFixedWidth(150);
     }
-
+    typeWidget->setObjectName("tranTypeCombobox");
     typeWidget->addItem(tr("All"), TransactionFilterProxy::ALL_TYPES);
     typeWidget->addItem(tr("Received with"), TransactionFilterProxy::TYPE(TransactionRecord::RecvWithAddress) |
                                         TransactionFilterProxy::TYPE(TransactionRecord::RecvFromOther));
@@ -92,35 +94,48 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     typeWidget->addItem(tr("Other"), TransactionFilterProxy::TYPE(TransactionRecord::Other));
 
     hlayout->addWidget(typeWidget);
+    hlayout->addSpacing(20);
 
     addressWidget = new QLineEdit(this);
+    addressWidget->setObjectName("transactionAddLabel");
+    addressWidget->setMinimumHeight(50);
 #if QT_VERSION >= 0x040700
-    addressWidget->setPlaceholderText(tr("Enter address or label to search"));
+    addressWidget->setPlaceholderText(tr("Address or label"));
 #endif
     hlayout->addWidget(addressWidget);
+    hlayout->addSpacing(20);
 
     amountWidget = new QLineEdit(this);
+    amountWidget->setObjectName("transactionMinAmount");
+    amountWidget->setMinimumHeight(50);
 #if QT_VERSION >= 0x040700
     amountWidget->setPlaceholderText(tr("Min amount"));
 #endif
     if (platformStyle->getUseExtraSpacing()) {
-        amountWidget->setFixedWidth(97);
+        amountWidget->setFixedWidth(117);
     } else {
-        amountWidget->setFixedWidth(100);
+        amountWidget->setFixedWidth(120);
     }
+    amountWidget->setMinimumWidth(170);
     amountWidget->setValidator(new QDoubleValidator(0, 1e20, 8, this));
     hlayout->addWidget(amountWidget);
+    hlayout->addSpacing(35);
 
     QVBoxLayout *vlayout = new QVBoxLayout(this);
-    vlayout->setContentsMargins(0,0,0,0);
-    vlayout->setSpacing(0);
+    vlayout->setContentsMargins(35,0,35,0);
 
     QTableView *view = new QTableView(this);
+    view->setShowGrid(false);
     view->setObjectName("transactionTableView");
+    view->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
+
     vlayout->addLayout(hlayout);
+    vlayout->addSpacing(35);
     vlayout->addWidget(createDateRangeWidget());
     vlayout->addWidget(view);
     vlayout->setSpacing(0);
+
     int width = view->verticalScrollBar()->sizeHint().width();
     // Cover scroll bar width with spacing
     if (platformStyle->getUseExtraSpacing()) {
@@ -129,7 +144,7 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
         hlayout->addSpacing(width);
     }
     // Always show scroll bar
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     view->setTabKeyNavigation(false);
     view->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -198,9 +213,12 @@ void TransactionView::setModel(WalletModel *_model)
 
         transactionProxyModel->setSortRole(Qt::EditRole);
 
+        QFont w_font;
+        w_font.setPixelSize(12);
+        transactionView->setFont(w_font);
         transactionView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         transactionView->setModel(transactionProxyModel);
-        transactionView->setAlternatingRowColors(true);
+        transactionView->setAlternatingRowColors(false);
         transactionView->setSelectionBehavior(QAbstractItemView::SelectRows);
         transactionView->setSelectionMode(QAbstractItemView::ExtendedSelection);
         transactionView->setSortingEnabled(true);
@@ -211,7 +229,10 @@ void TransactionView::setModel(WalletModel *_model)
         transactionView->setColumnWidth(TransactionTableModel::Watchonly, WATCHONLY_COLUMN_WIDTH);
         transactionView->setColumnWidth(TransactionTableModel::Date, DATE_COLUMN_WIDTH);
         transactionView->setColumnWidth(TransactionTableModel::Type, TYPE_COLUMN_WIDTH);
-        transactionView->setColumnWidth(TransactionTableModel::Amount, AMOUNT_MINIMUM_COLUMN_WIDTH);
+        transactionView->setColumnWidth(TransactionTableModel::Amount, AMOUNT_MINIMUM_COLUMN_WIDTH + 20);
+
+        QHeaderView * verticalHeader = transactionView->verticalHeader();
+        verticalHeader->setDefaultSectionSize(57);
 
         columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(transactionView, AMOUNT_MINIMUM_COLUMN_WIDTH, MINIMUM_COLUMN_WIDTH, this);
 
@@ -496,6 +517,12 @@ void TransactionView::openThirdPartyTxUrl(QString url)
          QDesktopServices::openUrl(QUrl::fromUserInput(url.replace("%s", selection.at(0).data(TransactionTableModel::TxHashRole).toString())));
 }
 
+void TransactionView::setWalletStatusLabels(QLabel * p_icon, QLabel * p_label)
+{
+//    walletUnlockedIcon = p_icon;
+//    walletUnlockedLabel = p_label;
+}
+
 QWidget *TransactionView::createDateRangeWidget()
 {
     dateRangeWidget = new QFrame();
@@ -550,6 +577,30 @@ void TransactionView::focusTransaction(const QModelIndex &idx)
     transactionView->setCurrentIndex(targetIdx);
     transactionView->setFocus();
 }
+#ifdef ENABLE_WALLET
+void TransactionView::setEncryptionStatus(int status)
+{
+//    switch(status)
+//    {
+//    case WalletModel::Unencrypted:
+//        walletUnlockedLabel->hide();
+//        walletUnlockedIcon->hide();
+//        break;
+//    case WalletModel::Unlocked:
+//        walletUnlockedLabel->show();
+//        walletUnlockedIcon->show();
+//        walletUnlockedLabel->setText("Wallet unlocked");
+//        walletUnlockedIcon->setPixmap(QIcon(":/icons/lock_open").pixmap(16,16));
+//        break;
+//    case WalletModel::Locked:
+//        walletUnlockedLabel->show();
+//        walletUnlockedIcon->show();
+//        walletUnlockedLabel->setText("Wallet locked");
+//        walletUnlockedIcon->setPixmap(QIcon(":/icons/lock_closed").pixmap(16,16));
+//        break;
+//    }
+}
+#endif
 
 // We override the virtual resizeEvent of the QWidget to adjust tables column
 // sizes as the tables width is proportional to the dialogs width.

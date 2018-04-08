@@ -27,9 +27,10 @@ public:
         currentUnit(BitcoinUnits::BTC),
         singleStep(100000) // satoshis
     {
-        setAlignment(Qt::AlignRight);
+//        setAlignment(Qt::AlignRight);
 
         connect(lineEdit(), SIGNAL(textEdited(QString)), this, SIGNAL(valueChanged()));
+        setButtonSymbols(QAbstractSpinBox::NoButtons);
     }
 
     QValidator::State validate(QString &text, int &pos) const

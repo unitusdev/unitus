@@ -10,6 +10,7 @@
 
 #include <QDataWidgetMapper>
 #include <QMessageBox>
+#include <QPushButton>
 
 EditAddressDialog::EditAddressDialog(Mode _mode, QWidget *parent) :
     QDialog(parent),
@@ -42,6 +43,20 @@ EditAddressDialog::EditAddressDialog(Mode _mode, QWidget *parent) :
 
     mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
+
+#ifdef WIN32
+    ui->buttonBox->setLayoutDirection(Qt::LeftToRight);
+#else
+    ui->buttonBox->setLayoutDirection(Qt::RightToLeft);
+#endif
+
+    QPushButton * okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setStyleSheet(QString("min-width: 120px; min-height: 35px; color:white;background-color: #188dcd;border-radius: 2px;border: 1px solid #188dcd;"));
+
+    QPushButton * cancelButton = ui->buttonBox->button(QDialogButtonBox::Cancel);
+    cancelButton->setStyleSheet(QString("background-color:transparent; border:none; color:#188dcd; font-size: 14px; margin-right: 25px"));
+    cancelButton->setIcon(QIcon(":/icons/arrow_right"));
+    cancelButton->setLayoutDirection(Qt::RightToLeft);
 }
 
 EditAddressDialog::~EditAddressDialog()

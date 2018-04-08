@@ -121,7 +121,44 @@ QString BitcoinUnits::format(int unit, const CAmount& nIn, bool fPlus, Separator
 
 QString BitcoinUnits::formatWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)
 {
-    return format(unit, amount, plussign, separators) + QString(" ") + name(unit);
+    return format(unit, amount, plussign, separators) + QString("  ") + name(unit);
+}
+
+QString BitcoinUnits::nameOfUnit(int unit)
+{
+    return QString("  ") +name(unit);
+}
+
+QString BitcoinUnits::formatWithComma(int unit, const CAmount& nIn, bool fPlus, SeparatorStyle separators){
+    // Note: not using straight sprintf here because we do NOT want
+    // localized number formatting.
+    if(!valid(unit))
+        return QString(); // Refuse to format invalid unit
+    qint64 n = (qint64)nIn;
+    qint64 coin = factor(unit);
+    int num_decimals = decimals(unit);
+    qint64 n_abs = (n > 0 ? n : -n);
+    qint64 quotient = n_abs / coin;
+    qint64 remainder = n_abs % coin;
+    QString quotient_str = QString::number(quotient);
+    QString remainder_str = QString::number(remainder).rightJustified(num_decimals, '0');
+
+    // Use SI-style thin space separators as these are locale independent and can't be
+    // confused with the decimal marker.
+    QChar thin_sp(THIN_SP_CP);
+    int q_size = quotient_str.size();
+    if (separators == separatorAlways || (separators == separatorStandard && q_size > 4))
+        for (int i = 3; i < q_size; i += 3)
+            quotient_str.insert(q_size - i, thin_sp);
+
+    quotient_str += QString(".") + remainder_str;
+    quotient_str.remove( QRegExp("0+$") );
+    quotient_str.remove( QRegExp("\\.$") );
+    if (n < 0)
+        quotient_str.insert(0, '-');
+    else if (fPlus && n > 0)
+        quotient_str.insert(0, '+');
+    return quotient_str;
 }
 
 QString BitcoinUnits::formatHtmlWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)

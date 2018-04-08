@@ -128,6 +128,12 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     connect(ui->proxyIpTor, SIGNAL(validationDidChange(QValidatedLineEdit *)), this, SLOT(updateProxyValidationState()));
     connect(ui->proxyPort, SIGNAL(textChanged(const QString&)), this, SLOT(updateProxyValidationState()));
     connect(ui->proxyPortTor, SIGNAL(textChanged(const QString&)), this, SLOT(updateProxyValidationState()));
+
+    ui->okButton->setIcon(QIcon(""));
+    ui->cancelButton->setLayoutDirection(Qt::RightToLeft);
+    ui->cancelButton->setIcon(QIcon(":/icons/arrow_right"));
+    ui->resetButton->setLayoutDirection(Qt::RightToLeft);
+    ui->resetButton->setIcon(QIcon(":/icons/arrow_right"));
 }
 
 OptionsDialog::~OptionsDialog()

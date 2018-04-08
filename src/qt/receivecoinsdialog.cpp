@@ -37,12 +37,17 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
         ui->showRequestButton->setIcon(QIcon());
         ui->removeRequestButton->setIcon(QIcon());
     } else {
-        ui->clearButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-        ui->receiveButton->setIcon(platformStyle->SingleColorIcon(":/icons/receiving_addresses"));
-        ui->showRequestButton->setIcon(platformStyle->SingleColorIcon(":/icons/edit"));
-        ui->removeRequestButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-    }
+        //ui->clearButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+        ui->clearButton->setIcon(QIcon(":/icons/arrow_right"));
+        ui->receiveButton->setIcon(QIcon(":/icons/send"));
+        ui->showRequestButton->setIcon(QIcon(":/icons/arrow_right"));
+        ui->removeRequestButton->setIcon(QIcon(":/icons/arrow_right"));
 
+        ui->clearButton->setLayoutDirection(Qt::RightToLeft);
+        ui->showRequestButton->setLayoutDirection(Qt::RightToLeft);
+        ui->removeRequestButton->setLayoutDirection(Qt::RightToLeft);
+    }
+    ui->recentRequestsView->setShowGrid(false);
     // context menu actions
     QAction *copyURIAction = new QAction(tr("Copy URI"), this);
     QAction *copyLabelAction = new QAction(tr("Copy label"), this);
@@ -81,12 +86,19 @@ void ReceiveCoinsDialog::setModel(WalletModel *_model)
         tableView->verticalHeader()->hide();
         tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         tableView->setModel(_model->getRecentRequestsTableModel());
-        tableView->setAlternatingRowColors(true);
+//        tableView->setAlternatingRowColors(true);
         tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableView->setSelectionMode(QAbstractItemView::ContiguousSelection);
         tableView->setColumnWidth(RecentRequestsTableModel::Date, DATE_COLUMN_WIDTH);
         tableView->setColumnWidth(RecentRequestsTableModel::Label, LABEL_COLUMN_WIDTH);
         tableView->setColumnWidth(RecentRequestsTableModel::Amount, AMOUNT_MINIMUM_COLUMN_WIDTH);
+
+        tableView->setGridStyle(Qt::NoPen);
+
+        QHeaderView * verticalHeader = tableView->verticalHeader();
+        verticalHeader->setDefaultSectionSize(57);
+
+        tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
         connect(tableView->selectionModel(),
             SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,

@@ -29,9 +29,10 @@
 #include <QTextTable>
 #include <QTextCursor>
 #include <QVBoxLayout>
+#include <QPushButton>
 
-/** "Help message" or "About" dialog box */
-HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
+/** "Help message" or "About" dialog box or "AboutQt" dialog box*/
+HelpMessageDialog::HelpMessageDialog(QWidget *parent, int type) :
     QDialog(parent),
     ui(new Ui::HelpMessageDialog)
 {
@@ -47,7 +48,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
     version += " " + tr("(%1-bit)").arg(32);
 #endif
 
-    if (about)
+    if (type == 1)
     {
         setWindowTitle(tr("About %1").arg(tr(PACKAGE_NAME)));
 
@@ -57,7 +58,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         // Make URLs clickable
         QRegExp uri("<(.*)>", Qt::CaseSensitive, QRegExp::RegExp2);
         uri.setMinimal(true); // use non-greedy matching
-        licenseInfoHTML.replace(uri, "<a href=\"\\1\">\\1</a>");
+        licenseInfoHTML.replace(uri, "<a style = 'color:#acb6cd' href=\"\\1\">\\1</a>");
         // Replace newlines with HTML breaks
         licenseInfoHTML.replace("\n", "<br>");
 
@@ -67,13 +68,13 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         ui->aboutMessage->setText(version + "<br><br>" + licenseInfoHTML);
         ui->aboutMessage->setWordWrap(true);
         ui->helpMessage->setVisible(false);
-    } else {
+    } else if (type == 0){
         setWindowTitle(tr("Command-line options"));
         QString header = tr("Usage:") + "\n" +
             "  unitus-qt [" + tr("command-line options") + "]                     " + "\n";
         QTextCursor cursor(ui->helpMessage->document());
         QTextCharFormat charFormat;
-        charFormat.setForeground( QBrush( QColor( "white" ) ) );
+        charFormat.setForeground( QBrush( QColor( "#9ca6bd" ) ) );
         cursor.setCharFormat( charFormat );
         cursor.insertText(version);
         cursor.insertBlock();
@@ -108,7 +109,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
 
         QTextCharFormat bold;
         bold.setFontWeight(QFont::Bold);
-        bold.setForeground( QBrush( QColor( "white" ) ) );
+        bold.setForeground( QBrush( QColor( "#9ca6bd" ) ) );
         
 
         Q_FOREACH (const QString &line, coreOptions.split("\n")) {
@@ -135,6 +136,39 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
         ui->scrollAreaAbout->setVisible(false);
         ui->aboutLogo->setVisible(false);
     }
+    else{
+        setWindowTitle(tr("About Qt"));
+        ui->aboutLogo->setPixmap(QIcon(":/icons/aboutqt").pixmap(100,100));
+
+        /// HTML-format the license message from the core
+        QString aboutQtInfo = tr("<strong>About Qt</strong><br><br>") +
+                tr("This program uses Qt version 5.7.1.<br><br>") +
+                tr("Qt is a C++ toolkit for cross-platform application development.<br><br>") +
+                tr("Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.<br><br>") +
+                tr("Qt is available under three different licensing options designed to accommodate the needs of our various users.<br><br>") +
+                tr("Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of the GNU LGPL version 3.<br><br>") +
+                tr("Qt licensed under the GNU LGPL version 3 is appropriate for the development of Qt applications provided you can comply with the terms and conditions of the GNU LGPL version 3.<br><br>") +
+                tr("Please see <a style = 'color:#acb6cd' href='https://www1.qt.io/licensing/'>qt.io/licensing</a> for an overview of Qt licensing.<br><br>") +
+                tr("Copyright (C) 2016 The Qt Company Ltd and other contributors.<br><br>") +
+                tr("Qt and the Qt logo are trademarks of The Qt Company Ltd.<br><br>") +
+                tr("Qt is The Qt Company Ltd product developed as an open source project. See <a style = 'color:#acb6cd' href='https://www.qt.io/'>qt.io</a> for more information.");
+
+        QString aboutQtHTML = aboutQtInfo;
+        // Make URLs clickable
+//        QRegExp uri("<(.*)>", Qt::CaseSensitive, QRegExp::RegExp2);
+//        uri.setMinimal(true); // use non-greedy matching
+//        aboutQtHTML.replace(uri, "<a style = 'color:#acb6cd' href=\"\\1\">\\1</a>");
+        // Replace newlines with HTML breaks
+//        aboutQtHTML.replace("\n", "<br>");
+
+        ui->aboutMessage->setTextFormat(Qt::RichText);
+        ui->scrollAreaAbout->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        ui->aboutMessage->setText(aboutQtHTML);
+        ui->aboutMessage->setWordWrap(true);
+        ui->helpMessage->setVisible(false);
+    }
+    QPushButton * btnOk = ui->okButton->button(QDialogButtonBox::Ok);
+    btnOk->setStyleSheet(QString("min-width: 120px; min-height: 35px; color:white;background-color: #188dcd;border-radius: 2px;border: 1px solid #188dcd;"));
 }
 
 HelpMessageDialog::~HelpMessageDialog()
@@ -170,10 +204,13 @@ ShutdownWindow::ShutdownWindow(QWidget *parent, Qt::WindowFlags f):
     QWidget(parent, f)
 {
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(new QLabel(
-        tr("%1 is shutting down...").arg(tr(PACKAGE_NAME)) + "<br /><br />" +
-        tr("Do not shut down the computer until this window disappears.")));
+    layout->setMargin(0);
+    QLabel * labelShutdown = new QLabel(
+                tr("%1 is shutting down...").arg(tr(PACKAGE_NAME)) + "<br /><br />" +
+                tr("Do not shut down the computer until this window disappears."));
+    layout->addWidget(labelShutdown);
     setLayout(layout);
+    labelShutdown->setStyleSheet(QString("color: #9ca6bd;"));
 }
 
 QWidget *ShutdownWindow::showShutdownWindow(BitcoinGUI *window)
@@ -184,6 +221,8 @@ QWidget *ShutdownWindow::showShutdownWindow(BitcoinGUI *window)
     // Show a simple window indicating shutdown status
     QWidget *shutdownWindow = new ShutdownWindow();
     shutdownWindow->setWindowTitle(window->windowTitle());
+    shutdownWindow->setStyleSheet(QString("QWidget{background-image: url(:/backgrounds/headerbg);border: 1px;padding: 25px;}"));
+    shutdownWindow->setStyleSheet(QString("QLabel{color: #212f4e;}"));
 
     // Center shutdown window at where main window was
     const QPoint global = window->mapToGlobal(window->rect().center());

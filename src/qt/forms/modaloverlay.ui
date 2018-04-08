@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>640</width>
-    <height>385</height>
+    <height>472</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,31 +49,35 @@
       </property>
       <item>
        <widget class="QWidget" name="contentWidget" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="styleSheet">
-         <string notr="true">#contentWidget { background: rgba(255,255,255,240); border-radius: 6px; }
-
-QLabel { color: rgb(40,40,40);  }</string>
+         <string notr="true">#contentWidget { border-radius: 6px; border-image: url(:/backgrounds/flag_bg) 0 0 0 0 strech strech;}</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayoutSub" stretch="1,0,0,0">
          <property name="spacing">
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>10</number>
+          <number>30</number>
          </property>
          <property name="topMargin">
-          <number>10</number>
+          <number>20</number>
          </property>
          <property name="rightMargin">
-          <number>10</number>
+          <number>20</number>
          </property>
          <property name="bottomMargin">
-          <number>10</number>
+          <number>20</number>
          </property>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayoutIconText" stretch="0,1">
            <property name="topMargin">
-            <number>20</number>
+            <number>35</number>
            </property>
            <item>
             <layout class="QVBoxLayout" name="verticalLayoutIcon">
@@ -89,7 +93,7 @@ QLabel { color: rgb(40,40,40);  }</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../bitcoin.qrc">
                  <normaloff>:/icons/warning</normaloff>
                  <disabledoff>:/icons/warning</disabledoff>:/icons/warning</iconset>
                </property>
@@ -122,18 +126,29 @@ QLabel { color: rgb(40,40,40);  }</string>
            <item>
             <layout class="QVBoxLayout" name="verticalLayoutInfoText">
              <property name="leftMargin">
-              <number>0</number>
+              <number>15</number>
              </property>
              <property name="topMargin">
               <number>0</number>
              </property>
+             <property name="rightMargin">
+              <number>25</number>
+             </property>
              <item>
               <widget class="QLabel" name="infoText">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the Unitus network, as detailed below.</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
@@ -141,9 +156,26 @@ QLabel { color: rgb(40,40,40);  }</string>
               </widget>
              </item>
              <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <widget class="QLabel" name="infoTextStrong">
                <property name="font">
                 <font>
+                 <pointsize>10</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                 </font>
@@ -153,6 +185,9 @@ QLabel { color: rgb(40,40,40);  }</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
@@ -263,7 +298,7 @@ QLabel { color: rgb(40,40,40);  }</string>
             </widget>
            </item>
            <item row="2" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayoutSync" stretch="0,1">
+            <layout class="QHBoxLayout" name="horizontalLayoutSync" stretch="0,0,1">
              <item>
               <widget class="QLabel" name="percentageProgress">
                <property name="text">
@@ -272,7 +307,29 @@ QLabel { color: rgb(40,40,40);  }</string>
               </widget>
              </item>
              <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Fixed</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <widget class="QProgressBar" name="progressBar">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>7</height>
+                </size>
+               </property>
                <property name="value">
                 <number>24</number>
                </property>
@@ -312,7 +369,7 @@ QLabel { color: rgb(40,40,40);  }</string>
               </font>
              </property>
              <property name="text">
-              <string>Estimated time left until synced</string>
+              <string>Estimated time left until synced         </string>
              </property>
             </widget>
            </item>
@@ -328,11 +385,24 @@ QLabel { color: rgb(40,40,40);  }</string>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayoutButtons">
            <property name="leftMargin">
-            <number>10</number>
+            <number>0</number>
            </property>
            <property name="topMargin">
-            <number>10</number>
+            <number>35</number>
            </property>
+           <item>
+            <widget class="QPushButton" name="closeButton">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>37</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Hide</string>
+             </property>
+            </widget>
+           </item>
            <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
@@ -345,13 +415,6 @@ QLabel { color: rgb(40,40,40);  }</string>
               </size>
              </property>
             </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="closeButton">
-             <property name="text">
-              <string>Hide</string>
-             </property>
-            </widget>
            </item>
           </layout>
          </item>
@@ -371,6 +434,8 @@ QLabel { color: rgb(40,40,40);  }</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
  <connections/>
 </ui>
