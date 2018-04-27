@@ -6,26 +6,201 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>740</width>
-    <height>539</height>
+    <width>744</width>
+    <height>545</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Debug window</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#RPCConsole
+   <string notr="true">#RPCConsole{
+	background-color: #253252;
+	color:#4b5773;
+}
+#tab_info,
+#tab_console,
+#tab_nettraffic,
+#tab_peers
 {
-background-image: url(:/backgrounds/headerbg);
-}</string>
+	background-color: #253252;
+}
+QLabel {
+	color:#4b5773;
+}
+QTextEdit,
+QLineEdit{
+	background-color: #253252;
+	color: #9ca6bd;
+}
+
+QTableView, QListView {
+    background-color:transparent;
+    border-style: none;
+    color: #9ca6bd;
+    text-align: left;
+    font-size: 15px;
+}
+
+QTableView &gt; QHeaderView::section {
+    background-color: transparent;
+    min-height: 35px;
+    color: #4b5773;
+    border-style:none;
+    border-radius: 5px;
+}
+
+QTableView &gt; QHeaderView{
+    background-color: transparent;
+}
+
+QTableView::item, QListView::item {
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 0px;
+    background-color:#263454;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    min-height: 35px;
+    color: #9ca6bd;
+}
+
+QTableView::item:selected {
+    background-color:#273555;
+}
+
+QTableView &gt; QHeaderView::section::item {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    min-height: 35px;
+}
+
+QScrollBar {
+    border: 1px solid #313e5e;
+    border-radius: 5px;
+    background:#313e5e;
+    width:10px;
+}
+
+QScrollBar::handle {
+   background: #3b82c9;
+   border: 4px solid #3b82c9;
+   border-radius: 4px;
+}
+
+QScrollBar::handle:hover {
+   background: #3575c5;
+   border: 4px solid #3575c5;
+   border-radius: 4px;
+}
+
+QScrollBar::handle:pressed {
+   background: #3575c5;
+   border: 4px solid #3575c5;
+   border-radius: 4px;
+}
+
+QScrollBar:vertical { width: 10px; }
+QScrollBar::handle:vertical { min-height: 10px; }
+QScrollBar::add-line:vertical { height: 0; background: none; }
+QScrollBar::sub-line:vertical { height: 0; background: none; }
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { height: 0; background: none; }
+
+QScrollBar:horizontal { height: 14px; }
+QScrollBar::handle:horizontal { min-width: 20px; }
+QScrollBar::add-line:horizontal { background: none; }
+QScrollBar::sub-line:horizontal { background: none; }
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal { background: none; }
+QSlider::groove:horizontal {
+    border: 1px solid transparent;
+    height: 2px;
+    border-radius: 3px;
+    padding: 0px;
+    margin: 2px 2px;
+}
+QSlider::handle:horizontal {
+    background: #0faf6d;
+    border: 1px solid transparent;
+    width: 6px;
+    height: 7px;
+    margin: -8px -3px;
+    border-radius: 4px;
+}
+QSlider::add-page:horizontal {
+    background: #182238;
+    border-radius: 3px;
+}
+
+QSlider::sub-page:horizontal {
+    background: #188ccc;
+    border-radius: 3px;
+}
+
+QPushButton#openDebugLogfileButton
+{
+    color:white;
+    background-color: #188dcd;
+    border-radius: 2px;
+    border: 1px solid #188dcd;
+}
+
+QPushButton#btnClearTrafficGraph
+{
+    background-color: #00000000;
+    border: none;
+    color: #188dcd;
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="rpcVerticalLayout_2">
+   <property name="leftMargin">
+    <number>9</number>
+   </property>
+   <property name="topMargin">
+    <number>9</number>
+   </property>
+   <property name="rightMargin">
+    <number>9</number>
+   </property>
+   <property name="bottomMargin">
+    <number>9</number>
+   </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTabWidget,
+QTabWidget::pane
+{
+    border: 0px;
+}
+QTabBar::tab{ /* The tab widget frame */
+    background: transparent;
+    padding: 7px;
+    border: 2px solid;
+    margin-right: 10px;
+}
+QTabBar::tab:selected {
+    border-color: transparent;
+    border-bottom-color: #188ac9; /* same as pane color */
+    color: #9ca6bd;
+}
+QTabBar::tab:!selected {
+    border-color: transparent;
+    color: #45516c;
+}
+</string>
+     </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_info">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <attribute name="title">
        <string>&amp;Information</string>
       </attribute>
@@ -374,6 +549,12 @@ background-image: url(:/backgrounds/headerbg);
          </item>
          <item>
           <widget class="QPushButton" name="openDebugLogfileButton">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>37</height>
+            </size>
+           </property>
            <property name="toolTip">
             <string>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</string>
            </property>
@@ -650,6 +831,11 @@ background-image: url(:/backgrounds/headerbg);
            </item>
            <item>
             <widget class="QPushButton" name="btnClearTrafficGraph">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>&amp;Clear</string>
              </property>
@@ -868,10 +1054,16 @@ background-image: url(:/backgrounds/headerbg);
            <property name="tabKeyNavigation">
             <bool>false</bool>
            </property>
+           <property name="alternatingRowColors">
+            <bool>false</bool>
+           </property>
            <property name="sortingEnabled">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <attribute name="horizontalHeaderHighlightSections">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
             <bool>false</bool>
            </attribute>
           </widget>
@@ -932,10 +1124,16 @@ background-image: url(:/backgrounds/headerbg);
            <property name="tabKeyNavigation">
             <bool>false</bool>
            </property>
+           <property name="alternatingRowColors">
+            <bool>false</bool>
+           </property>
            <property name="sortingEnabled">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <attribute name="horizontalHeaderHighlightSections">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
             <bool>false</bool>
            </attribute>
           </widget>

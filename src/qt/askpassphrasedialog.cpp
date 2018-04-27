@@ -27,9 +27,9 @@ AskPassphraseDialog::AskPassphraseDialog(Mode _mode, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->passEdit1->setMinimumSize(ui->passEdit1->sizeHint());
-    ui->passEdit2->setMinimumSize(ui->passEdit2->sizeHint());
-    ui->passEdit3->setMinimumSize(ui->passEdit3->sizeHint());
+//    ui->passEdit1->setMinimumSize(ui->passEdit1->sizeHint());
+//    ui->passEdit2->setMinimumSize(ui->passEdit2->sizeHint());
+//    ui->passEdit3->setMinimumSize(ui->passEdit3->sizeHint());
 
     ui->passEdit1->setMaxLength(MAX_PASSPHRASE_SIZE);
     ui->passEdit2->setMaxLength(MAX_PASSPHRASE_SIZE);
@@ -73,6 +73,20 @@ AskPassphraseDialog::AskPassphraseDialog(Mode _mode, QWidget *parent) :
     connect(ui->passEdit1, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
     connect(ui->passEdit2, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
     connect(ui->passEdit3, SIGNAL(textChanged(QString)), this, SLOT(textChanged()));
+
+#ifdef WIN32
+    ui->buttonBox->setLayoutDirection(Qt::LeftToRight);
+#else
+    ui->buttonBox->setLayoutDirection(Qt::RightToLeft);
+#endif
+
+    QPushButton * okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setStyleSheet(QString("min-width: 120px; min-height: 35px; color:white;background-color: #188dcd;border-radius: 2px;border: 1px solid #188dcd;"));
+
+    QPushButton * cancelButton = ui->buttonBox->button(QDialogButtonBox::Cancel);
+    cancelButton->setStyleSheet(QString("background-color:transparent; border:none; color:#188dcd; font-size: 14px; margin-right: 25px"));
+    cancelButton->setIcon(QIcon(":/icons/arrow_right"));
+    cancelButton->setLayoutDirection(Qt::RightToLeft);
 }
 
 AskPassphraseDialog::~AskPassphraseDialog()

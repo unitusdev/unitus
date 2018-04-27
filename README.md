@@ -30,5 +30,3 @@ Please Note: This is the master branch, only stable code releases are available 
 * No free transactions - minimum fee is 0.01 UIS
 * Peer-to-Peer Port: 50603
 * RPC Port: 50604
-
-

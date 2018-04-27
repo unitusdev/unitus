@@ -47,11 +47,20 @@ SendCoinsDialog::SendCoinsDialog(const PlatformStyle *_platformStyle, QWidget *p
         ui->clearButton->setIcon(QIcon());
         ui->sendButton->setIcon(QIcon());
     } else {
-        ui->addButton->setIcon(platformStyle->SingleColorIcon(":/icons/add"));
-        ui->clearButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-        ui->sendButton->setIcon(platformStyle->SingleColorIcon(":/icons/send"));
+        ui->addButton->setIcon(QIcon(":/icons/add"));
+//        ui->clearButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+        ui->buttonChooseFee->setIcon(QIcon(":/icons/arrow_right"));
+        ui->buttonChooseFee->setLayoutDirection(Qt::RightToLeft);
+        ui->clearButton->setLayoutDirection(Qt::RightToLeft);
+        ui->clearButton->setIcon(QIcon(":/icons/arrow_right"));
+        ui->buttonMinimizeFee->setIcon(QIcon(":/icons/arrow_right"));
+        ui->buttonMinimizeFee->setLayoutDirection(Qt::RightToLeft);
+        ui->sendButton->setIcon(QIcon(":/icons/send"));
+        ui->pushButtonCoinControl->setIcon(QIcon(":/icons/arrow_right"));
+        ui->pushButtonCoinControl->setLayoutDirection(Qt::RightToLeft);
     }
 
+//    ui->labelSendPageBalance->setVisible(false);
     GUIUtil::setupAddressWidget(ui->lineEditCoinControlChange, this);
 
     addEntry();
@@ -384,11 +393,11 @@ SendCoinsEntry *SendCoinsDialog::addEntry()
     // Focus the field, so that entry can start immediately
     entry->clear();
     entry->setFocus();
-    ui->scrollAreaWidgetContents->resize(ui->scrollAreaWidgetContents->sizeHint());
+//    ui->scrollAreaWidgetContents->resize(ui->scrollAreaWidgetContents->sizeHint());
     qApp->processEvents();
-    QScrollBar* bar = ui->scrollArea->verticalScrollBar();
-    if(bar)
-        bar->setSliderPosition(bar->maximum());
+//    QScrollBar* bar = ui->scrollArea->verticalScrollBar();
+//    if(bar)
+//        bar->setSliderPosition(bar->maximum());
 
     updateTabsAndLabels();
     return entry;
@@ -493,9 +502,36 @@ void SendCoinsDialog::setBalance(const CAmount& balance, const CAmount& unconfir
     if(model && model->getOptionsModel())
     {
         ui->labelBalance->setText(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), balance));
+//        ui->labelBalance->setVisible(false);
     }
 }
+#ifdef ENABLE_WALLET
+void SendCoinsDialog::setEncryptionStatus(int status)
+{
+    ui->walletUnlockedLabel->hide();
+    ui->walletUnlockedIcon->hide();
 
+//    switch(status)
+//    {
+//    case WalletModel::Unencrypted:
+//        ui->walletUnlockedLabel->hide();
+//        ui->walletUnlockedIcon->hide();
+//        break;
+//    case WalletModel::Unlocked:
+//        ui->walletUnlockedLabel->show();
+//        ui->walletUnlockedIcon->show();
+//        ui->walletUnlockedLabel->setText("Wallet unlocked");
+//        ui->walletUnlockedIcon->setPixmap(QIcon(":/icons/lock_open").pixmap(16,16));
+//        break;
+//    case WalletModel::Locked:
+//        ui->walletUnlockedLabel->show();
+//        ui->walletUnlockedIcon->show();
+//        ui->walletUnlockedLabel->setText("Wallet locked");
+//        ui->walletUnlockedIcon->setPixmap(QIcon(":/icons/lock_closed").pixmap(16,16));
+//        break;
+//    }
+}
+#endif
 void SendCoinsDialog::updateDisplayUnit()
 {
     setBalance(model->getBalance(), 0, 0, 0, 0, 0);

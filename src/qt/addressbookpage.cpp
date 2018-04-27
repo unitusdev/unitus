@@ -36,10 +36,19 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode,
         ui->deleteAddress->setIcon(QIcon());
         ui->exportButton->setIcon(QIcon());
     } else {
-        ui->newAddress->setIcon(platformStyle->SingleColorIcon(":/icons/add"));
-        ui->copyAddress->setIcon(platformStyle->SingleColorIcon(":/icons/editcopy"));
-        ui->deleteAddress->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-        ui->exportButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
+//        ui->newAddress->setIcon(platformStyle->SingleColorIcon(":/icons/add"));
+//        ui->copyAddress->setIcon(platformStyle->SingleColorIcon(":/icons/editcopy"));
+//        ui->deleteAddress->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+//        ui->exportButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
+        ui->newAddress->setIcon(QIcon(""));
+        ui->copyAddress->setLayoutDirection(Qt::RightToLeft);
+        ui->copyAddress->setIcon(QIcon(":/icons/arrow_right"));
+        ui->deleteAddress->setLayoutDirection(Qt::RightToLeft);
+        ui->deleteAddress->setIcon(QIcon(":/icons/arrow_right"));
+        ui->exportButton->setLayoutDirection(Qt::RightToLeft);
+        ui->exportButton->setIcon(QIcon(":/icons/arrow_right"));
+        ui->closeButton->setLayoutDirection(Qt::RightToLeft);
+        ui->closeButton->setIcon(QIcon(":/icons/arrow_right"));
     }
 
     switch(mode)
@@ -90,6 +99,15 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode,
     if(tab == SendingTab)
         contextMenu->addAction(deleteAction);
     contextMenu->addSeparator();
+
+    ui->tableView->setShowGrid(false);
+    ui->tableView->verticalHeader()->hide();
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setSelectionMode(QAbstractItemView::ContiguousSelection);
+    ui->tableView->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    ui->tableView->setGridStyle(Qt::NoPen);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(57);
+
 
     // Connect signals for context menu actions
     connect(copyAddressAction, SIGNAL(triggered()), this, SLOT(on_copyAddress_clicked()));

@@ -146,6 +146,12 @@ CoinControlDialog::CoinControlDialog(const PlatformStyle *_platformStyle, QWidge
         ui->radioTreeMode->click();
     if (settings.contains("nCoinControlSortColumn") && settings.contains("nCoinControlSortOrder"))
         sortView(settings.value("nCoinControlSortColumn").toInt(), ((Qt::SortOrder)settings.value("nCoinControlSortOrder").toInt()));
+
+    QPushButton * okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setStyleSheet(QString("min-width: 120px; min-height: 35px; color:white;background-color: #188dcd;border-radius: 2px;border: 1px solid #188dcd;"));
+
+    ui->pushButtonSelectAll->setIcon(QIcon(":/icons/arrow_right"));
+    ui->pushButtonSelectAll->setLayoutDirection(Qt::RightToLeft);
 }
 
 CoinControlDialog::~CoinControlDialog()

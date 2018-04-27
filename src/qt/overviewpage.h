@@ -40,10 +40,14 @@ public:
 public Q_SLOTS:
     void setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                     const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
+#ifdef ENABLE_WALLET
+    void setEncryptionStatus(int status);
+#endif
 
 Q_SIGNALS:
     void transactionClicked(const QModelIndex &index);
     void outOfSyncWarningClicked();
+    void lockWallet(bool);
 
 private:
     Ui::OverviewPage *ui;
@@ -65,6 +69,8 @@ private Q_SLOTS:
     void updateAlerts(const QString &warnings);
     void updateWatchOnlyLabels(bool showWatchOnly);
     void handleOutOfSyncWarningClicks();
+
+    void btnLockWalletClicked(bool p_flag);
 };
 
 #endif // BITCOIN_QT_OVERVIEWPAGE_H

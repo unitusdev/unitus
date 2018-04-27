@@ -35,7 +35,7 @@ static int column_alignments[] = {
         Qt::AlignLeft|Qt::AlignVCenter, /* date */
         Qt::AlignLeft|Qt::AlignVCenter, /* type */
         Qt::AlignLeft|Qt::AlignVCenter, /* address */
-        Qt::AlignRight|Qt::AlignVCenter /* amount */
+        Qt::AlignLeft|Qt::AlignVCenter /* amount */
     };
 
 // Comparison operator for sort/binary search of model tx list
@@ -370,9 +370,11 @@ QString TransactionTableModel::formatTxType(const TransactionRecord *wtx) const
     switch(wtx->type)
     {
     case TransactionRecord::RecvWithAddress:
-        return tr("Received with");
+        return tr("Receive");
+//        return tr("Received with");
     case TransactionRecord::RecvFromOther:
-        return tr("Received from");
+        return tr("Receive");
+//        return tr("Received from");
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
         return tr("Sent to");
@@ -390,15 +392,15 @@ QVariant TransactionTableModel::txAddressDecoration(const TransactionRecord *wtx
     switch(wtx->type)
     {
     case TransactionRecord::Generated:
-        return platformStyle->SingleColorIconCustom(":/icons/tx_mined", COLOR_ADDRESS_GENERATED);
+        return QIcon(":/icons/tx_mined"); //return platformStyle->SingleColorIconCustom(":/icons/tx_mined", COLOR_ADDRESS_GENERATED);
     case TransactionRecord::RecvWithAddress:
     case TransactionRecord::RecvFromOther:
-        return platformStyle->SingleColorIconCustom(":/icons/tx_input", COLOR_ADDRESS_RECEIVE); 
+        return QIcon(":/icons/tx_input"); //return platformStyle->SingleColorIconCustom(":/icons/tx_input", COLOR_ADDRESS_RECEIVE);
     case TransactionRecord::SendToAddress:
     case TransactionRecord::SendToOther:
-        return platformStyle->SingleColorIconCustom(":/icons/tx_output", COLOR_ADDRESS_MINED); 
+        return QIcon(":/icons/tx_output");//platformStyle->SingleColorIconCustom(":/icons/tx_output", COLOR_ADDRESS_MINED);
     default:
-        return platformStyle->SingleColorIconCustom(":/icons/tx_inout", COLOR_ADDRESS); 
+        return QIcon(":/icons/tx_inout"); //return platformStyle->SingleColorIconCustom(":/icons/tx_inout", COLOR_ADDRESS);
     }
 }
 
@@ -449,7 +451,7 @@ QVariant TransactionTableModel::addressColor(const TransactionRecord *wtx) const
 
 QString TransactionTableModel::formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed, BitcoinUnits::SeparatorStyle separators) const
 {
-    QString str = BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), wtx->credit + wtx->debit, false, separators);
+    QString str = BitcoinUnits::formatWithComma(walletModel->getOptionsModel()->getDisplayUnit(), wtx->credit + wtx->debit, false, separators);
     if(showUnconfirmed)
     {
         if(!wtx->status.countsForBalance)
@@ -539,8 +541,9 @@ QVariant TransactionTableModel::data(const QModelIndex &index, int role) const
         break;
     case Qt::DecorationRole:
     {
-        QIcon icon = qvariant_cast<QIcon>(index.data(RawDecorationRole));
-        return platformStyle->SingleColorIcon(icon);
+//        QIcon icon = qvariant_cast<QIcon>(index.data(RawDecorationRole));
+//        return platformStyle->SingleColorIcon(icon);
+        return QVariant();
     }
     case Qt::DisplayRole:
         switch(index.column())

@@ -28,14 +28,20 @@ SignVerifyMessageDialog::SignVerifyMessageDialog(const PlatformStyle *_platformS
 {
     ui->setupUi(this);
 
-    ui->addressBookButton_SM->setIcon(platformStyle->SingleColorIcon(":/icons/address-book"));
-    ui->pasteButton_SM->setIcon(platformStyle->SingleColorIcon(":/icons/editpaste"));
-    ui->copySignatureButton_SM->setIcon(platformStyle->SingleColorIcon(":/icons/editcopy"));
-    ui->signMessageButton_SM->setIcon(platformStyle->SingleColorIcon(":/icons/edit"));
-    ui->clearButton_SM->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-    ui->addressBookButton_VM->setIcon(platformStyle->SingleColorIcon(":/icons/address-book"));
-    ui->verifyMessageButton_VM->setIcon(platformStyle->SingleColorIcon(":/icons/transaction_0"));
-    ui->clearButton_VM->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+    ui->addressBookButton_SM->setIcon(QIcon(":/icons/address-book"));
+    ui->pasteButton_SM->setIcon(QIcon(":/icons/editpaste"));
+    ui->copySignatureButton_SM->setIcon(QIcon(":/icons/editcopy"));
+    ui->signMessageButton_SM->setIcon(QIcon(":/icons/edit"));
+    ui->signMessageButton_SM->setIcon(QIcon());
+//    ui->clearButton_SM->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+    ui->clearButton_SM->setLayoutDirection(Qt::RightToLeft);
+    ui->clearButton_SM->setIcon(QIcon(":/icons/arrow_right"));
+    ui->addressBookButton_VM->setIcon(QIcon(":/icons/address-book"));
+//    ui->verifyMessageButton_VM->setIcon(platformStyle->SingleColorIcon(":/icons/transaction_0"));
+    ui->verifyMessageButton_VM->setIcon(QIcon());
+//    ui->clearButton_VM->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
+    ui->clearButton_VM->setLayoutDirection(Qt::RightToLeft);
+    ui->clearButton_VM->setIcon(QIcon(":/icons/arrow_right"));
 
 #if QT_VERSION >= 0x040700
     ui->signatureOut_SM->setPlaceholderText(tr("Click \"Sign Message\" to generate signature"));

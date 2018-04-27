@@ -6,18 +6,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>457</width>
-    <height>126</height>
+    <width>465</width>
+    <height>183</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Edit Address</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <property name="fieldGrowthPolicy">
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+     </property>
+     <property name="topMargin">
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
+      <number>20</number>
      </property>
      <item row="0" column="0">
       <widget class="QLabel" name="labelEditAddressDialogLabel">
@@ -31,6 +49,12 @@
      </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="labelEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>37</height>
+        </size>
+       </property>
        <property name="toolTip">
         <string>The label associated with this address list entry</string>
        </property>
@@ -39,7 +63,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="labelEditAddressDialogAddress">
        <property name="text">
-        <string>&amp;Address</string>
+        <string>&amp;Address          </string>
        </property>
        <property name="buddy">
         <cstring>addressEdit</cstring>
@@ -48,6 +72,12 @@
      </item>
      <item row="1" column="1">
       <widget class="QValidatedLineEdit" name="addressEdit">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>37</height>
+        </size>
+       </property>
        <property name="toolTip">
         <string>The address associated with this address list entry. This can only be modified for sending addresses.</string>
        </property>
@@ -57,6 +87,9 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
