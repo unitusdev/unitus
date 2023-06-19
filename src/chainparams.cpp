@@ -149,6 +149,8 @@ public:
         vSeeds.push_back(CDNSSeedData("use.easymine.online", "use.easymine.online", true));
         vSeeds.push_back(CDNSSeedData("us.nutty.one", "us.nutty.one", true));
         vSeeds.push_back(CDNSSeedData("nz.nutty.one", "nz.nutty.one", true));
+        vSeeds.push_back(CDNSSeedData("dnsseed.unitus.cc", "dnsseed.unitus.cc", true));
+
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,68);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,10);
