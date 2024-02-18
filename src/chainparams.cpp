@@ -145,10 +145,15 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0xd8a2b2439d013a59f3bfc626a33487a3d7d27e42a3c9e0b81af814cd8e592f31"));
         assert(genesis.hashMerkleRoot == uint256S("0x7e86d7e6d123ba67684125d094d010a6e04ab753fd5d601c024c155c0a4eb51e"));
 
+	// Chainetics.com Unitus Seeder
+        vSeeds.push_back(CDNSSeedData("dnsseed.unitus.cc", "dnsseed.unitus.cc", true));
+
+	// These appear to be off-line
         vSeeds.push_back(CDNSSeedData("core.easymine.online", "core.easymine.online", true));
         vSeeds.push_back(CDNSSeedData("use.easymine.online", "use.easymine.online", true));
         vSeeds.push_back(CDNSSeedData("us.nutty.one", "us.nutty.one", true));
         vSeeds.push_back(CDNSSeedData("nz.nutty.one", "nz.nutty.one", true));
+
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,68);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,10);
